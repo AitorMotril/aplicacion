@@ -12,11 +12,11 @@ function check(campo) {
 }
 
 function validar() {
-
-    check("login");
-    check("password");
-    check("nombre");
-    check("apellidos");
-
+    elem = miformulario.elements;
+    for (var i = 0; i < elem.length; i++) {
+        if (elem[i].type = "text") {
+            check(elem[i].name);
+        }
+    } 
     return true;
 };

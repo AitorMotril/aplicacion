@@ -9,7 +9,7 @@ if (!$conn) {
     echo "Conexión realizada";
 }
 
-$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
+$sql = "CREATE DATABASE IF NOT EXISTS $dbname;";
 
 if (mysqli_query($conn, $sql)) {
     echo "La base de datos se ha creado correctamente";
@@ -20,7 +20,7 @@ if (mysqli_query($conn, $sql)) {
 $sql = "USE $dbname;";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Error al seleccionar la base de datos";
+    echo "Base de datos seleccionada correctamente";
 } else {
     echo "Error al seleccionar la base de datos: " . mysqli_error($conn);
 }
@@ -50,7 +50,7 @@ VALUES('jefe', password('jefe'), 'jefe', 'Aitor', 'Igartua');";
 if (mysqli_query($conn, $sql)) {
     echo "El usuario jefe se ha creado correctamente";
 } else {
-    echo "Error creando el usuario jefeestudios: " . mysqli_error($conn);
+    echo "Error creando el usuario jefe: " . mysqli_error($conn);
 }
 
 mysqli_close($conn);

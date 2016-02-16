@@ -1,5 +1,6 @@
 <?php
 include_once 'config.php';
+include_once 'activar.php'
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,27 +13,19 @@ include_once 'config.php';
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
+    <div id="lateral">
     <form name="regAlumnos" method="POST" onsubmit="return validar();">
-        <label>Login <input type="text" name="login" /></label>
-        <label>Password <input type="password" name="password" /></label>
-        <label>Nombre <input type="text" name="nombre" /></label>
-        <label>Apellidos <input type="text" name="apellidos" /></label>
-        <label>Subir desde un archivo csv <input type="file" name="subircsv" /></label>
+        <input type="text" />
+        <label>Subir desde un archivo csv <input type="file" name="subircsv" /></label><br>
         <input type="submit" value="registro" />
     </form>
     <br>
-    <br>
+    </div>
+    <div id="cuerpo">
     <?php
-    $file = fopen('RegAlumAitor.csv', 'r');
-    $datos = fgetcsv($file, 0, ',', '"');
-    $arrlength = count($datos);
-    $datos2 = fgetcsv($file, 0, ',', '"');
-    for ($x = 0; $x < $arrlength; $x++) {
-        echo "<label>" . $datos[$x] . " <input type='text' " . "name=" . 
-            "'$datos[$x]' " . "value=" . "'$datos2[$x]' " . "/>";
-    }
-    fclose($file);
-    ?>
+    echo $formu;
+    ?>     
+    </div>
     <div id="pie"><?php echo $foot;?></div>
 </body>
 </html>

@@ -26,14 +26,12 @@ input[type=password]:focus {
     background-color: lightblue;
 }
 
-#lateral {width: 20%; height: 70%; position: absolute; top: 15%; left: 0px;}
-#cabecera {width: 100%; height: 15%; position: absolute; top: 0%; left: 0px;}
-#cabecera img {width:20%; height: 100%;}
-#pie {width: 100%;}
+#lateral {width: 20%; height: 70%; position: absolute; top: 0%; left: 0px; padding-left: 2px;}
+#pie {width: 100%; position: absolute; top: 20%;}
 #cuerpo {width: 80%; height: 70%; position: absolute; top: 15%; left: 20%;}
 
 label {
-    display: inline-block;
+    display: block;
     float: left;
-    width: 600px;
+    width: 400px;
 }

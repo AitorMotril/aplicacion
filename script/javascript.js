@@ -1,4 +1,4 @@
-var miformulario = document.regAlumnos;
+var miformulario = document.forms[0];
     
 function check(campo) {
     valor = miformulario.campo.value;
@@ -14,7 +14,7 @@ function check(campo) {
 function validar() {
     elem = miformulario.elements;
     for (var i = 0; i < elem.length; i++) {
-        if (elem[i].type = "text") {
+        if (elem[i].type === "text") {
             check(elem[i].name);
         }
     } 

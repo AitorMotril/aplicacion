@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="lateral">
-    <form name="autenticador" method="POST" action="autenticador.php">
+    <form name="autenticador" method="POST" action="autenticador.php" onsubmit="return validar();">
       <label>Login <input type="text" name="login"></label>
       <label>Password <input type="password" name="password"></label>
       <input type="submit" value="entrar">

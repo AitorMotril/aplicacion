@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>    
 <?php
 include_once 'config.php';
 
@@ -55,3 +61,5 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
+</body>
+</html>

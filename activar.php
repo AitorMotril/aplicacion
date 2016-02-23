@@ -25,10 +25,7 @@
     mysqli_query($conn, $sql)or die("error al crear la tabla alumnos" . mysqli_error($conn));
         
     $sql = "CREATE TABLE IF NOT EXISTS cabecera" . $cursoactivo . " (";
-    mysqli_query($conn, $sql)or die("error al crear la tabla curso activo" . mysqli_error($conn));
-      
-    $sql = "USE dbname; CREATE TABLE IF NOT EXISTS cabecera" . $cursoactivo . " (";
-    
+        
     for ($x = 0; $x < $arrlength; $x++) {
         $var = $datos[$x];
         $var = sanear_string($var);
@@ -50,7 +47,8 @@
     mysqli_query($conn, $sql)or die("error al crear la tabla cabecera" . mysqli_error($conn)); 
 
     $sql = "INSERT INTO cabecera" . $cursoactivo . " VALUES(";
-    
-    mysqli_query($conn, $sql)or die("error al crear la tabla cabeceras" . mysqli_error($conn));
-    
+     
     $sql = "INSERT INTO cabecera" . $cursoactivo . " VALUES (";
+?>
+</body>
+</html>

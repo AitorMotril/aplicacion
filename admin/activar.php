@@ -2,8 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
 </head>
 <body>   
+    <nav>
+        <ul>
+            <li><a href='./regAlumnos.php'>Registrar alumnos</a></li>
+            <li><a href='./instalar/instala.php'>Instalador</a></li>
+            <li><a href='./admin/admin.php'>Admin</a></li>
+            <li><a href='./jefe/jefe.php'>Jefe de estudios</a></li>
+        </ul>
+    </nav>
+    <main>
+    <header>Página de gestión de notas y estadísticas - Activacion de cursos</header>    
 <?php
     include_once '../config/config.php';
     include_once '../funciones.php';
@@ -52,7 +63,7 @@
     $result = mysqli_query($conn, $sql);
     $fila = mysqli_fetch_array($result, MYSQLI_NUM);
     if ($fila[0] == 1) {
-        echo "Los datos de la cabecera" . $cursoActivo . " ya están insertados";
+        echo "Los datos de la cabecera" . $cursoActivo . " ya están insertados" . "<br>";
     } else {
         $sql = "INSERT INTO cabecera" . $cursoActivo . " VALUES(";
     
@@ -71,6 +82,10 @@
             echo "Error al insertar los datos de las cabeceras: " . $cursoActivo . mysqli_error($conn) . "<br>";
         }
     }
+
+echo "<a href='../index.php'>Volver al índice</a>";
 ?>
+</main>
+    <footer><br><hr>Creado por Aitor Igartua Gutierrez, 2ºASIR 2016</footer>
 </body>
 </html>

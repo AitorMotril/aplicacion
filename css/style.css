@@ -1,24 +1,28 @@
-.contenido td {border:solid; }
-
-body {
-    background: #ffffff;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+.contenido td {
+    border: solid; 
 }
 
+label {
+    float: left;
+    width: 550px;
+    display: inline-block;
+}
+
+
 input[type=text] {
-    width: 100%;
-    padding: 1px 2px;
-    margin: 4px 0;
+    float: right;
+    display: inline-block;
+    padding: 1px 1px;
+    margin: 1px 1px;
     box-sizing: border-box;
     border: 1px solid #555;
     outline: none;
 }
 
 input[type=password] {
-    width: 100%;
-    padding: 1px 2px;
-    margin: 4px 0;
+    display: inline-block;
+    padding: 1px 1px;
+    margin: 1px 1px;
     box-sizing: border-box;
     border: 1px solid #555;
     outline: none;
@@ -32,78 +36,54 @@ input[type=password]:focus {
     background-color: lightblue;
 }
 
-#lateral {width: 20%; height: 70%; position: absolute; top: 0%; left: 0px; padding-left: 2px;}
-#pie {width: 100%; position: absolute; top: 20%;}
-#cuerpo {width: 80%; height: 70%; position: absolute; top: 0%; left: 20%;}
-
-label {
-    display: inline-block;
+nav {
     float: left;
-    width: 400px;
+    width: 15%;
+    max-height: 100%;
+    min-height: 100%;
+    overflow-y: auto;
 }
 
-/*
-.menu{
-    font-family: 'Open Sans', sans-serif;
-    background: #B5B5B5;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    list-style: none;
-    line-height: 1;
-    display: block;
-    position: relative;
-    border-radius: 2px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    align-content: center;
-}
-Mantiene los elementos medianamente centrados.
-.menu > ul {
-    margin-left: 20%;
-    margin-right: 20%;
-}
-.menu > ul:after {
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
-Elementos de la lista del menú.
-.menu > ul > li{
+main {
     float: left;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    list-style: none;
-    line-height: 1;
-    display: block;
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
 }
-Enlaces en los botones del menú.
-.menu > ul > li > a{
-    padding: 20px;
+
+ul {
+    list-style-type: none;
+    margin: 2px;
+    padding: 4px;
+    background-color: #00a3cc;
+    border: 2px solid black;
+}
+
+li a {
     color: white;
-    font-size: .9em;
+    text-align: center;
+    padding: 1px 1px;
+    margin: 2px;
     text-decoration: none;
-    text-transform: uppercase;
-    -webkit-transition: color .2s ease;
-    -moz-transition: color .2s ease;
-    -ms-transition: color .2s ease;
-    -o-transition: color .2s ease;
-    transition: color .2s ease;
 }
-Cambia el color de las letras y el fondo 
-    al pasar por encima o hacer click.
-.menu > ul > li:hover > a,
-.menu > ul > li.active > a{
-  color: #009ae1;
-  background-color: white;
-  transition: color .2s ease;
+
+li a:hover {
+    background-color: #111;
 }
-*/
+
+main header {
+    float: left;
+    width: 1200px;
+    padding: 0.5em;
+    font-size: 1.25em;
+    color: black;
+    margin: 2px;
+    background-color: #00b8e6;
+    border: 2px solid lightgray;
+    outline-style: solid;
+    outline-color: black;
+    outline-width: 1px;
+}
+
+footer {
+    clear: left;
+    font-style: italic;
+    text-align: center;
+}

@@ -9,20 +9,10 @@ include_once 'config/config.php';
     <meta charset="UTF-8">
     <title><?php echo $nombreSitio;?> </title>
     <script src="script/javascript.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/basico.css" />
 </head>
 <body>
-     <nav>
-        <ul>
-            <li><a href="./index.php">Indice</a></li>
-            <li><a href='regAlumnos.php'>Registrar alumnos</a></li>
-            <li><a href='instalar/instala.php'>Instalador</a></li>
-            <li><a href='admin/admin.php'>Admin</a></li>
-            <li><a href='jefe/jefe.php'>Jefe de estudios</a></li>
-        </ul>
-    </nav>
-    <main>
-        <header>Página de gestión de notas y estadísticas - Registro de Alumnos</header>
+    <div id="lateral">
     <form name="regAlumnos" method="POST" onsubmit="return validar();">
         <?php
             $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -41,7 +31,9 @@ include_once 'config/config.php';
         <?php echo $_POST["subircsv"];?>
     </form>
     <br>
-    </main>
-    <footer><hr>Creado por Aitor Igartua Gutierrez, 2ºASIR 2016</footer>
+    </div>
+    <div id="cuerpo">
+    </div>
+    <!-- <div id="pie"><?php echo $foot;?></div> -->
 </body>
 </html>

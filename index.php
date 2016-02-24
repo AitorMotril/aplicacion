@@ -6,18 +6,21 @@
     <title><?php echo $siteName;?></title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="script/javascript.js"></script>
-    <script type="text/javascript" src="../scripts/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="script/jquery-2.2.1.js"></script>
 </head>
 <body>
-    <div class="menu">
-                <ul>
-                    <li><a href='index.php'>Inicio</a></li>
-                    <li><a href="cerrar.php">Cerrar sesión</a></li>
-                </ul>
-    </div>
-  <div id="lateral">
+    <nav>
+        <ul>
+            <li><a href='regAlumnos.php'>Registrar alumnos</a></li>
+            <li><a href='instalar/instala.php'>Instalador</a></li>
+            <li><a href='admin/admin.php'>Admin</a></li>
+            <li><a href='jefe/jefe.php'>Jefe de estudios</a></li>
+        </ul>
+    </nav>
+    <main>
+    <header>Página de gestión de notas y estadísticas - Indice</header>
     <form name="autenticador" method="POST" action="autenticador.php" onsubmit="return validar();">
-      <label>Login <input type="text" name="login"></label>
+      <label>Login <input type="text" name="login"></label><br>
       <label>Password <input type="password" name="password"></label>
       <input type="submit" value="entrar">
       <br>
@@ -33,7 +36,7 @@
         ?>
       </p>
     </form>   
-  </div>
-  <div id="pie"><?php echo $foot;?></div>
+    </main>
+    <footer><br><hr>Creado por Aitor Igartua Gutierrez, 2ºASIR 2016</footer>
 </body>
 </html>

@@ -64,6 +64,8 @@ if (mysqli_query($conn, $sql)) {
 }
 
 mysqli_close($conn);
+
+echo "<a href='../index.php'>Volver al índice</a>";
 ?>
 </body>
 </html>

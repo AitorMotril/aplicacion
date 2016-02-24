@@ -2,6 +2,7 @@
     <body>
     <?php
     include_once '../config/config.php';
+    include_once '../funciones.php';
     protege("jefe" || "administrador");
     $file = fopen('../1ESO.csv', 'r');
     while ($datos = fgetcsv($file)) {
@@ -53,7 +54,7 @@
     mysqli_query($conn, $sql)or die("Error al insertar datos en la tabla cabecera" . mysqli_error($conn));     
      */
     ?>    
-    <img src="../pChart/grafico1.php?Seed=0.75"/>        
+    <!-- <img src="../pChart/grafico1.php?Seed=0.75"/> -->
     </body>    
     
 </html>

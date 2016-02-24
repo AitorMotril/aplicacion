@@ -23,9 +23,7 @@ function protege($rol) {
     }
 }
 
-function sanear_string($string)
-{
- 
+function sanear_string($string) {
     $string = trim($string);
  
     $string = str_replace(
@@ -63,17 +61,12 @@ function sanear_string($string)
         array('n', 'N', 'c', 'C',),
         $string
     );
- 
-    //Esta parte se encarga de eliminar cualquier caracter extraño
+
     $string = str_replace(
-        array('\\', "¨", "º", "-", "~",
-             "#", "@", "|", "!", "\"",
-             "·", "$", "%", "&", "/",
-             '(', ')', "?", "'", "¡",
-             "¿", "[", "^", "<code>", "]",
-             "+", "}", "{", "¨", "´",
-             ">", "< ", ";", ",", ":",
-             "."),
+        array('\\', "¨", "º", "-", "~", "#", "@", "|", "!", "\"",
+             "·", "$", "%", "&", "/", '(', ')', "?", "'", "¡",
+             "¿", "[", "^", "<code>", "]", "+", "}", "{", "¨", "´",
+             ">", "< ", ";", ",", ":", "."),
         '',
         $string
     );
@@ -81,5 +74,4 @@ function sanear_string($string)
     $string = str_replace(" ", "_", $string);
     return $string;
 }
-
 ?>

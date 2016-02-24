@@ -17,7 +17,7 @@ include_once 'config.php';
         <?php
             $conn = mysqli_connect($servername, $username, $password, $dbname);
             $sql = "SELECT * FROM cabecera" . $cursoActivo;
-            mysqli_query($conn, $sql, MYSQLI_USE_RESULT) or die("error al crear la tabla alumnos" . mysqli_error($conn));
+            mysqli_query($conn, $sql, MYSQLI_USE_RESULT) or die("Error al crear la tabla alumnos" . mysqli_error($conn));
         ?>
         <input type="text" />
         <label>Subir desde un archivo csv <input type="file" name="subircsv" /></label><br>

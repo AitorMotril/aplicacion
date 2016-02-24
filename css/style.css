@@ -1,5 +1,11 @@
 .contenido td {border:solid; }
 
+body {
+    background: #ffffff;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 input[type=text] {
     width: 100%;
     padding: 1px 2px;
@@ -28,10 +34,76 @@ input[type=password]:focus {
 
 #lateral {width: 20%; height: 70%; position: absolute; top: 0%; left: 0px; padding-left: 2px;}
 #pie {width: 100%; position: absolute; top: 20%;}
-#cuerpo {width: 80%; height: 70%; position: absolute; top: 15%; left: 20%;}
+#cuerpo {width: 80%; height: 70%; position: absolute; top: 0%; left: 20%;}
 
 label {
-    display: block;
+    display: inline-block;
     float: left;
     width: 400px;
 }
+
+/*
+.menu{
+    font-family: 'Open Sans', sans-serif;
+    background: #B5B5B5;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+    line-height: 1;
+    display: block;
+    position: relative;
+    border-radius: 2px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    align-content: center;
+}
+Mantiene los elementos medianamente centrados.
+.menu > ul {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.menu > ul:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+Elementos de la lista del menú.
+.menu > ul > li{
+    float: left;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+    line-height: 1;
+    display: block;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+Enlaces en los botones del menú.
+.menu > ul > li > a{
+    padding: 20px;
+    color: white;
+    font-size: .9em;
+    text-decoration: none;
+    text-transform: uppercase;
+    -webkit-transition: color .2s ease;
+    -moz-transition: color .2s ease;
+    -ms-transition: color .2s ease;
+    -o-transition: color .2s ease;
+    transition: color .2s ease;
+}
+Cambia el color de las letras y el fondo 
+    al pasar por encima o hacer click.
+.menu > ul > li:hover > a,
+.menu > ul > li.active > a{
+  color: #009ae1;
+  background-color: white;
+  transition: color .2s ease;
+}
+*/

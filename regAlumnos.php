@@ -1,5 +1,5 @@
 <?php
-include_once 'config.php';
+include_once 'config/config.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,16 +17,23 @@ include_once 'config.php';
         <?php
             $conn = mysqli_connect($servername, $username, $password, $dbname);
             $sql = "SELECT * FROM cabecera" . $cursoActivo;
-            mysqli_query($conn, $sql, MYSQLI_USE_RESULT) or die("error al crear la tabla alumnos" . mysqli_error($conn));
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result, MYSQLI_NUM);
+            $arrlength = count($row);
+            for ($x = 0; $x < $arrlength; $x++) {
+                $var = $row[$x];
+                echo "<label>" . $var . "<input type='text' /></label><br>";
+            }
         ?>
-        <input type="text" />
+        <form name="subircsv" method="POST" enctype="multipart/form-data" action="readcsv.php">
         <label>Subir desde un archivo csv <input type="file" name="subircsv" /></label><br>
         <input type="submit" value="registro" />
+        <?php echo $_POST["subircsv"];?>
     </form>
     <br>
     </div>
     <div id="cuerpo">
     </div>
-    <div id="pie"><?php echo $foot;?></div>
+    <!-- <div id="pie"><?php echo $foot;?></div> -->
 </body>
 </html>

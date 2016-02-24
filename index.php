@@ -1,13 +1,20 @@
-<?php include_once 'config.php';?>
+<?php include_once 'config/config.php';?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title><?php echo $siteName;?></title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <script src="script/javascript.js"></script>
+    <script type="text/javascript" src="script/javascript.js"></script>
+    <script type="text/javascript" src="../scripts/jquery-2.2.0.min.js"></script>
 </head>
 <body>
+    <div class="menu">
+                <ul>
+                    <li><a href='index.php'>Inicio</a></li>
+                    <li><a href="cerrar.php">Cerrar sesión</a></li>
+                </ul>
+    </div>
   <div id="lateral">
     <form name="autenticador" method="POST" action="autenticador.php" onsubmit="return validar();">
       <label>Login <input type="text" name="login"></label>

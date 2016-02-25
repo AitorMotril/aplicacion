@@ -1,15 +1,33 @@
 <html>
-    <body>
+    <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body>
+    <main>
+    <header>Página de gestión de notas y estadísticas - Indice</header>      
     <?php
     include_once '../config/config.php';
     include_once '../funciones.php';
     protege("jefe" || "administrador");
     $file = fopen('../1ESO.csv', 'r');
-    while ($datos = fgetcsv($file)) {
+    $cabecerasEncontradas=FALSE;
+    while ($datos = fgetcsv($file)) {      
+        if(!$cabecerasEncontradas) {
+            if($datos[0] == "Alumno/a") {
+                $cabecerasEncontradas = TRUE;
+                $arrlength = count($datos);
+                for ($x = 0; $x < $arrlength; $x++) {
+                    $var = $datos[$x];
+                    echo $var . "<br>";
+                }
+        }
+        } else if($cabecerasEncontradas) {
         $arrlength = count($datos);
         for ($x = 0; $x < $arrlength; $x++) {
             $var = $datos[$x];
             echo $var . "<br>";
+        }
         }
     }
      
@@ -55,6 +73,7 @@
      */
     ?>    
     <!-- <img src="../pChart/grafico1.php?Seed=0.75"/> -->
+    </main>
     </body>    
     
 </html>

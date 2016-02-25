@@ -11,10 +11,10 @@
 <body>
     <nav>
         <ul>
-            <li><a href='regAlumnos.php'>Registrar alumnos</a></li>
-            <li><a href='instalar/instala.php'>Instalador</a></li>
-            <li><a href='admin/admin.php'>Admin</a></li>
-            <li><a href='jefe/jefe.php'>Jefe de estudios</a></li>
+            <li><a href='/aplicacion/regAlumnos.php'>Registrar alumnos</a></li>
+            <li><a href='/aplicacion/instalar/instala.php'>Instalador</a></li>
+            <li><a href='/aplicacion/admin/admin.php'>Admin</a></li>
+            <li><a href='/aplicacion/jefe/jefe.php'>Jefe de estudios</a></li>
         </ul>
     </nav>
     <main>

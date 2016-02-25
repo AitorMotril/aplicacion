@@ -1,10 +1,34 @@
+nav {
+    float: left;
+    width: 20%;
+    height: 750px;
+    max-height: 100%;
+    min-height: 100%;
+    overflow-y: none;
+}
+
+main {
+    clear: left;
+}
+
+
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d1f5fd+0,7be6fc+15,adf0fd+20,7eebfc+28,adf0fd+50,d1f5fd+99&0.57+0,0.57+5,1+62 */
+body {
+height: 100%;
+background: -moz-linear-gradient(top,  rgba(209,245,253,0.57) 0%, rgba(180,240,253,0.57) 5%, rgba(123,230,252,0.65) 15%, rgba(173,240,253,0.69) 20%, rgba(126,235,252,0.75) 28%, rgba(173,240,253,0.91) 50%, rgba(182,241,253,1) 62%, rgba(209,245,253,1) 99%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(209,245,253,0.57) 0%,rgba(180,240,253,0.57) 5%,rgba(123,230,252,0.65) 15%,rgba(173,240,253,0.69) 20%,rgba(126,235,252,0.75) 28%,rgba(173,240,253,0.91) 50%,rgba(182,241,253,1) 62%,rgba(209,245,253,1) 99%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(209,245,253,0.57) 0%,rgba(180,240,253,0.57) 5%,rgba(123,230,252,0.65) 15%,rgba(173,240,253,0.69) 20%,rgba(126,235,252,0.75) 28%,rgba(173,240,253,0.91) 50%,rgba(182,241,253,1) 62%,rgba(209,245,253,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91d1f5fd', endColorstr='#d1f5fd',GradientType=0 ); /* IE6-9 */
+}
+
+
 .contenido td {
     border: solid; 
 }
 
 label {
     float: left;
-    width: 550px;
+    width: 450px;
     display: inline-block;
 }
 
@@ -36,24 +60,15 @@ input[type=password]:focus {
     background-color: lightblue;
 }
 
-nav {
-    float: left;
-    width: 15%;
+ul {
+    list-style-type: none;
+    margin: 0 3px;
+    padding: 4px;
+    background-color: #00a3cc;
+    border: 1px solid black;
     max-height: 100%;
     min-height: 100%;
     overflow-y: auto;
-}
-
-main {
-    float: left;
-}
-
-ul {
-    list-style-type: none;
-    margin: 2px;
-    padding: 4px;
-    background-color: #00a3cc;
-    border: 2px solid black;
 }
 
 li a {
@@ -61,6 +76,8 @@ li a {
     text-align: center;
     padding: 1px 1px;
     margin: 2px;
+    border: 1px solid black;
+    width: 100%;
     text-decoration: none;
 }
 
@@ -70,16 +87,16 @@ li a:hover {
 
 main header {
     float: left;
-    width: 1200px;
     padding: 0.5em;
     font-size: 1.25em;
     color: black;
-    margin: 2px;
+    margin: 0 3px;
     background-color: #00b8e6;
-    border: 2px solid lightgray;
+    border: 1px solid lightgray;
     outline-style: solid;
     outline-color: black;
     outline-width: 1px;
+    width: 100%;
 }
 
 footer {

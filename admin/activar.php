@@ -7,6 +7,7 @@
 <body>   
     <nav>
         <ul>
+            <li><a href='/aplicacion/index.php'>Indice</a></li>
             <li><a href='/aplicacion/regAlumnos.php'>Registrar alumnos</a></li>
             <li><a href='/aplicacion/instalar/instala.php'>Instalador</a></li>
             <li><a href='/aplicacion/admin/admin.php'>Admin</a></li>
@@ -59,6 +60,27 @@
         echo "Error al crear la tabla cabecera: " . mysqli_error($conn) . "<br>";
     }
     
+    $sql = "CREATE TABLE IF NOT EXISTS asignaturas" . $cursoActivo . " ( "
+            . "id_asignatura VARCHAR(10) NOT NULL PRIMARY KEY) ENGINE=InnoDB;";
+            
+    if (mysqli_query($conn, $sql)) {
+        echo "La tabla asignaturas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+    } else {
+        echo "Error al crear la tabla asignaturas: " . mysqli_error($conn) . "<br>";
+    }
+    
+    $sql = "CREATE TABLE IF NOT EXISTS notas" . $cursoActivo . " ( " .
+           "Alumnoa VARCHAR(40) NOT NULL,
+           Trimestre VARCHAR(10) NOT NULL,
+           id_asignatura VARCHAR(10) NOT NULL,
+           Nota INT) ENGINE=InnoDB;";
+              
+    if (mysqli_query($conn, $sql)) {
+        echo "La tabla notas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+    } else {
+        echo "Error al crear la tabla notas: " . mysqli_error($conn) . "<br>";
+    }      
+  
     $sql = "SELECT COUNT(*) FROM cabecera" . $cursoActivo . ";";
     $result = mysqli_query($conn, $sql);
     $fila = mysqli_fetch_array($result, MYSQLI_NUM);

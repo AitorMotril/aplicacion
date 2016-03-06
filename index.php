@@ -11,6 +11,7 @@
 <body>
     <nav>
         <ul>
+            <li><a href='/aplicacion/index.php'>Indice</a></li>
             <li><a href='/aplicacion/regAlumnos.php'>Registrar alumnos</a></li>
             <li><a href='/aplicacion/instalar/instala.php'>Instalador</a></li>
             <li><a href='/aplicacion/admin/admin.php'>Admin</a></li>
@@ -20,22 +21,30 @@
     <main>
     <header>Página de gestión de notas y estadísticas - Indice</header>
     <form name="autenticador" method="POST" action="autenticador.php" onsubmit="return validar();">
-      <label>Login <input type="text" name="login"></label><br>
+      <label>Login <input type="text" name="login"></label>
       <label>Password <input type="password" name="password"></label>
       <input type="submit" value="entrar">
       <br>
-      <p>
+    </form>
         <?php 
-            if($_GET[error] == "si") {
-                if($_GET[formularioerror] == "si") {
+            if ($_GET[error] == "si") {
+                if ($_GET[formularioerror] == "si") {
                     echo "Rellena el formulario";
                 } else {
                     echo "Verifica tus datos";
                 }
             }
+            if ($_GET[usererror] == "si") {
+                echo "No tienes permiso suficiente";
+            }
+ 
         ?>
-      </p>
-    </form>   
+
+      Página de gestión de alumnos, notas, estadísticas, gráficos... Permite ver estadísticas y gráficos de 
+Autenticación con permisos de administrador para poder gestionar los cursos activos y 
+          registrar alumnos nuevas, manualmente o mediante la lectura de un formulario csv.
+          Autentación como jefe de estudios para poder gestionar las notas de alumnos y realizar gráficos
+          con las notas del curso activo o de anteriores.
     </main>
     <footer><br><hr>Creado por Aitor Igartua Gutierrez, 2ºASIR 2016</footer>
 </body>

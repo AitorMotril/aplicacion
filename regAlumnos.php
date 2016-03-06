@@ -1,5 +1,7 @@
 <?php
-include_once 'config/config.php';
+    include_once 'config/config.php';
+    include_once 'funciones.php';
+    protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
 <html>

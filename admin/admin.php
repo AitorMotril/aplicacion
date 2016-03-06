@@ -15,6 +15,7 @@
 <body>
     <nav>
         <ul>
+            <li><a href='aplicacion/index.php'>Indice</a></li>
             <li><a href='/aplicacion/regAlumnos.php'>Registrar alumnos</a></li>
             <li><a href='/aplicacion/instalar/instala.php'>Instalador</a></li>
             <li><a href='/aplicacion/admin/admin.php'>Admin</a></li>

@@ -27,25 +27,32 @@
     protege("jefe" || "administrador");
     $file = fopen('../1ESO.csv', 'r');
     $cabecerasEncontradas=FALSE;
+    $sql = "INSERT INTO notas" . $cursoActivo . " VALUES(";
     while ($datos = fgetcsv($file)) {      
         if(!$cabecerasEncontradas) {
             if($datos[0] == "Alumno/a") {
                 $cabecerasEncontradas = TRUE;
                 $arrlength = count($datos);
-                for ($x = 0; $x < $arrlength; $x++) {
+                for ($x = 1; $x < $arrlength; $x++) {
                     $var = $datos[$x];
-                    echo "INSERT INTO asignaturas" . $var . "<br>";
+                    echo $var . "<br>";
+                    $sql .=  "$var, ";
                 }
-        }
+            }
         } else if($cabecerasEncontradas) {
-        $arrlength = count($datos);
-        for ($x = 0; $x < $arrlength; $x++) {
-            $var = $datos[$x];
-            echo $var . "<br>";
-        }
+            $arrlength = count($datos);
+            for ($x = 0; $x < $arrlength; $x++) {
+                if ($x = 0) {
+                    echo $datos[x];
+                } else {
+                $var = $datos[$x];
+                echo $var . "<br>";
+                $sql .= "$var, ";
+            }
+            }
         }
     }
-
+    echo $sql;
     ?>    
     <img src="/aplicacion/pChart/grafico1.php?Seed=0.75"/>
     </main>

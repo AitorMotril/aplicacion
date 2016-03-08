@@ -30,10 +30,14 @@
         $var = $datos[$x];
         $var = sanear_string($var);
         if ($x != ($arrlength - 1)) {
-            $sql .= $var . " VARCHAR(40)" . ", ";
+            if ($var == "N_Id_Escolar") {
+                $sql .= $var . " VARCHAR(40)" . " PRIMARY KEY, ";
             } else {
-                $sql .= $var . " VARCHAR(40)" . ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            $sql .= $var . " VARCHAR(40)" . ", ";
             }
+        } else {
+                $sql .= $var . " VARCHAR(40)" . ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+        }
     }
 
     if (mysqli_query($conn, $sql)) {
@@ -70,11 +74,14 @@
     }
     
     $sql = "CREATE TABLE IF NOT EXISTS notas" . $cursoActivo . " ( " .
-           "Alumnoa VARCHAR(40) NOT NULL,
+           "N_Id_Escolar VARCHAR(40) NOT NULL,
            Trimestre VARCHAR(10) NOT NULL,
            id_asignatura VARCHAR(10) NOT NULL,
-           Nota INT) ENGINE=InnoDB;";
-              
+           Nota INT,
+           FOREIGN KEY (N_Id_Escolar) REFERENCES alumnos" . $cursoActivo . "(N_Id_Escolar), " .
+           "FOREIGN KEY (id_asignatura) REFERENCES asignaturas" . $cursoActivo . "(id_asignatura), " .
+           "PRIMARY KEY (N_Id_Escolar, Trimestre, id_asignatura, Nota) ) ENGINE=InnoDB;";
+                  
     if (mysqli_query($conn, $sql)) {
         echo "La tabla notas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
     } else {

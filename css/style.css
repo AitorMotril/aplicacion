@@ -1,15 +1,22 @@
 nav {
-    float: left;
-    width: 20%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    padding: 10px 5px;
     height: 1000px;
     max-height: 100%;
     min-height: 100%;
-    overflow-y: none;
+    max-width: 180px;
+    overflow-y: auto;
 }
 
 main {
-    float: left;
+    margin-left: 185px;
     padding: 2px 24px;
+}
+
+#menu2 {
+    float: top;
 }
 
 
@@ -29,12 +36,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91d1f5fd', e
 
 label {
     float: left;
-    width: 450px;
+    width: 475px;
     display: inline-block;
 }
 
+p {
+    width: 600px;
+}
 
 input[type=text] {
+    float: right;
+    display: inline-block;
+    padding: 1px 20px;
+    margin: 1px 20px;
+    box-sizing: border-box;
+    border: 1px solid #555;
+    outline: none;
+}
+
+input[type=password] {
     float: right;
     display: inline-block;
     padding: 1px 1px;
@@ -44,12 +64,9 @@ input[type=text] {
     outline: none;
 }
 
-input[type=password] {
+input {
+    float: right;
     display: inline-block;
-    padding: 1px 1px;
-    margin: 1px 1px;
-    box-sizing: border-box;
-    border: 1px solid #555;
     outline: none;
 }
 

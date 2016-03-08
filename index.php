@@ -10,6 +10,7 @@
 </head>
 <body>
     <nav>
+
         <ul>
             <li><a href='/aplicacion/index.php'>Indice</a></li>
             <li><a href='/aplicacion/regAlumnos.php'>Registrar alumnos</a></li>
@@ -17,13 +18,14 @@
             <li><a href='/aplicacion/admin/admin.php'>Admin</a></li>
             <li><a href='/aplicacion/jefe/jefe.php'>Jefe de estudios</a></li>
         </ul>
+
     </nav>
     <main>
     <header>Página de gestión de notas y estadísticas - Indice</header>
     <form name="autenticador" method="POST" action="autenticador.php" onsubmit="return validar();">
-      <label>Login <input type="text" name="login"></label>
-      <label>Password <input type="password" name="password"></label>
-      <input type="submit" value="entrar">
+        Login <input type="text" name="login"><br>
+        Password<input type="password" name="password"><br>
+      <input type="submit" value="entrar"><br>
       <br>
     </form>
         <?php 
@@ -39,12 +41,13 @@
             }
  
         ?>
-
+    <p>
       Página de gestión de alumnos, notas, estadísticas, gráficos... Permite ver estadísticas y gráficos de 
 Autenticación con permisos de administrador para poder gestionar los cursos activos y 
           registrar alumnos nuevas, manualmente o mediante la lectura de un formulario csv.
           Autentación como jefe de estudios para poder gestionar las notas de alumnos y realizar gráficos
           con las notas del curso activo o de anteriores.
+    </p>
     </main>
     <footer><br><hr>Creado por Aitor Igartua Gutierrez, 2ºASIR 2016</footer>
 </body>

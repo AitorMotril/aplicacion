@@ -4,9 +4,10 @@
     protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
 </head>
 <body>
@@ -26,8 +27,73 @@
     include_once '../funciones.php';
     protege("jefe" || "administrador");
     $file = fopen('../1ESO.csv', 'r');
-    $cabecerasEncontradas=FALSE;
+    $cabecerasEncontradas = FALSE;
     $sql = "INSERT INTO notas" . $cursoActivo . " VALUES(";
+    /*
+    while ($datos = fgetcsv($file)) {
+      $arrlength = count($datos);
+      if($datos[0] == "Alumno/a") {
+        for ($x = 1; $x < $arrlength; $x++) {
+          $var = $datos[$x];
+          echo $var . "<br>";
+          $cabecerasEncontradas = TRUE;
+        }
+      }
+      if($cabecerasEncontradas) {
+        for ($x = 0; $x < $arrlength; $x++) {
+          $var = $datos[$x];
+          echo $var . "<br>";
+        }
+      }
+    }
+ 
+     */
+    /*
+    while ($datos = fgetcsv($file)) {
+      while (!$cabecerasEncontradas) {
+        if($datos[0] == "Alumno/a") {
+          $cabecerasEncontradas = TRUE;
+        } 
+      }
+      if($cabecerasEncontradas) {
+        $arrlength = count($datos);
+            for ($x = 0; $x < $arrlength; $x++) {
+                if ($x = 0) {
+                    echo $datos[x];
+                } else {
+                $var = $datos[$x];
+                echo $var . "<br>";
+                $sql .= "$var, ";
+            }
+      }
+      }
+    }
+    */
+    while ($datos = fgetcsv($file)) {
+      if(!$cabecerasEncontradas) {
+        if($datos[0] == "Alumno/a") {
+          $cabecerasEncontradas = TRUE;
+          $arrlength = count($datos);
+          for ($x = 1; $x < $arrlength; $x++) {
+            $var = $datos[$x];
+            echo $var . "<br>";
+            $sql .=  "$var, ";
+          }
+        }
+      }
+      else {
+        $arrlength = count($datos);
+          for ($x = 0; $x < $arrlength; $x++) {
+            if ($x = 0) {
+              echo $datos[0];
+            } else {
+              $var = $datos[$x];
+              echo $var . "<br>";
+            }
+          }
+        }
+    }
+    /*
     while ($datos = fgetcsv($file)) {      
         if(!$cabecerasEncontradas) {
             if($datos[0] == "Alumno/a") {
@@ -38,23 +104,25 @@
                     echo $var . "<br>";
                     $sql .=  "$var, ";
                 }
+            } else {
+              
             }
         } else if($cabecerasEncontradas) {
-            $arrlength = count($datos);
-            for ($x = 0; $x < $arrlength; $x++) {
-                if ($x = 0) {
-                    echo $datos[x];
-                } else {
-                $var = $datos[$x];
-                echo $var . "<br>";
-                $sql .= "$var, ";
+          $arrlength = count($datos);
+          for ($x = 0; $x < $arrlength; $x++) {
+            if ($x = 0) {
+              echo $datos[x];
+            } else {
+              $var = $datos[$x];
+              echo $var . "<br>";
+              $sql .= "$var, ";
             }
-            }
+          }
         }
     }
     echo $sql;
+*/
     ?>    
-    <img src="/aplicacion/pChart/grafico1.php?Seed=0.75"/>
     </main>
 </body>     
 </html>

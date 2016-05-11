@@ -3,36 +3,40 @@ include("class/pData.class.php");
 include("class/pDraw.class.php");
 include("class/pImage.class.php");
 
+   /* Build the query that will returns the data to graph */
+ $conn = mysqli_connect("localhost", "root", "usuario", "nuevabd");
+ $sql = "SELECT * FROM usuarios";
+ $result  = mysqli_query($sql, $conn);
+ $login=""; $nombre=""; $apellidos="";
+ while($row = mysqli_fetch_array($result))
+  {
+   /* Push the results of the query in an array */
+   $login[] = $row["login"];
+   $nombre[] = $row["nombre"];
+   $apellidos[] = $row["apellidos"];
+  }
+ /* Save the data in the pData array */
+ $myData->addPoints($login, "Login");
+ $myData->addPoints($nombre, "Nombre");
+ $myData->addPoints($apellidos, "Apellidos");
 
-$array1 = array(-2,13,34,-24,-30,4,3,-11);
-$leyenda1 = $_GET['leyenda1'];
+ 
+  /* Put the timestamp column on the abscissa axis */
+ $myData->setAbscissa("Login");
+ 
+  /* Associate the "Humidity" data serie to the second axis */
+ $myData->setSerieOnAxis("Nombre", 1);
+ /* Name this axis "Time" */
+ $myData->setXAxisName("Nombre");
+ /* Specify that this axis will display time values */
+ // $myData->setXAxisDisplay(AXIS_FORMAT_TIME,"H:i");
 
-
-$myData = new pData();
-$myData->addPoints($array1,$leyenda1);
-$myData->setSerieDescription($leyenda1,$leyenda1);
-$myData->setSerieOnAxis($leyenda1,0);
-
-$array2 = array(-24,10,16,32,-1,-39,-47,-38);
-$leyenda2 = "Serie2";
-
-$myData->addPoints($array2,$leyenda2);
-$myData->setSerieDescription($leyenda2,$leyenda2);
-$myData->setSerieOnAxis($leyenda2,0);
-
-$array3 = array(-8,22,-45,19,-48,-7,25,-31);
-$leyenda3 = "Serie3";
-        
-$myData->addPoints($array3,$leyenda3);
-$myData->setSerieDescription($leyenda3,$leyenda3);
-$myData->setSerieOnAxis($leyenda3,0);
-
-$myData->addPoints(array("January","February","March","April","May","June","July","August"),"Absissa");
-$myData->setAbscissa("Absissa");
-
-$myData->setAxisPosition(0,AXIS_POSITION_LEFT);
-$myData->setAxisName(0,"1st axis");
-$myData->setAxisUnit(0,"");
+  /* First Y axis will be dedicated to the temperatures */
+ $myData->setAxisName(0,"Nombre");
+ // $myData->setAxisUnit(0,"°C");
+ /* Second Y axis will be dedicated to humidity */
+ $myData->setAxisName(1,"Apellidos");
+ //$myData->setAxisUnit(0,"%");
 
 $myPicture = new pImage(700,230,$myData,TRUE);
 $Settings = array("R"=>170, "G"=>183, "B"=>87, "Dash"=>1, "DashR"=>190, "DashG"=>203, "DashB"=>107);

@@ -1,5 +1,6 @@
 <?php
-if ($_POST["login"] && $_POST["password"]) {
+// if ($_POST["login"] && $_POST["password"]) {
+if  (isset($_POST['autenticar'])) { 
     include_once 'config/config.php';
     
     $conn = mysqli_connect($servername, $username, $password, $dbname) 
@@ -14,18 +15,18 @@ if ($_POST["login"] && $_POST["password"]) {
         // Si existe el usuario Creamos la sesion y las variables de sesion
 	$fila = mysqli_fetch_array($result, MYSQLI_ASSOC);
         session_start();
-        $_SESSION["validar"] = "1";
+        $_SESSION["validar"] = TRUE;
         $_SESSION["login"] = $_POST["login"];
         $_SESSION["rol"] = $fila['rol'];
         if ($fila['rol'] == "administrador") {
-            header("Location: admin/admin.php");
+            header("Location: /eduGraph/admin/admin.php");
         } else if ($fila['rol'] == "jefe") {
-            header("Location: jefe/jefe.php");
+            header("Location: /eduGraph/jefe/jefe.php");
         }
     } else {
-        header("Location: index.php?error=si");
+        header("Location: /eduGraph/index.php?error=si");
     }
 } else {
-	header("Location: index.php?error=si&formularioerror=si");
+	header("Location: /eduGraph/index.php?error=si&formularioerror=si");
 }
 ?>

@@ -4,7 +4,7 @@ function protege($rol) {
     session_start();
     if($_SESSION['validar'] != "1" || $_SESSION['rol'] != $rol) {
         session_destroy();
-        header("Location: /aplicacion/index.php?usererror=si");
+        header("Location: /eduGraph/index.php?usererror=si");
     }
 }
 

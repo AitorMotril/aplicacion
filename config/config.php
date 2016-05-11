@@ -3,9 +3,9 @@
 $servername = "localhost";
 $username = "root";
 $password = "usuario";
-$dbname = "nuevaBD";
+$dbname = "nuevabd";
 //Variables específicas del sitio
-$siteName = "Mi Sitio";
+$siteName = "eduGraph! | Gestión de notas y estadísticas";
 //Curso actual para las tablas
 $cursoActivo = "1516";
 ?>

@@ -2,62 +2,35 @@
     include_once '../config/config.php';
     include_once '../funciones.php';
     protege("administrador");
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $siteName;?></title>
-    <!--<link rel="stylesheet" type="text/css" href="css/style.css" />-->
-    <script type="text/javascript" src="script/javascript.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <style>
-.bg-4 {
-    background-color: #2f2f2f;
-    color: #ffffff;
-}
-</style>
+  <title><?php echo $siteName;?></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/eduGraph/css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="icon" href="../img/iconv1.png" type="image/x-icon">
 </head>
 <body>
-        <div class="w3-top">
-  <div class="w3-row w3-white w3-padding">
-    <div class="w3-half" style="margin:4px 0 6px 0"><a href='/eduGraph'><img src='/eduGraph/img/eduGraphv1.png' alt='eduGraph'></a></div>
-    <div class="w3-half w3-margin-top w3-wide w3-hide-medium w3-hide-small"><div class="w3-right">GRÁFICOS Y GESTIÓN DE NOTAS PARA INSTITUTOS</div></div>
-  </div>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-            <li class="w3-large"><a href="#"><i class="fa fa-home"></i></a></li>
-            <li><a href="/eduGraph/instalar/instala.php">Instalador</a></li>
-            <li class="active"><a href="/eduGraph/admin/admin.php">Administrador</a></li>
-            <li><a href="/eduGraph/jefe/jefe.php">Jefe de estudios</a></li>
-            <li><a href="/eduGraph/regAlumnos.php">Registro de alumnos</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Iniciar sesión</a></li>
-        </ul>
-        </div>
-        </div>
-</nav>
-       <div class="container">
-<header class="w3-container w3-light-green"><h4>Administrador</h4></header>   
+  
+<!-- Cabecera con la imagen de logo y el lema de la página -->
+<div class="container-fluid clearfix" id="toplogo"></div>
+
+<!-- Menú superior de navegación fijo -->
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="77" id="nav01"></nav>
+
+<div class="container-fluid">
+  <h3 class="bg-3">Administrador</h3>
+  <p>
+    Página de gestión del administrador.
+  </p>
 </div>
             
-            <div class='container'>
+            <div class='container-fluid'>
         <form class="form-inline" role="form" method="post" enctype="multipart/form-data">
         <div class="form-group">
             
@@ -96,11 +69,9 @@
         }
         }
         ?>
-        <br><br>
-        <a href='../cerrar.php'>Cerrar sesión</a>
-    </main>
-    <div class="container-fluid bg-4 text-center">
-  <p>Creado por Aitor Igartua Gutiérrez, 2016</p>
-</div>
+        
+<!-- Pie de página -->
+<div class="container-fluid bg-4 text-center" id='foot01'></div>
+<script src="/eduGraph/script/javascript.js"></script>
 </body>
 </html>

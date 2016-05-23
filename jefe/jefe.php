@@ -4,29 +4,35 @@
     protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title><?php echo $siteName;?></title>
-    <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    <script src="../script/javascript.js"></script>
+  <title><?php echo $siteName;?></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/eduGraph/css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="icon" href="../img/iconv1.png" type="image/x-icon">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href='/aplicacion/index.php'>Indice</a></li>
-            <li><a href='/aplicacion/regAlumnos.php'>Registrar alumnos</a></li>
-            <li><a href='/aplicacion/instalar/instala.php'>Instalador</a></li>
-            <li><a href='/aplicacion/admin/admin.php'>Admin</a></li>
-            <li><a href='/aplicacion/jefe/jefe.php'>Jefe de estudios</a></li>
-        </ul>
-    </nav>
-    <main>
-    <header>Página de gestión del jefe de estudios</header>
+  
+<!-- Cabecera con la imagen de logo y el lema de la página -->
+<div class="container-fluid clearfix" id="toplogo"></div>
+
+<!-- Menú superior de navegación fijo -->
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="77" id="nav01"></nav>
+
+<div class="container-fluid">
+  <h3 class="bg-3">Jefe de estudios</h3>
+  <p>
+    Página de gestión del jefe de estudios.
+  </p>
+  <a href='estadisticas.php'>Crear estadísticas</a>;
+</div>
     
-    Página del jefe de estudios
-    <br><a href='../cerrar.php'>Cerrar sesión</a> <a href='estadisticas.php'>Crear estadísticas</a>;
-    </main>
-    <footer><br><hr>Creado por Aitor Igartua Gutierrez, 2ºASIR 2016</footer>
+<!-- Pie de página -->
+<div class="container-fluid bg-4 text-center" id='foot01'></div>
+<script src="/eduGraph/script/javascript.js"></script>
 </body>
 </html>

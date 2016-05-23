@@ -59,4 +59,49 @@ function sanear_string($string) {
     $string = str_replace(" ", "_", $string);
     return $string;
 }
+
+function check_sesion() {
+  session_start();
+
+  if (isset($_SESSION["validar"])) {
+    // Si está autenticado, muestra Cerrar Sesión y oculta Iniciar Sesión
+    echo "
+          <script>
+            $(document).ready(function() {
+              $('#iniciarSesion').hide();
+              $('#cerrarSesion').show();
+            }); 
+          </script>
+         ";
+  } else {
+    // Si no ha iniciado sesión, muestra Iniciar Sesión y oculta Cerrar Sesión
+    echo "
+          <script>
+            $(document).ready(function() {
+              $('#iniciarSesion').show();
+              $('#cerrarSesion').hide();
+            });
+          </script>
+         ";
+  }
+}
+
+function error_form() {
+  if ($_GET[error] == "si") {
+    if ($_GET[formularioerror] == "si") {
+      echo "<div class='alert alert-danger'>"
+      . "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+      . "Rellena el formulario.</div>";
+    } else {
+      echo "<div class='alert alert-danger'>"
+      . "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+      . "Verifica tus datos.</div>";
+    }
+  }
+  if ($_GET[usererror] == "si") {
+    echo "<div class='alert alert-danger'>"
+    . "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
+    . "No tienes permiso suficiente para acceder a esa página.</div>";
+  }
+}
 ?>

@@ -21,11 +21,19 @@
 }
 
 a {
-  color: #1c6105;
+  color: #237906;
 }
 
 a:hover {
   color: #2a9108;
+}
+
+jumbotron {
+  padding: 15px;
+}
+
+.graph {
+  color: #40B300;
 }
 
 .bg-4 {

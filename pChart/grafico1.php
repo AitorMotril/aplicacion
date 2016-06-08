@@ -45,7 +45,7 @@ $myPicture->drawRectangle(0,0,699,229,array("R"=>0,"G"=>0,"B"=>0));
 
 $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>50,"G"=>50,"B"=>50,"Alpha"=>20));
 
-$title = notasalumnox;
+$title = $_GET['title'];
 $myPicture->setFontProperties(array("FontName"=>"fonts/Forgotte.ttf","FontSize"=>14));
 $TextSettings = array("Align"=>TEXT_ALIGN_MIDDLEMIDDLE
 , "R"=>255, "G"=>255, "B"=>255);

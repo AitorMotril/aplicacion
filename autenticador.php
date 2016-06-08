@@ -22,16 +22,16 @@
       $_SESSION["login"] = $login;
       $_SESSION["rol"] = $fila['rol'];
       if ($fila['rol'] == "administrador") {
-          header("Location: /eduGraph/admin/admin.php");
+        header(("Location: " . $urlbase . "admin/admin.php"));
       } else if ($fila['rol'] == "jefe") {
-          header("Location: /eduGraph/jefe/jefe.php");
+        header(("Location: " . $urlbase . "jefe/jefe.php"));
       }
       
     } else {
-      header("Location: /eduGraph/index.php?error=si");
+      header(("Location: " . $urlbase . "index.php?error=si"));
     }
     
   } else {
-    header("Location: /eduGraph/index.php?error=si&formularioerror=si");
+    header(("Location: " . $urlbase .  "index.php?error=si&formularioerror=si"));
   }
 ?>

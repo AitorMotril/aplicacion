@@ -8,4 +8,6 @@ $dbname = "nuevabd";
 $siteName = "eduGraph! | Gestión de notas y estadísticas";
 //Curso actual para las tablas
 $cursoActivo = "1516";
-?>
+$urlbase = "/eduGraph/";
+
+$instalar = 1;

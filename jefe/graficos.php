@@ -39,47 +39,71 @@
   <?php
   
     $sql = "SELECT Alumnoa FROM alumnos" . $cursoActivo;
+    $sql_asignatura = "SELECT id_asignatura FROM asignaturas" . $cursoActivo;
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
     $arrays = array();
+    $arrays_a = array();
     $result = mysqli_query($conn, $sql);
+    $result_a = mysqli_query($conn, $sql_asignatura);
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      array_push($arrays, $row);
+       $arrays[] = $row;
     }
-
-    ?>
-
-    <?php
-     echo "<select>";
+       
+    while ($row2 = mysqli_fetch_array($result_a, MYSQLI_ASSOC)) {
+      $arrays_a[] = $row2;
+    }
+     echo "<select name='alumno'>";
   // Use simple foreach to generate the options
-  foreach($arrays as $key => $value) {
-    echo "<option value=' $key '> $value </option>";
+  foreach($arrays as $value) {
+    echo $value['Alumnoa'];
+    echo "<option>" . $value['Alumnoa'] . "</option>";
    }
    echo "</select>";
+   
+   echo "<select name='asignatura'>";
+   foreach ($arrays_a as $value2) {
+     echo $value2['id_asignatura'];
+     echo "<option>" . $value2['id_asignatura'] . "</option>";
+   }
+   echo "</select>";
+   
    ?>
-      <input type="text" name="alumno" class="form-control" id="loginid" placeholder="Usuario" required />
-<input type="text" name="asignatura" class="form-control" id="asignaturaid" placeholder="Usuario" required />
-<input type="text" name="tipo" class="form-control" id="tipograficoid" placeholder="Usuario" required />    
+      <select name="tipo">
+        <option value="drawSplineChart">drawSplineChart</option>
+        <option value="drawBarChart">drawBarChart</option>
+        <option value="drawAreaChart">drawAreaChart</option>
+        <option value="drawLineChart">drawLineChart</option>
+      </select>
     </div>
+    <input type="checkbox" name="trimestre1" value="trimestre1"/>Primer Trimestre
+    <input type="checkbox" name="trimestre2" value="trimestre2"/>Segundo Trimestre
+    <input type="checkbox" name="trimestre3" value="trimestre3"/>Tercer Trimestre
     <button type="submit" class="btn btn-default" name="grafico" value="entrar">Subir</button>
   </form>
         <?php
     if (isset($_POST["grafico"])) {
             $alumno = $_POST['alumno'];
             $tipo = $_POST['tipo'];
-            echo $alumno;
             $asignatura = $_POST['asignatura'];
-            $sql = "SELECT * FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumno 
-              AND id_asignatura = '$asignatura';";
-            echo $sql;
-            $result = mysqli_query($conn, $sql);
-         while ($notas = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            print_r($notas);
-            print_r($notas['Trimestre']);
+            
 
-         }
-         echo $alumno;
-         echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&leyenda1=$asignatura&title=$alumno'>";
+            $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $cursoActivo . 
+                      " WHERE Alumnoa = " . "'$alumno'" . ";";
+            $result = mysqli_query($conn, $sql_alumno);
+            $row = mysqli_fetch_array($result, MYSQLI_NUM);
+            $alumnof = $row[0];  
+            
+            $sql = "SELECT * FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
+              AND id_asignatura = '$asignatura';";
+            $result2 = mysqli_query($conn, $sql);
+            
+            $arrays_n[] = array();
+         while ($notas = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
+           $arrays_n[] = $notas;
+        }
+            
+         echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&notas=$arrays_n[Notas]'>";
             
       }
   ?>

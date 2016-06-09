@@ -32,6 +32,7 @@
   </p>
   <a href='jefe/estadisticas.php'>Subir notas</a>
   <a href="jefe/graficos.php">Crear gráficos</a>
+  <a href="jefe/asignaturas.php">Gestión de asignaturas</a>
 </div>
     
 <!-- Pie de página -->

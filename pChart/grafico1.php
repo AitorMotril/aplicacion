@@ -3,31 +3,29 @@ include("class/pData.class.php");
 include("class/pDraw.class.php");
 include("class/pImage.class.php");
 
-
-$array1 = array(-2,13,34,-24,-30,4,3,-11);
-$leyenda1 = $_GET['leyenda1'];
-
+$array1 = $_GET['notas'];
+$leyenda1 = $_GET['asignatura'];
 
 $myData = new pData();
 $myData->addPoints($array1,$leyenda1);
 $myData->setSerieDescription($leyenda1,$leyenda1);
 $myData->setSerieOnAxis($leyenda1,0);
 
-$array2 = array(-24,10,16,32,-1,-39,-47,-38);
+$array2 = array(-24,10,16);
 $leyenda2 = "Serie2";
 
 $myData->addPoints($array2,$leyenda2);
 $myData->setSerieDescription($leyenda2,$leyenda2);
 $myData->setSerieOnAxis($leyenda2,0);
 
-$array3 = array(-8,22,-45,19,-48,-7,25,-31);
+$array3 = array(-8,22,-45);
 $leyenda3 = "Serie3";
         
 $myData->addPoints($array3,$leyenda3);
 $myData->setSerieDescription($leyenda3,$leyenda3);
 $myData->setSerieOnAxis($leyenda3,0);
 
-$myData->addPoints(array("January","February","March","April","May","June","July","August"),"Absissa");
+$myData->addPoints(array("1","2","3"),"Absissa");
 $myData->setAbscissa("Absissa");
 
 $myData->setAxisPosition(0,AXIS_POSITION_LEFT);
@@ -45,7 +43,7 @@ $myPicture->drawRectangle(0,0,699,229,array("R"=>0,"G"=>0,"B"=>0));
 
 $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>50,"G"=>50,"B"=>50,"Alpha"=>20));
 
-$title = $_GET['title'];
+$title = $_GET['alumno'];
 $myPicture->setFontProperties(array("FontName"=>"fonts/Forgotte.ttf","FontSize"=>14));
 $TextSettings = array("Align"=>TEXT_ALIGN_MIDDLEMIDDLE
 , "R"=>255, "G"=>255, "B"=>255);

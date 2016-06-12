@@ -18,6 +18,13 @@
 </head>
 <body>
   
+<script>
+  $(document).ready(function(){
+    // $("#formRegAlumnos").hide();
+    checkForm($("#formRegAlumnos"));
+  });
+</script>
+  
 <!-- Cabecera con la imagen de logo y el lema de la página -->
 <div class="container-fluid clearfix" id="toplogo"></div>
 
@@ -25,41 +32,16 @@
 <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="77" id="nav01"></nav>
 
 <!-- Cabecera de la página y texto -->
-<div class="container-fluid">
+<div class="container">
   <h3 class="bg-3">Registro de Alumnos</h3>
   <p>
     Formulario para el registro de alumnos
   </p>
-  <div class="container-fluid">
-    <form class="form-inline" role="form" name="regAlumnos" method="POST" onsubmit="return validar();">
-      <?php
-      
-        function leer_cabeceras() {
-          
-          global $servername, $username, $password, $dbname, $cursoActivo;
-          
-          $conn = mysqli_connect($servername, $username, $password, $dbname);
-          $sql = "SELECT * FROM cabecera" . $cursoActivo;
-          $result = mysqli_query($conn, $sql);
-          
-          $row = mysqli_fetch_array($result, MYSQLI_NUM);
-          $arrlength = count($row);
-          
-          for ($x = 0; $x < $arrlength; $x++) {
-            $var = $row[$x];
-            echo 
-                "<div class='form-group'>" .
-                "<label class='text-left'>" . $var . "</label>" .
-                "<input type='text' class='form-control' /></div>"
-            ;
-          }
-        }
-        
-        leer_cabeceras();
-      ?>
-        </form>
+</div>
+        <div class="container well well-sm">
+      <h4>Lectura de un archivo csv</h4>  
       <form name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
-      <label>Subir desde un archivo csv <input type="file" name="csvalumnos" /></label><br>
+      <input type="file" name="csvalumnos" />
       <input type="submit" value="registro" name="alumnos_csv" />
       </form>
       <?php
@@ -75,8 +57,45 @@
       }
     }
   ?>
-  </div>
-</div>
+        </div>
+
+<div class="container well well-sm">
+      <h4>Manualmente</h4>  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
+    <form class="form-inline" id="formRegAlumnos" role="form" name="formRegAlumnos" method="POST" onsubmit="return validar();">
+      <?php
+      
+        function leer_cabeceras() {
+          
+          global $servername, $username, $password, $dbname, $cursoActivo;
+          $alumnoid = 361237;
+          
+          $conn = mysqli_connect($servername, $username, $password, $dbname);
+          $sql = "SELECT * FROM cabecera" . $cursoActivo;
+          $sql_alu = "SELECT * FROM alumnos" . $cursoActivo . " WHERE N_Id_Escolar = " . $alumnoid;
+          $result = mysqli_query($conn, $sql);
+          $result2 = mysqli_query($conn, $sql_alu);
+          
+          $row = mysqli_fetch_array($result, MYSQLI_NUM);
+          $row2 = mysqli_fetch_array($result2, MYSQLI_NUM);
+          $arrlength = count($row);
+          
+          for ($x = 0; $x < $arrlength; $x++) {
+            $var = $row[$x];
+            $var2 = $row2[$x];
+            echo 
+                "<div class='form-group form-alumnos col-sm-6'>" .
+                "<label class='text-left pull-left'>" . $var . "</label>" .
+                "<input type='text' class='form-control pull-right' value= " . "'$var2'" . " /></div>"
+            ;
+          }
+        }
+        
+        leer_cabeceras();
+        
+      ?>
+        </form>
+    </div>
+
 
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>

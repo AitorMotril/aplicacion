@@ -7,6 +7,14 @@
   padding-top: 70px;
 }
 
+.form-alumnos {
+  padding-bottom: 10px;
+}
+
+.form-alumnos label {
+  padding-top: 2px;
+}
+
 .bg-3 {
   background-color: #8BC34A;
   color: #000000;

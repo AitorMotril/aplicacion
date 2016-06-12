@@ -1,25 +1,23 @@
-var miformulario = document.forms[0];
+function checkForm(formulario) {
+  $labels = $(formulario).find("label");
+  $inputs = $(formulario).find("input");
+  $long = $inputs.length;
+  
+  for (var i = 0 ; i < $long; i++) {
+    $valor = $inputs.eq(i).val();
+    $label = $labels.eq(i).text();
     
-function check(campo) {
-    valor = miformulario.campo.value;
-      if (valor === null || valor.length === 0 || /^\s+$/.test(valor) ) {
-          alert("Error en campo de formulario: " + campo);
-          miformulario.campo.focus();
+    if ($valor === null || $valor.length === 0 || /^\s+$/.test($valor) ) {
+          alert("Error en campo de formulario: " + $label);
+          $inputs.eq(i).css({"color": "red", "border": "2px solid red"});
+          $inputs.eq(i).focus();
           return false;
-      }
-      
-    return true;  
+    }
+  }
+  
+  return true;
 }
 
-function validar() {
-    elem = miformulario.elements;
-    for (var i = 0; i < elem.length; i++) {
-        if (elem[i].type === "text") {
-            check(elem[i].name);
-        }
-    } 
-    return true;
-};
 
 // Cabeceras y pies de página 
 
@@ -36,5 +34,12 @@ $(document).ready(function(){
   $("#nav01").load("/eduGraph/nav01.php"); 
 });        
       
-    
-    
+function hideShow(boton, elemento) {
+  if (boton.innerHTML ===  "Mostrar") {
+    boton.innerHTML = "Ocultar";
+    $(elemento).show();
+  } else {
+      boton.innerHTML = "Mostrar";
+      $(elemento).hide();
+  }
+}

@@ -58,7 +58,7 @@ $alumnof = $_GET['alumno'];
 $asignaturas = $temp['asignatura'];
 $title = $temp['alumno'];
 $dibujo = $_GET['dibujo'];
-//$p_template = $_GET['paleta'];
+$p_template = $_GET['paleta'];
 //$g_gradient_enabled = $_GET['g_gradient_enabled'];
 //$g_gradient_end = $_GET['g_gradient_end'];
 //$g_gradient_start = $_GET['g_gradient_start'];
@@ -84,9 +84,9 @@ $result = mysqli_query($conn, $sql) or die("Error en el sql");
 
 $myData = new pData();
 
-// if ($p_template != "default" ) {
-// $myData->loadPalette("palettes/".$p_template.".color",TRUE);
-// }
+if ($p_template != "default" ) {
+  $myData->loadPalette("palettes/".$p_template.".color",TRUE);
+}
 
  
 //  if ( $g_gradient_enabled == "on" )

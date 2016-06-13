@@ -204,7 +204,7 @@
        
       $_SESSION['tmp']=array();
       $_SESSION['tmp']['alumno']=$_POST['alumno'];
-      //$alumno = $_POST['alumno'];
+      $alumno = $_POST['alumno'];
       $tipo = $_POST['tipo'];
       //$asignatura = $_POST['asignatura'];
       $_SESSION['tmp']['asignatura']=$_POST['asignatura'];
@@ -236,10 +236,13 @@
 
 //$array1 = $notas;
   
+      echo "<a href='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&alumno=$alumnof&paleta=$paleta"
+              . "&g_gradient_enabled=$g_gradient_enabled&g_gradient_end=$g_gradient_end&g_gradient_start=$g_gradient_start"
+              . "&g_gradient_direction=$g_gradient_direction&g_width=$g_width&g_height=$g_height'>Grafico1</a>";
       
-            echo "<img src='pChart/grafico5.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&paleta=$paleta'>";
+          //  echo "<img src='pChart/grafico5.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&paleta=$paleta'>";
       
-      echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumnof&paleta=$paleta"
+      echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&alumno=$alumnof&paleta=$paleta"
               . "&g_gradient_enabled=$g_gradient_enabled&g_gradient_end=$g_gradient_end&g_gradient_start=$g_gradient_start"
               . "&g_gradient_direction=$g_gradient_direction&g_width=$g_width&g_height=$g_height'>";
 

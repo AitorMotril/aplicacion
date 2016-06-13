@@ -315,7 +315,7 @@ function notas($file) {
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
   $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
-  $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $cursoActivo . " VALUES ";
+  $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $cursoActivo . " (id_asignatura) VALUES ";
   $sql_notas = "INSERT IGNORE INTO notas" . $cursoActivo . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
   $asignatura = array();
   $trimestre = 2;
@@ -376,6 +376,8 @@ function notas($file) {
 
   if (mysqli_query($conn, $sql_notas)) {
     echo "Las notas se han insertado correctamente o ya existían<br>";
+    echo $sql_notas;
+    
   } else {
     echo "Error al insertar las notas: " . mysqli_error($conn) . "<br>";
   }

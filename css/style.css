@@ -104,45 +104,9 @@ jumbotron {
 #foot01 {
     margin-top: 10px;
 }
-/*
-label {
-    float: left;
-    width: 475px;
-    display: inline-block;
-}
 
-input[type=text] {
-    float: right;
-    display: inline-block;
-    padding: 1px 20px;
-    margin: 1px 20px;
-    box-sizing: border-box;
-    border: 1px solid #555;
-    outline: none;
+#sidebar .active {
+  border-color: #a6a6a6;
+  color: black;
+  background-color: #d8f3d8;
 }
-
-input[type=password] {
-    float: right;
-    display: inline-block;
-    padding: 1px 1px;
-    margin: 1px 1px;
-    box-sizing: border-box;
-    border: 1px solid #555;
-    outline: none;
-}
-
-input {
-    float: right;
-    display: inline-block;
-    outline: none;
-}
-
-input[type=text]:focus {
-    background-color: lightblue;
-}
-
-input[type=password]:focus {
-    background-color: lightblue;
-}
-
-*/

@@ -33,7 +33,7 @@
       error_form();
     ?>
   </div>
-
+  
   <p>
     eduGraph! es una aplicación web para institutos y centros educativos, que permite la gestión de estadísticas y datos de los alumnos del centro.
     Permite realizar gráficos altamente visuales e informes en formato pdf para el tratamiento por los profesionales educativos. Está adaptada para funcionar tanto en ordenadores de trabajo como en teléfonos móviles y pantallas pequeñas.
@@ -47,6 +47,7 @@
   <ol class="carousel-indicators">
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
   </ol>
 
   <!-- Wrapper for slides -->
@@ -66,6 +67,14 @@
         <p>Poder cambiar tambien el color por GET?</p>
       </div>
     </div>
+    <div class="item">
+      <img src="pChart/grafico4.php?Seed=0.9" alt="Chicago">
+      <div class="carousel-caption">
+        <h3>Grafico 4</h3>
+        <p>Poder cambiar tambien el color por GET?</p>
+      </div>
+    </div>
+    
   </div>
 
   <!-- Left and right controls -->

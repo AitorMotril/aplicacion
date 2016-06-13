@@ -27,13 +27,22 @@
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
   <h3 class="bg-3">Administrador</h3>
+    <div class="row">
+    <div class="col-md-2">
+      <div class="list-group" id="sidebar">
+        <a href='admin/admin.php' class="list-group-item active">Principal administrador</a>
+        <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
+        <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
+        <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
+      </div>
+    </div>
+    <div class="col-md-10">
   <p>
     Página de gestión del administrador.
   </p>
-</div>
-            
-<div class='container-fluid'>
-  <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="admin/admin.php"  id="formularioCurso" name="formularioCurso">
+  <div class="container-fluid well well-sm">
+    <h4>Activar un curso</h4> 
+    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="admin/admin.php"  id="formularioCurso" name="formularioCurso">
     <div class="form-group">        
       <label for='curso'>Curso a activar:</label>
       <select id='curso'>
@@ -60,7 +69,11 @@
       }
     }
   ?>
+    </div>
 </div>
+    </div>
+</div>
+            
        <!-- 
            if(isset($_POST["entrar"])) {     
             if(!file_exists("/uploads/")){

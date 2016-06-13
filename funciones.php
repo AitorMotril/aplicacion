@@ -308,8 +308,8 @@ function leer_alumno($file) {
 } // ./ end leer_alumno($file)
 
 
-//Funcion estadisticas($file), a partir de leer un archivo csv, generar estadisticas
-function estadisticas($file) {
+//Funcion notas($file), a partir de leer un archivo csv, cargar notas
+function notas($file) {
 
   global $servername, $username, $password, $dbname, $cursoActivo;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -380,6 +380,6 @@ function estadisticas($file) {
     echo "Error al insertar las notas: " . mysqli_error($conn) . "<br>";
   }
 
-} // ./ end estadisticas($file)
+} // ./ end notas($file)
 
 ?>

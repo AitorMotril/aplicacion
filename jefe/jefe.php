@@ -27,12 +27,26 @@
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
   <h3 class="bg-3">Jefe de estudios</h3>
-  <p>
-    Página de gestión del jefe de estudios.
-  </p>
-  <a href='jefe/estadisticas.php'>Subir notas</a>
-  <a href="jefe/graficos.php">Crear gráficos</a>
-  <a href="jefe/asignaturas.php">Gestión de asignaturas</a>
+  <div class="row">
+    <div class="col-md-2">
+      <div class="list-group" id="sidebar">
+        <a href='jefe/notas.php' class="list-group-item active">Principal jefe de estudios</a>
+        <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
+        <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
+        <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <p>
+        Página principal de gestión del jefe de estudios.
+      </p>
+      <ul>
+        <li>Subir notas, mediante archivos CSV de Séneca, o añadir notas manualmente, así como consultar las notas de los alumnos.</li>
+        <li>Creación y visualización de gráficos, por asignaturas, por alumnos, por dimensiones competenciales... Y comparativas.</li>
+        <li>Gestionar las asignaturas de la base de datos, añadir nombres completos y asignarlas a dimensiones competenciales.</li>
+      </ul>
+    </div>  
+  </div>
 </div>
     
 <!-- Pie de página -->

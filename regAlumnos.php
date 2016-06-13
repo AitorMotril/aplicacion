@@ -38,29 +38,30 @@
     Formulario para el registro de alumnos
   </p>
 </div>
-        <div class="container well well-sm">
-      <h4>Lectura de un archivo csv</h4>  
-      <form name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
-      <input type="file" name="csvalumnos" />
-      <input type="submit" value="registro" name="alumnos_csv" />
-      </form>
-      <?php
-    if (isset($_POST["alumnos_csv"]) && isset($_FILES["csvalumnos"])) {
-                
-      if (!$_FILES["csvalumnos"]["tmp_name"]){
-        $error = "El archivo no llegó al servidor.";
-        echo $error;
-      } 
-        
-      if (($archivo = fopen($_FILES["csvalumnos"]["tmp_name"], "r")) !== FALSE) {
-        leer_alumno($archivo);      
-      }
-    }
-  ?>
-        </div>
 
 <div class="container well well-sm">
-      <h4>Manualmente</h4>  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
+  <h4>Mediante lectura de un archivo csv Séneca <small><em>Recomendado</em></small></h4>  
+    <form class="form-horizontal" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
+      <input type="file" name="csvalumnos" />
+      <input type="submit" class="btn" value="registro" name="alumnos_csv" />
+    </form>
+    <?php
+      if (isset($_POST["alumnos_csv"]) && isset($_FILES["csvalumnos"])) {
+                
+        if (!$_FILES["csvalumnos"]["tmp_name"]){
+          $error = "El archivo no llegó al servidor.";
+          echo $error;
+        } 
+        
+        if (($archivo = fopen($_FILES["csvalumnos"]["tmp_name"], "r")) !== FALSE) {
+          leer_alumno($archivo);      
+        }
+      }
+    ?>
+</div>
+
+<div class="container well well-sm">
+      <h4>Subir manualmente o actualizar un registro</h4>  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
     <form class="form-inline" id="formRegAlumnos" role="form" name="formRegAlumnos" method="POST" onsubmit="return validar();">
       <?php
       
@@ -94,8 +95,7 @@
         
       ?>
         </form>
-    </div>
-
+</div>
 
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>

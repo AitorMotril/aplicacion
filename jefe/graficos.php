@@ -116,7 +116,7 @@
       
       print_r($notas);
 
-      echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&notas=$notas[Notas]'>";
+      echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumnof'>";
 
     }
   ?>
@@ -147,7 +147,7 @@
            $alumnos[] = $row;
         }
 
-        echo "<select name='asignatura'>";
+        echo "<select name='asignatura[]' multiple>";
         foreach ($asignaturas as $value) {
           echo $value['id_asignatura'];
           echo "<option>" . $value['id_asignatura'] . "</option>";
@@ -201,10 +201,13 @@
   
   <?php
     if (isset($_POST["grafico2"])) {
-      
-      $alumno = $_POST['alumno'];
+       
+      $_SESSION['tmp']=array();
+      $_SESSION['tmp']['alumno']=$_POST['alumno'];
+      //$alumno = $_POST['alumno'];
       $tipo = $_POST['tipo'];
-      $asignatura = $_POST['asignatura'];
+      //$asignatura = $_POST['asignatura'];
+      $_SESSION['tmp']['asignatura']=$_POST['asignatura'];
       $paleta = $_POST['paleta'];
       $g_gradient_enabled = $_POST['g_gradient_enabled'];
       $g_gradient_end = $_POST['g_gradient_end'];
@@ -214,26 +217,31 @@
       $g_width = $_POST['g_width'];
       $g_horizontal = $_POST['g_horizontal']; 
       
-      $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $cursoActivo . 
+            $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $cursoActivo . 
                 " WHERE Alumnoa = " . "'$alumno'" . ";";
       $result_alumno = mysqli_query($conn, $sql_alumno);
       $row = mysqli_fetch_array($result_alumno, MYSQLI_NUM);
       $alumnof = $row[0];  
+  
 
-      $sql = "SELECT * FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
-        AND id_asignatura = '$asignatura';";
-      $result = mysqli_query($conn, $sql);
+//$sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
+//        AND id_asignatura = '$asignatura';";
+//$result = mysqli_query($conn, $sql) or die("Error en el sql");
+//echo $sql;
 
-      $notas[] = array();
-      while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $notas[] = $row;
-      }
+//$notas = mysqli_fetch_all($result, MYSQL_ASSOC);
+// while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+//    $notas[] = $row[0];
+//}
+
+//$array1 = $notas;
+  
       
-      print_r($notas);
-
-      echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&paleta=$paleta"
+            echo "<img src='pChart/grafico5.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&paleta=$paleta'>";
+      
+      echo "<img src='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumnof&paleta=$paleta"
               . "&g_gradient_enabled=$g_gradient_enabled&g_gradient_end=$g_gradient_end&g_gradient_start=$g_gradient_start"
-              . "&g_gradient_direction=$g_gradient_direction&g_width=$g_width&g_height=$g_height&notas=$notas[Notas]'>";
+              . "&g_gradient_direction=$g_gradient_direction&g_width=$g_width&g_height=$g_height'>";
 
     }
   ?>

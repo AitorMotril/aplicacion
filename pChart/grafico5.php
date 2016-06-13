@@ -2,35 +2,34 @@
 include("class/pData.class.php");
 include("class/pDraw.class.php");
 include("class/pImage.class.php");
-  include_once '../config/config.php';
-  include '../funciones.php';
- protege("jefe" || "administrador");
- 
-function left($value,$NbChar) {
-    return substr($value,0,$NbChar); 
-}  
- 
- function right($value,$NbChar) { 
-     return substr($value,strlen($value)-$NbChar,$NbChar); 
-     
-}  
- 
- function mid($value,$Depart,$NbChar) { 
-     return substr($value,$Depart-1,$NbChar); 
-} 
 
- function extractColors($Hexa) {
-   if ( strlen($Hexa) != 6 ) { 
-       return(array(0,0,0)); 
-   }
+//function left($value,$NbChar) {
+//    return substr($value,0,$NbChar); 
+//}  
+// 
+// function right($value,$NbChar) { 
+//     return substr($value,strlen($value)-$NbChar,$NbChar); 
+//     
+//}  
+// 
+// function mid($value,$Depart,$NbChar) { 
+//     return substr($value,$Depart-1,$NbChar); 
+//} 
+//
+// function extractColors($Hexa) {
+//   if ( strlen($Hexa) != 6 ) { 
+//       return(array(0,0,0)); 
+//   }
+//
+//   $R = hexdec(left($Hexa,2));
+//   $G = hexdec(mid($Hexa,3,2));
+//   $B = hexdec(right($Hexa,2));
+//
+//   return(array($R,$G,$B));
+//}
 
-   $R = hexdec(left($Hexa,2));
-   $G = hexdec(mid($Hexa,3,2));
-   $B = hexdec(right($Hexa,2));
 
-   return(array($R,$G,$B));
-}
-
+  
 //$asignaturas_length = count($asignaturas);
 //$notas_length = count($notas);
 //$alumnos_length = count($alumnos);
@@ -52,41 +51,24 @@ function left($value,$NbChar) {
 //  $myData->addPoints(array("$x"),"Absissa");
 //}
 
-$temp=$_SESSION['tmp'];
-//$leyenda1 = $_GET['asignatura'];
-$alumnof = $_GET['alumno'];
-$asignaturas = $temp['asignatura'];
-$title = $temp['alumno'];
+
+$array1 = $_GET['notas'];
+$leyenda1 = $_GET['asignatura'];
+$title = $_GET['alumno'];
 $dibujo = $_GET['dibujo'];
-//$p_template = $_GET['paleta'];
+$p_template = $_GET['paleta'];
 //$g_gradient_enabled = $_GET['g_gradient_enabled'];
 //$g_gradient_end = $_GET['g_gradient_end'];
 //$g_gradient_start = $_GET['g_gradient_start'];
 //$g_gradient_direction = $_GET['g_gradient_direction'];
 //$g_width = $_GET['g_width'];
 //$g_height = $_GET['g_height'];
-   
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-
-$series=array();
-foreach ($asignaturas as $key => $value) {
-    
-
-$sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
-        AND id_asignatura = '$value';";
-$result = mysqli_query($conn, $sql) or die("Error en el sql");
-  $series[$value]=array();
-  while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
-    $series[$value][] = $row[0];
-    }
-}
-
 
 $myData = new pData();
 
-// if ($p_template != "default" ) {
-// $myData->loadPalette("palettes/".$p_template.".color",TRUE);
-// }
+ if ($p_template != "default" ) {
+ $myData->loadPalette("palettes/".$p_template.".color",TRUE);
+ }
 
  
 //  if ( $g_gradient_enabled == "on" )
@@ -106,26 +88,24 @@ $myData = new pData();
 //     }
 //
 //  }
-foreach ($series as $key => $value) {
-    
+  
+$myData->addPoints($array1,$leyenda1);
+$myData->setSerieDescription($leyenda1,$leyenda1);
+$myData->setSerieOnAxis($leyenda1,0);
 
-$myData->addPoints($value,$key);
-$myData->setSerieDescription($key,$key);
-$myData->setSerieOnAxis($key,0);
-}
-//$array2 = array(-24,10,16);
-//$leyenda2 = "Serie2";
-//
-//$myData->addPoints($array2,$leyenda2);
-//$myData->setSerieDescription($leyenda2,$leyenda2);
-//$myData->setSerieOnAxis($leyenda2,0);
-//
-//$array3 = array(-8,22,-45);
-//$leyenda3 = "Serie3";
-//        
-//$myData->addPoints($array3,$leyenda3);
-//$myData->setSerieDescription($leyenda3,$leyenda3);
-//$myData->setSerieOnAxis($leyenda3,0);
+$array2 = array(-24,10,16);
+$leyenda2 = "Serie2";
+
+$myData->addPoints($array2,$leyenda2);
+$myData->setSerieDescription($leyenda2,$leyenda2);
+$myData->setSerieOnAxis($leyenda2,0);
+
+$array3 = array(-8,22,-45);
+$leyenda3 = "Serie3";
+        
+$myData->addPoints($array3,$leyenda3);
+$myData->setSerieDescription($leyenda3,$leyenda3);
+$myData->setSerieOnAxis($leyenda3,0);
 
 $myData->addPoints(array("1","2","3"),"Absissa");
 $myData->setAbscissa("Absissa");

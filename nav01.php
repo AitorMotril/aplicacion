@@ -18,6 +18,7 @@
   </div>
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
+      <li><a><strong>Curso: <?php echo $cursoActivo;?></strong></a></li>
       <li id="instalar_menu"><a href='instalar/instala.php'>Instalador</a></li>
       <li><a href='admin/admin.php'>Administrador</a></li>
       <li><a href='jefe/jefe.php'>Jefe de estudios</a></li>
@@ -56,5 +57,5 @@
 </div>
 <?php 
   check_sesion();
-  check_install();
+  hide_install();
 ?>

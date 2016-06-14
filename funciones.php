@@ -13,11 +13,17 @@ function protege($rol) {
     
 }
 
-
-//Funcion check_install(), para ver si ya está instalada o no y mostrar en el menú
 function check_install() {
   global $instalar;
-  if ($instalar == 1) {
+  if (!$instalar) {
+    header("Location: instalar/instalae.php");
+  }
+}
+
+//Funcion hide_install(), para ver si ya está instalada o no y mostrar en el menú
+function hide_install() {
+  global $instalar;
+  if ($instalar === 1) {
     echo "
           <script>
             $(document).ready(function() {
@@ -25,11 +31,13 @@ function check_install() {
             }); 
           </script>
         ";
-  }
+  } 
 }
 
 
-// Funcion sanear_string($string), convierte un string cualquiera en texto "sano" para entrar en la base de datos
+// Funcion sanear_string($string), convierte un string cualquiera en texto "sano" 
+// para entrar en la base de datos
+// args: $string, return: $string
 function sanear_string($string) {
   
     $string = trim($string);
@@ -139,9 +147,13 @@ function error_form() {
 
 
 // Funcion activar_curso($file), a partir de leer un archivo csv, activa un curso
-function activar_curso($file) {
+// arg: $file string con ruta de archivo
+// return: escribe $cursoActivo en config.php
+function activar_curso($file, $cursoActivar) {
   
-  global $servername, $username, $password, $dbname, $cursoActivo;
+  $confi = fopen('../config/config.php', 'a+');
+  
+  global $servername, $username, $password, $dbname;
   $datos = fgetcsv($file, 0, ',', '"');
   $arrlength = count($datos);
   $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -150,14 +162,14 @@ function activar_curso($file) {
   $activar = 1;
   
   // Crear tabla de alumnos
-  $sql = "CREATE TABLE IF NOT EXISTS alumnos" . $cursoActivo . " (";
+  $sql = "CREATE TABLE IF NOT EXISTS alumnos" . $cursoActivar . " (";
 
   for ($x = 0; $x < $arrlength; $x++) {
     
     $var = $datos[$x];
     $var = sanear_string($var);
     if ($x != ($arrlength - 1)) {
-      if ($var == "N_Id_Escolar") {
+      if ($var === "N_Id_Escolar") {
         $sql .= $var . " VARCHAR(40)" . " PRIMARY KEY, ";
       } else {
         $sql .= $var . " VARCHAR(40)" . ", ";
@@ -168,14 +180,14 @@ function activar_curso($file) {
   }
   
   if (mysqli_query($conn, $sql)) {
-    echo "La tabla alumnos" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+//    echo "La tabla alumnos" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
   } else {
     $activar = 0;
     echo "Error al crear la tabla alumnos: " . mysqli_error($conn) . "<br>";
   }
   
   // Crear tabla de cabeceras
-  $sql = "CREATE TABLE IF NOT EXISTS cabecera" . $cursoActivo . " (";
+  $sql = "CREATE TABLE IF NOT EXISTS cabecera" . $cursoActivar . " (";
 
   for ($x = 0; $x < $arrlength; $x++) {
     $var = $datos[$x];
@@ -188,49 +200,51 @@ function activar_curso($file) {
   }
 
   if (mysqli_query($conn, $sql)) {
-    echo "La tabla cabecera" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+//    echo "La tabla cabecera" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
   } else {
     $activar = 0;
     echo "Error al crear la tabla cabecera: " . mysqli_error($conn) . "<br>";
   }
 
   // Crear tabla de asignaturas
-  $sql = "CREATE TABLE IF NOT EXISTS asignaturas" . $cursoActivo . " ( "
-          . "id_asignatura VARCHAR(10) NOT NULL PRIMARY KEY) ENGINE=InnoDB;";
+  $sql = "CREATE TABLE IF NOT EXISTS asignaturas" . $cursoActivar . " ( "
+          . "id_asignatura VARCHAR(10) NOT NULL PRIMARY KEY, "
+          . "nombre_completo VARCHAR(255), "
+          . "area_competencial VARCHAR(255)) ENGINE=InnoDB;";
 
   if (mysqli_query($conn, $sql)) {
-    echo "La tabla asignaturas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+//    echo "La tabla asignaturas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
   } else {
     $activar = 0;
     echo "Error al crear la tabla asignaturas: " . mysqli_error($conn) . "<br>";
   }
 
   // Crear tabla de notas
-  $sql = "CREATE TABLE IF NOT EXISTS notas" . $cursoActivo . " ( " .
+  $sql = "CREATE TABLE IF NOT EXISTS notas" . $cursoActivar . " ( " .
          "N_Id_Escolar VARCHAR(40) NOT NULL,
          Trimestre VARCHAR(10) NOT NULL,
          id_asignatura VARCHAR(10) NOT NULL,
          Nota INT,
-         FOREIGN KEY (N_Id_Escolar) REFERENCES alumnos" . $cursoActivo . "(N_Id_Escolar), " .
-         "FOREIGN KEY (id_asignatura) REFERENCES asignaturas" . $cursoActivo . "(id_asignatura), " .
+         FOREIGN KEY (N_Id_Escolar) REFERENCES alumnos" . $cursoActivar . "(N_Id_Escolar), " .
+         "FOREIGN KEY (id_asignatura) REFERENCES asignaturas" . $cursoActivar . "(id_asignatura), " .
          "PRIMARY KEY (N_Id_Escolar, Trimestre, id_asignatura, Nota) ) ENGINE=InnoDB;";
 
   if (mysqli_query($conn, $sql)) {
-    echo "La tabla notas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+//    echo "La tabla notas" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
   } else {
     $activar = 0;
     echo "Error al crear la tabla notas: " . mysqli_error($conn) . "<br>";
   }      
 
   // Insertar datos sin sanear en la tabla de cabeceras
-  $sql = "SELECT COUNT(*) FROM cabecera" . $cursoActivo . ";";
+  $sql = "SELECT COUNT(*) FROM cabecera" . $cursoActivar . ";";
   $result = mysqli_query($conn, $sql);
   $fila = mysqli_fetch_array($result, MYSQLI_NUM);
   
   if ($fila[0] == 1) {
-    echo "Los datos de la cabecera" . $cursoActivo . " ya están insertados" . "<br>";
+//    echo "Los datos de la cabecera" . $cursoActivo . " ya están insertados" . "<br>";
   } else {
-    $sql = "INSERT INTO cabecera" . $cursoActivo . " VALUES(";
+    $sql = "INSERT INTO cabecera" . $cursoActivar . " VALUES(";
 
     for ($x = 0; $x < $arrlength; $x++) {
       $var = $datos[$x];
@@ -242,28 +256,27 @@ function activar_curso($file) {
     }
 
     if (mysqli_query($conn, $sql)) {
-      echo "Se han insertado correctamente los datos de las cabecera" . $cursoActivo . "<br>";
+//      echo "Se han insertado correctamente los datos de las cabecera" . $cursoActivo . "<br>";
     } else {
       $activar = 0;
-      echo "Error al insertar los datos de las cabeceras: " . $cursoActivo . mysqli_error($conn) . "<br>";
+      echo "Error al insertar los datos de las cabeceras: " . $cursoActivar . mysqli_error($conn) . "<br>";
     }
   } // ./ end INSERT INTO cabecera
   
   if ($activar == 0) {
     echo "El curso no se ha activado correctamente" . "<br>";
   } else {
-    echo "Curso activado correctamente" . "<br>";
+    echo "Curso " . $cursoActivar . " activado correctamente" . "<br>";
+    fwrite($confi, "\n". "$" . "cursoActivo" . " = " . $cursoActivar . ";");
   }
-
-  echo "<a href='index.php'>Volver al índice</a>";
   
 } // ./ end activar_curso($file)
 
 
 //Funcion leer_alumnos($file), a partir de leer un archivo csv, inserta datos de alumnos
-function leer_alumno($file) {
+function leer_alumno($file, $curso) {
   
-  global $servername, $username, $password, $dbname, $cursoActivo;    
+  global $servername, $username, $password, $dbname;    
   $conn = mysqli_connect($servername, $username, $password, $dbname);
 
   if (!$conn) {
@@ -272,7 +285,7 @@ function leer_alumno($file) {
     echo "Conexión realizada" . "<br>";
   }
 
-  $sql = "INSERT IGNORE INTO alumnos" . $cursoActivo . " VALUES (";
+  $sql = "INSERT IGNORE INTO alumnos" . $curso . " VALUES (";
 
   $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
 
@@ -307,19 +320,68 @@ function leer_alumno($file) {
       
 } // ./ end leer_alumno($file)
 
+function listar_asignaturas($curso) {
+  
+   global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+        $sql_asignaturas = "SELECT id_asignatura FROM asignaturas" . $curso .
+                " WHERE nombre_completo = '' OR nombre_completo IS NULL" .
+                " UNION SELECT nombre_completo FROM asignaturas" . $curso .
+                " WHERE nombre_completo IS NOT NULL AND nombre_completo <> ''";
+        
+        $asignaturas = array();
+        
+        $result_asignaturas = mysqli_query($conn, $sql_asignaturas);
+        
+                while ($row = mysqli_fetch_array($result_asignaturas, MYSQLI_ASSOC)) {
+          $asignaturas[] = $row;
+        }
+        
+                echo "<select name='asignatura[]' multiple>";
+        foreach ($asignaturas as $value) {
+          echo $value['id_asignatura'];
+          echo "<option>" . $value['id_asignatura'] . "</option>";
+        }
+        echo "</select>";
+        
+}
+
+function listar_alumnos($curso) {
+  
+   global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+          $sql_alumnos = "SELECT Alumnoa FROM alumnos" . $curso;
+
+          $alumnos = array();
+          
+          $result_alumnos = mysqli_query($conn, $sql_alumnos);
+          
+                  while ($row = mysqli_fetch_array($result_alumnos, MYSQLI_ASSOC)) {
+           $alumnos[] = $row;
+        }
+        
+                echo "<select name='alumno'>";
+        foreach($alumnos as $value) {
+          echo $value['Alumnoa'];
+          echo "<option>" . $value['Alumnoa'] . "</option>";
+        }
+        echo "</select>";
+}
+
 
 //Funcion notas($file), a partir de leer un archivo csv, cargar notas
-function notas($file, $trimestre) {
+function notas($file, $trimestre, $curso) {
   
   //echo "fopen('$file', 'r')";
   
-  global $servername, $username, $password, $dbname, $cursoActivo, $cursoPrueba;
-  $cursoActivo = $cursoPrueba;
+  global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
   $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
-  $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $cursoActivo . " (id_asignatura) VALUES ";
-  $sql_notas = "INSERT IGNORE INTO notas" . $cursoActivo . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
+  $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $curso . " (id_asignatura) VALUES ";
+  $sql_notas = "INSERT IGNORE INTO notas" . $curso . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
   $asignatura = array();
   
   while ($datos = fgetcsv($file)) {  //lectura de lineas del csv
@@ -354,7 +416,7 @@ function notas($file, $trimestre) {
       for ($x = 0; $x < $arrlength; $x++) {
         
         $alumno = $datos[0];
-        $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $cursoActivo . 
+        $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $curso . 
                       " WHERE Alumnoa = " . "'$alumno'" . ";";
         
         $result = mysqli_query($conn, $sql_alumno);

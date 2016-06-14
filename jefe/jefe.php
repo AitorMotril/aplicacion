@@ -1,6 +1,7 @@
 <?php
   include_once '../config/config.php';
   include_once '../funciones.php';
+  check_install();
   protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
@@ -28,6 +29,7 @@
 <div class="container-fluid">
   <h3 class="bg-3">Jefe de estudios</h3>
   <div class="row">
+    
     <div class="col-md-2">
       <div class="list-group" id="sidebar">
         <a href='jefe/notas.php' class="list-group-item active">Principal jefe de estudios</a>
@@ -36,16 +38,16 @@
         <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
       </div>
     </div>
+    
     <div class="col-md-10">
-      <p>
-        Página principal de gestión del jefe de estudios.
-      </p>
+      <h4>Página principal del jefe de estudios</h4> 
       <ul>
         <li>Subir notas, mediante archivos CSV de Séneca, o añadir notas manualmente, así como consultar las notas de los alumnos.</li>
         <li>Creación y visualización de gráficos, por asignaturas, por alumnos, por dimensiones competenciales... Y comparativas.</li>
         <li>Gestionar las asignaturas de la base de datos, añadir nombres completos y asignarlas a dimensiones competenciales.</li>
       </ul>
-    </div>  
+    </div>
+    
   </div>
 </div>
     

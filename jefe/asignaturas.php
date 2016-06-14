@@ -1,6 +1,7 @@
 <?php
   include_once '../config/config.php';
   include_once '../funciones.php';
+  check_install();
   protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
@@ -26,7 +27,7 @@
 
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
-  <h3 class="bg-3">Jefe de estudios - Gestión de asignaturas</h3>
+  <h3 class="bg-3">Gestión de asignaturas</h3>
   <div class="row">
         <div class="col-md-2">
       <div class="list-group" id="sidebar">

@@ -1,6 +1,7 @@
 <?php
   include_once '../config/config.php';
   include_once '../funciones.php';
+  check_install();
   protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
@@ -26,8 +27,8 @@
 
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
-  <h3 class="bg-3">Jefe de estudios - Gráficos</h3>
-      <div class="row">
+  <h3 class="bg-3">Gráficos y estadísticas</h3>
+  <div class="row">
     <div class="col-md-2">
       <div class="list-group" id="sidebar">
         <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
@@ -36,49 +37,49 @@
         <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
       </div>
     </div>
-        <div class="col-md-10">  
-                  <div class="container-fluid well well-sm">
-    <h4>Notas de un alumno para una o varias asignaturas</h4> 
-    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="formularioPorAlumnos" name="formularioPorAlumnos">
-    <div class="form-group">        
-      <label for='subircsv'>Elegir el alumno para crear el gráfico</label> 
-      <?php
-        $cursoPrueba = 000;
-        $cursoActivo = $cursoPrueba;
-        $sql_alumnos = "SELECT Alumnoa FROM alumnos" . $cursoActivo;
-        $sql_asignaturas = "SELECT id_asignatura FROM asignaturas" . $cursoActivo .
-                " WHERE nombre_completo = '' OR nombre_completo IS NULL" .
-                " UNION SELECT nombre_completo FROM asignaturas" . $cursoActivo .
-                " WHERE nombre_completo IS NOT NULL AND nombre_completo <> ''";
+    <div class="col-md-10">  
+      <div class="container-fluid well well-sm">
+        <h4>Notas de un alumno para una o varias asignaturas</h4> 
+        <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="formularioPorAlumnos" name="formularioPorAlumnos">
+          <div class="form-group">        
+            <label for='subircsv'>Elegir el alumno para crear el gráfico</label> 
+            <?php
+              $cursoPrueba = 000;
+              $cursoActivo = $cursoPrueba;
+              $sql_alumnos = "SELECT Alumnoa FROM alumnos" . $cursoActivo;
+              $sql_asignaturas = "SELECT id_asignatura FROM asignaturas" . $cursoActivo .
+                    " WHERE nombre_completo = '' OR nombre_completo IS NULL" .
+                    " UNION SELECT nombre_completo FROM asignaturas" . $cursoActivo .
+                    " WHERE nombre_completo IS NOT NULL AND nombre_completo <> ''";
                 
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
+              $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-        $alumnos = array();
-        $asignaturas = array();
-        $result_alumnos = mysqli_query($conn, $sql_alumnos);
-        $result_asignaturas = mysqli_query($conn, $sql_asignaturas);
+              $alumnos = array();
+              $asignaturas = array();
+              $result_alumnos = mysqli_query($conn, $sql_alumnos);
+              $result_asignaturas = mysqli_query($conn, $sql_asignaturas);
 
-        while ($row = mysqli_fetch_array($result_alumnos, MYSQLI_ASSOC)) {
-           $alumnos[] = $row;
-        }
+              while ($row = mysqli_fetch_array($result_alumnos, MYSQLI_ASSOC)) {
+                $alumnos[] = $row;
+              }
 
-        while ($row = mysqli_fetch_array($result_asignaturas, MYSQLI_ASSOC)) {
-          $asignaturas[] = $row;
-        }
+              while ($row = mysqli_fetch_array($result_asignaturas, MYSQLI_ASSOC)) {
+                $asignaturas[] = $row;
+              }
 
-        echo "<select name='alumno'>";
-        foreach($alumnos as $value) {
-          echo $value['Alumnoa'];
-          echo "<option>" . $value['Alumnoa'] . "</option>";
-        }
-        echo "</select>";
+              echo "<select name='alumno'>";
+              foreach($alumnos as $value) {
+                echo $value['Alumnoa'];
+                echo "<option>" . $value['Alumnoa'] . "</option>";
+              }
+              echo "</select>";
 
-        echo "<select name='asignatura'>";
-        foreach ($asignaturas as $value) {
-          echo $value['id_asignatura'];
-          echo "<option>" . $value['id_asignatura'] . "</option>";
-        }
-        echo "</select>";
+              echo "<select name='asignatura'>";
+              foreach ($asignaturas as $value) {
+                echo $value['id_asignatura'];
+                echo "<option>" . $value['id_asignatura'] . "</option>";
+              }
+              echo "</select>";
 
      ?>
      <select name="tipo">
@@ -129,39 +130,8 @@
     <div class="form-group">        
       <label>Seleccionar la asignatura y los alumnos</label> 
       <?php
-        $sql_asignaturas = "SELECT id_asignatura FROM asignaturas" . $cursoActivo .
-                " WHERE nombre_completo = '' OR nombre_completo IS NULL" .
-                " UNION SELECT nombre_completo FROM asignaturas" . $cursoActivo .
-                " WHERE nombre_completo IS NOT NULL AND nombre_completo <> ''";
-        $sql_alumnos = "SELECT Alumnoa FROM alumnos" . $cursoActivo;
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        $asignaturas = array();
-        $alumnos = array();
-        $result_asignaturas = mysqli_query($conn, $sql_asignaturas);
-        $result_alumnos = mysqli_query($conn, $sql_alumnos);
-        
-        while ($row = mysqli_fetch_array($result_asignaturas, MYSQLI_ASSOC)) {
-          $asignaturas[] = $row;
-        }
-
-        while ($row = mysqli_fetch_array($result_alumnos, MYSQLI_ASSOC)) {
-           $alumnos[] = $row;
-        }
-
-        echo "<select name='asignatura[]' multiple>";
-        foreach ($asignaturas as $value) {
-          echo $value['id_asignatura'];
-          echo "<option>" . $value['id_asignatura'] . "</option>";
-        }
-        echo "</select>";
-
-        echo "<select name='alumno'>";
-        foreach($alumnos as $value) {
-          echo $value['Alumnoa'];
-          echo "<option>" . $value['Alumnoa'] . "</option>";
-        }
-        echo "</select>";
+        listar_asignaturas($cursoActivo);
+        listar_alumnos($cursoActivo);
      ?>
      <select name="tipo">
      <option value="drawSplineChart">drawSplineChart</option>

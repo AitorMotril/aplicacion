@@ -20,7 +20,7 @@
   
 <script>
   $(document).ready(function(){
-    // $("#formRegAlumnos").hide();
+    $("#formRegAlumnos").hide();
     checkForm($("#formRegAlumnos"));
   });
 </script>
@@ -32,14 +32,16 @@
 <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="77" id="nav01"></nav>
 
 <!-- Cabecera de la página y texto -->
-<div class="container">
-  <h3 class="bg-3">Registro de Alumnos</h3>
+<div class="container-fluid">
+  <h3 class="bg-3">Registro de Alumnos <?php echo "curso: " . $cursoActivo;?></h3>
   <p>
-    Formulario para el registro de alumnos
+    Formulario para el registro de alumnos, asegurarse de que los datos de los alumnos
+    que se van a subir corresponden al curso activo.
+    Los campos del formulario manual y de actualización también dependen del curso activo actual.
   </p>
-</div>
 
-<div class="container well well-sm">
+
+<div class="container-fluid well well-sm">
   <h4>Mediante lectura de un archivo csv Séneca <small><em>Recomendado</em></small></h4>  
     <form class="form-horizontal" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
       <input type="file" name="csvalumnos" />
@@ -60,7 +62,7 @@
     ?>
 </div>
 
-<div class="container well well-sm">
+<div class="container-fluid well well-sm">
       <h4>Subir manualmente o actualizar un registro</h4>  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
     <form class="form-inline" id="formRegAlumnos" role="form" name="formRegAlumnos" method="POST" onsubmit="return validar();">
       <?php
@@ -96,6 +98,7 @@
       ?>
         </form>
 </div>
+  </div>
 
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>

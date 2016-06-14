@@ -1,6 +1,7 @@
 <?php 
   include_once 'config/config.php';
   include_once 'funciones.php';
+  check_install();
 ?>
 <!DOCTYPE html>
 <html lang="es">

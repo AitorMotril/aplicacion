@@ -4,7 +4,7 @@
   
   if ($instalar == 1) {
     echo "La aplicación ya está instalada y configurada." . "<br>" . 
-    "<a href='index.php'>Volver al índice</a>";
+    "<a href='" . $urlbase . "index.php'>Volver al índice</a>";
   } else {
   
     if (isset($_POST['crear_db'])) {
@@ -24,13 +24,13 @@
           $instalar = 0;
           echo "Conexión fallada: " . mysqli_connect_error() . "<br>";
         } else {
-          echo "Conexión realizada" . "<br>";
+          // echo "Conexión realizada" . "<br>";
         }
 
         $sql = "CREATE DATABASE IF NOT EXISTS $dbname;";
 
         if (mysqli_query($conn, $sql)) {
-          echo "La base de datos se ha creado correctamente o ya existía" . "<br>";
+          // echo "La base de datos se ha creado correctamente o ya existía" . "<br>";
         } else {
           $instalar = 0;
           echo "Error creando la base de datos: " . mysqli_error($conn) . "<br>";
@@ -39,7 +39,7 @@
         $sql = "USE $dbname;";
 
         if (mysqli_query($conn, $sql)) {
-          echo "Base de datos seleccionada correctamente" . "<br>";
+          // echo "Base de datos seleccionada correctamente" . "<br>";
         } else {
           $instalar = 0;
           echo "Error al seleccionar la base de datos: " . mysqli_error($conn) . "<br>";
@@ -54,7 +54,7 @@
         ) ENGINE = InnoDB;";
 
         if (mysqli_query($conn, $sql)) {
-          echo "La tabla usuarios se ha creado correctamente o ya existía" . "<br>";
+          // echo "La tabla usuarios se ha creado correctamente o ya existía" . "<br>";
         } else {
           $instalar = 0;
           echo "Error al crear la tabla usuarios: " . mysqli_error($conn) . "<br>";
@@ -64,7 +64,7 @@
                 VALUES('administrador', password('$admin_clave'), 'administrador', 'Aitor', 'Igartua');";
 
         if (mysqli_query($conn, $sql)) {
-          echo "El usuario administrador se ha creado correctamente" . "<br>";
+          // echo "El usuario administrador se ha creado correctamente" . "<br>";
         } else {
           $instalar = 0;
           echo "Error creando el usuario administrador: " . mysqli_error($conn) . "<br>";
@@ -74,7 +74,7 @@
                 VALUES('jefe', password('jefe'), 'jefe', 'Aitor', 'Igartua');";
 
         if (mysqli_query($conn, $sql)) {
-          echo "El usuario jefe se ha creado correctamente" . "<br>";
+          // echo "El usuario jefe se ha creado correctamente" . "<br>";
         } else {
           $instalar = 0;
           echo "Error creando el usuario jefe: " . mysqli_error($conn) . "<br>";
@@ -97,9 +97,9 @@
         
         mysqli_close($conn);
 
-        echo "<br><em><a href='$urlbase/index.php'>Volver al índice</a></em>";
+        echo "<br><em><a href='$urlbase/index.php'>Ir a la página principal de la aplicación</a></em>";
       
-      } //end funcion instalar();
+  }
   }
         //unlink("instalar.php");
 ?>
@@ -124,7 +124,7 @@
         <div class="row">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            <div id="cargando"></div>
+            
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
                 <h3>Base de datos MySQL</h3>
                 <div class="form-group">
@@ -136,7 +136,7 @@
                     <input name="db_usuario" class="form-control" type="text" required placeholder="Usuario de la BD"> 
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Clave</label>
+                    <label class="control-label">Contraseña del usuario de la base de datos</label>
                     <input name="db_clave" class="form-control" type="password" required placeholder="Clave del usuario">
                 </div>
                 <div class="form-group">
@@ -144,7 +144,7 @@
                     <input name="db_nombre" class="form-control" type="text" required value="edugraph_db">
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Directorio raíz</label>
+                    <label class="control-label">Directorio raíz de la aplicación</label>
                     <input name="urlbase" class="form-control" type="text" required value="Direccion raíz sin /">
                 </div>
 

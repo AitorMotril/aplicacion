@@ -1,6 +1,7 @@
 <?php
   include_once '../config/config.php';
   include_once '../funciones.php';
+  check_install();
   protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
@@ -37,6 +38,15 @@
       </div>
     </div>
     <div class="col-md-10">  
+                        <div class="container-fluid well well-sm">
+    <h4>Subir notas</h4> 
+    <p>
+      Leer un archivo CSV de notas de Séneca. Crea automáticamente las asignaturas que 
+      no existan todavía en la base de datos, en la forma abreviada en que Séneca las provee.
+      Posteriormente el jefe de estudios podrá añadirle un nombre completo y un área competencial.
+      Los alumnos cuyas notas se están subiendo deben estar previamente subidos, 
+      mediante el formulario de registro de alumnos.
+    </p>
         <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/notas.php"  id="formularioCurso" name="formularioCurso">
     <div class="form-group">        
       <label for='subircsv'>Subir el archivo csv para crear las estadísticas</label>   

@@ -43,6 +43,8 @@
     <div class="form-group">        
       <label for='subircsv'>Elegir el alumno para crear el gráfico</label> 
       <?php
+        $cursoPrueba = 000;
+        $cursoActivo = $cursoPrueba;
         $sql_alumnos = "SELECT Alumnoa FROM alumnos" . $cursoActivo;
         $sql_asignaturas = "SELECT id_asignatura FROM asignaturas" . $cursoActivo .
                 " WHERE nombre_completo = '' OR nombre_completo IS NULL" .

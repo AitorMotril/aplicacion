@@ -166,7 +166,7 @@ function activar_curso($file) {
       $sql .= $var . " VARCHAR(40)" . ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
     }
   }
-
+  
   if (mysqli_query($conn, $sql)) {
     echo "La tabla alumnos" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
   } else {
@@ -309,16 +309,18 @@ function leer_alumno($file) {
 
 
 //Funcion notas($file), a partir de leer un archivo csv, cargar notas
-function notas($file) {
-
-  global $servername, $username, $password, $dbname, $cursoActivo;
+function notas($file, $trimestre) {
+  
+  //echo "fopen('$file', 'r')";
+  
+  global $servername, $username, $password, $dbname, $cursoActivo, $cursoPrueba;
+  $cursoActivo = $cursoPrueba;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
   $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
   $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $cursoActivo . " (id_asignatura) VALUES ";
   $sql_notas = "INSERT IGNORE INTO notas" . $cursoActivo . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
   $asignatura = array();
-  $trimestre = 2;
   
   while ($datos = fgetcsv($file)) {  //lectura de lineas del csv
  
@@ -373,11 +375,9 @@ function notas($file) {
   
   $sql_notas = substr($sql_notas, 0, -1); // quitamos la coma sobrante
   $sql_notas .= ";";
-
+  echo $sql_notas;
   if (mysqli_query($conn, $sql_notas)) {
     echo "Las notas se han insertado correctamente o ya existían<br>";
-    echo $sql_notas;
-    
   } else {
     echo "Error al insertar las notas: " . mysqli_error($conn) . "<br>";
   }

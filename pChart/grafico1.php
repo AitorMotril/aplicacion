@@ -70,7 +70,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 
 $series=array();
 foreach ($asignaturas as $key => $value) {
-    
+$cursoActivo = 0;    
 
 $sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
         AND id_asignatura = '$value';";

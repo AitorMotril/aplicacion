@@ -38,15 +38,70 @@
     </div>
     <div class="col-md-10">
       <p>
-        Página principal de gestión del jefe de estudios.
+        Activar curso de prueba
       </p>
-      <ul>
-        <li>Subir notas, mediante archivos CSV de Séneca, o añadir notas manualmente, así como consultar las notas de los alumnos.</li>
-        <li>Creación y visualización de gráficos, por asignaturas, por alumnos, por dimensiones competenciales... Y comparativas.</li>
-        <li>Gestionar las asignaturas de la base de datos, añadir nombres completos y asignarlas a dimensiones competenciales.</li>
-      </ul>
-      <pre>INSERT INTO alumnos (Alumnoa, N_Id_Escolar) VALUES ('Ficticio 2 Ficticio 2, Ficticio 2', 1),('Ficticio 1 Ficticio 1, Ficticio 1', 0)</pre>
-      <pre>INSERT INTO `notas` (`N_Id_Escolar`, `Trimestre`, `id_asignatura`, `Nota`) VALUES ('0', '1', 'BYG', '9'), ('0', '3', 'BYG', '3'), ('0', '1', 'EF', '8'), ('0', '3', 'EF', '7');</pre>
+      
+<?php
+  
+  global $servername, $username, $password, $dbname;
+  $cursoPrueba = 000;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  // Crear tabla de alumnos
+  $sql_crear = "CREATE TABLE IF NOT EXISTS alumnos" . $cursoPrueba . " (N_Id_Escolar VARCHAR(40) PRIMARY KEY," .
+          " Alumnoa VARCHAR(40)) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+  echo $sql_crear;
+  
+  if (mysqli_query($conn, $sql_crear)) {
+    echo "La tabla alumnos" . $cursoPrueba . " se ha creado correctamente o ya existía" . "<br>";
+  } else {
+    echo "Error al crear la tabla alumnos: " . mysqli_error($conn) . "<br>";
+  }
+  
+  $sql_insert = "INSERT INTO alumnos" . $cursoPrueba. " (N_Id_Escolar, Alumnoa) VALUES (2, 'Ficticio2 Ficticio2, Ficticio2')," .
+    "(1, 'Ficticio1 Ficticio1, Ficticio1'),(3, 'Ficticio3 Ficticio3, Ficticio3');";
+  echo $sql_insert;
+  
+    if (mysqli_query($conn, $sql_insert)) {
+    echo "La tabla alumnos" . $cursoPrueba . " se ha creado correctamente o ya existía" . "<br>";
+  } else {
+    echo "Error al crear la tabla alumnos: " . mysqli_error($conn) . "<br>";
+  }
+          
+  $sql_crear_asignatura = "CREATE TABLE IF NOT EXISTS asignaturas" . $cursoPrueba . " ( "
+          . "id_asignatura VARCHAR(10) NOT NULL PRIMARY KEY) ENGINE=InnoDB;";
+  echo $sql_crear_asignatura;
+   
+     if (mysqli_query($conn, $sql_crear_asignatura)) {
+    echo "La tabla asignaturas" . $cursoPrueba . " se ha creado correctamente o ya existía" . "<br>";
+  } else {
+    echo "Error al crear la tabla asignaturas: " . mysqli_error($conn) . "<br>";
+  }
+  
+    $sql_crear_notas = "CREATE TABLE IF NOT EXISTS notas" . $cursoPrueba . " ( " .
+         "N_Id_Escolar VARCHAR(40) NOT NULL,
+         Trimestre VARCHAR(10) NOT NULL,
+         id_asignatura VARCHAR(10) NOT NULL,
+         Nota INT,
+         FOREIGN KEY (N_Id_Escolar) REFERENCES alumnos" . $cursoPrueba . "(N_Id_Escolar), " .
+         "FOREIGN KEY (id_asignatura) REFERENCES asignaturas" . $cursoPrueba . "(id_asignatura), " .
+         "PRIMARY KEY (N_Id_Escolar, Trimestre, id_asignatura, Nota) ) ENGINE=InnoDB;";
+
+  if (mysqli_query($conn, $sql_crear_notas)) {
+    echo "La tabla notas" . $cursoPrueba . " se ha creado correctamente o ya existía" . "<br>";
+  } else {
+    echo "Error al crear la tabla notas: " . mysqli_error($conn) . "<br>";
+  }      
+  
+  $trim1 = fopen('../prueba_notas_1trimestre.csv', 'r');
+  notas($trim1, "1");
+  $trim2 = fopen('../prueba_notas_2trimestre.csv', 'r');
+  notas($trim2, "2");
+  $trim3 = fopen('../prueba_notas_3trimestre.csv', 'r');
+  notas($trim3, "3");
+
+?>
+      <pre>INSERT INTO alumnos (N_Id_Escolar, Alumnoa) VALUES (2, 'Ficticio2 Ficticio2, Ficticio2'),(1, 'Ficticio1 Ficticio1, Ficticio1'),(3, 'Ficticio3 Ficticio3 Ficticio3')</pre>
       <pre>ALTER TABLE `asignaturas` ADD `nombre_completo` VARCHAR(255) NULL DEFAULT NULL AFTER `id_asignatura`;</pre>
       <pre>ALTER TABLE `asignaturas` ADD `area_completa` VARCHAR(255) NULL DEFAULT NULL AFTER `nombre_completo`;</pre>
     </div>  

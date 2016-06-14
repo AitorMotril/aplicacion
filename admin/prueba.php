@@ -55,8 +55,10 @@
             $cursoPrueba = 1;
             $datos_prueba = fopen('../prueba_alumnos.csv', 'r');
             
-            activar_curso($datos_prueba, $cursoPrueba);
-            leer_alumno($datos_prueba, $cursoPrueba);
+            activar_curso($datos_prueba, $cursoPrueba, "Prueba");
+            
+            $datos_prueba2 = fopen('../prueba_alumnos.csv', 'r');
+            leer_alumno($datos_prueba2, $cursoPrueba);
   
             $trim1 = fopen('../prueba_notas_1trimestre.csv', 'r');
             notas($trim1, "1", $cursoPrueba);

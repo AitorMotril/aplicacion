@@ -16,8 +16,19 @@ function protege($rol) {
 function check_install() {
   global $instalar;
   if (!$instalar) {
-    header("Location: instalar/instalae.php");
+    header("Location: instalar/instalar.php");
   }
+}
+
+function check_curso() {
+  global $cursoActivo, $nombreCursoActivo, $cursoPrueba, $nombreCursoPrueba;
+  
+  if ($cursoActivo && $nombreCursoActivo) {
+    echo $nombreCursoActivo;
+  } elseif ($cursoPrueba && $nombreCursoPrueba) {
+    echo $nombreCursoPrueba;
+  }
+  
 }
 
 //Funcion hide_install(), para ver si ya está instalada o no y mostrar en el menú
@@ -126,8 +137,8 @@ function check_sesion() {
 //Funcion error_form(), comprobar si el formulario de inicio de sesión está relleno y correcto
 function error_form() {
   
-  if ($_GET[error] == "si") {
-    if ($_GET[formularioerror] == "si") {
+  if ($_GET[error] === "si") {
+    if ($_GET[formularioerror] === "si") {
       echo "<div class='alert alert-danger'>"
       . "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
       . "Rellena el formulario.</div>";
@@ -137,7 +148,7 @@ function error_form() {
       . "Verifica tus datos.</div>";
     }
   }
-  if ($_GET[usererror] == "si") {
+  if ($_GET[usererror] === "si") {
     echo "<div class='alert alert-danger'>"
     . "<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>"
     . "No tienes permiso suficiente para acceder a esa página.</div>";
@@ -149,7 +160,7 @@ function error_form() {
 // Funcion activar_curso($file), a partir de leer un archivo csv, activa un curso
 // arg: $file string con ruta de archivo
 // return: escribe $cursoActivo en config.php
-function activar_curso($file, $cursoActivar) {
+function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
   
   $confi = fopen('../config/config.php', 'a+');
   
@@ -160,6 +171,15 @@ function activar_curso($file, $cursoActivar) {
   
   // Variable de activación del curso, salta a cero si hay algún error
   $activar = 1;
+  
+  $sql = "INSERT IGNORE INTO cursos VALUES(" . "'$cursoActivar'" . ", " . "'$nombreCursoActivar'" . ");";
+  
+    if (mysqli_query($conn, $sql)) {
+//    echo "La tabla alumnos" . $cursoActivo . " se ha creado correctamente o ya existía" . "<br>";
+  } else {
+    $activar = 0;
+    echo "Error al insertar el curso: " . mysqli_error($conn) . "<br>";
+  }
   
   // Crear tabla de alumnos
   $sql = "CREATE TABLE IF NOT EXISTS alumnos" . $cursoActivar . " (";
@@ -241,7 +261,7 @@ function activar_curso($file, $cursoActivar) {
   $result = mysqli_query($conn, $sql);
   $fila = mysqli_fetch_array($result, MYSQLI_NUM);
   
-  if ($fila[0] == 1) {
+  if ($fila[0] === 1) {
 //    echo "Los datos de la cabecera" . $cursoActivo . " ya están insertados" . "<br>";
   } else {
     $sql = "INSERT INTO cabecera" . $cursoActivar . " VALUES(";
@@ -263,11 +283,17 @@ function activar_curso($file, $cursoActivar) {
     }
   } // ./ end INSERT INTO cabecera
   
-  if ($activar == 0) {
-    echo "El curso no se ha activado correctamente" . "<br>";
+  if ($activar === 0) {
+    echo "El curso " . $nombreCursoActivar . " no se ha activado correctamente" . "<br>";
   } else {
-    echo "Curso " . $cursoActivar . " activado correctamente" . "<br>";
-    fwrite($confi, "\n". "$" . "cursoActivo" . " = " . $cursoActivar . ";");
+    echo "Curso " . $nombreCursoActivar . " activado correctamente" . "<br>";
+    if ($cursoActivar != 1) {
+      fwrite($confi, "\n". "$" . "cursoActivo" . " = " . $cursoActivar . ";");
+      fwrite($confi, "\n" . "$" . "nombreCursoActivo" . " = " . "'$nombreCursoActivar'" . ";");
+    } else {
+      fwrite($confi, "\n". "$" . "cursoPrueba" . " = " . $cursoActivar . ";");
+      fwrite($confi, "\n" . "$" . "nombreCursoPrueba" . " = " . "'$nombreCursoActivar'" . ";"); 
+    }
   }
   
 } // ./ end activar_curso($file)
@@ -281,37 +307,37 @@ function leer_alumno($file, $curso) {
 
   if (!$conn) {
     echo "Conexión fallada: " . mysqli_connect_error() . "<br>";
-  } else {
-    echo "Conexión realizada" . "<br>";
-  }
+  } 
 
-  $sql = "INSERT IGNORE INTO alumnos" . $curso . " VALUES (";
-
+  $sql = "INSERT IGNORE INTO alumnos" . $curso . " VALUES ";
   $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
 
-  while ($datos = fgetcsv($file)) {  //leemos una lÃ­nea en formato csv
+  while ($datos_alumno = fgetcsv($file, 0, ',', '"')) {  //leemos una lÃ­nea en formato csv
 
     if (!$cabecerasEncontradas) {
-
-      if ($datos[0] == "Alumno/a") { // Cabecera encontrada
+      
+      if ($datos_alumno[0] == "Alumno/a") { // Cabecera encontrada
         $cabecerasEncontradas = TRUE;            
       }
 
-    } else if ($datos[0] != "") {//si !cabecerasEncontradas = FALSE y no vacío?
-
-      $arrlength = count($datos);
-
+    } elseif ($datos_alumno[0] != "") {//si !cabecerasEncontradas = FALSE y no vacío?
+            
+      $arrlength = count($datos_alumno);
+      $sql .= "(";
+      
       for ($x = 0; $x < $arrlength; $x++) {
-        $var = $datos[$x];
+        $var = $datos_alumno[$x];
         $sql .= "'$var'" . ", ";
       }
+      
+      $sql = substr($sql, 0, -2); //quitamos la coma y el espacio sobrantes
+      $sql .= "),";// empezamos otro registro  
     }
-
-  } // ./ end bloque while
-        
-  $sql = substr($sql, 0, -2); //quitamos la coma y el espacio sobrantes
-  $sql .= ");";// empezamos otro registro  
-
+  } // ./ end bucle while
+  
+  $sql = substr($sql, 0, -1);
+  $sql .= ";";
+  
   if (mysqli_query($conn, $sql)) {
     echo "Alumno insertado correctamente o ya existía" . "<br>";
   } else {
@@ -379,16 +405,17 @@ function notas($file, $trimestre, $curso) {
   global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
-  $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
   $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $curso . " (id_asignatura) VALUES ";
   $sql_notas = "INSERT IGNORE INTO notas" . $curso . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
+  
   $asignatura = array();
+  $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
   
   while ($datos = fgetcsv($file)) {  //lectura de lineas del csv
  
     if (!$cabecerasEncontradas) {
 
-      if ($datos[0] == "Alumno/a") { // Cabecera encontrada
+      if ($datos[0] === "Alumno/a") { // Cabecera encontrada
         
         $cabecerasEncontradas = TRUE;
         $arrlength = count($datos);
@@ -403,7 +430,7 @@ function notas($file, $trimestre, $curso) {
         $sql_asignaturas .= ";";
         
         if (mysqli_query($conn, $sql_asignaturas)) {
-          echo "Las asignaturas se han insertado correctamente o ya existían<br>";
+          //echo "Las asignaturas se han insertado correctamente o ya existían<br>";
         } else {
           echo "Error al insertar las asignaturas: " . mysqli_error($conn) . "<br>";
         }
@@ -437,9 +464,9 @@ function notas($file, $trimestre, $curso) {
   
   $sql_notas = substr($sql_notas, 0, -1); // quitamos la coma sobrante
   $sql_notas .= ";";
-  echo $sql_notas;
+
   if (mysqli_query($conn, $sql_notas)) {
-    echo "Las notas se han insertado correctamente o ya existían<br>";
+    //echo "Las notas se han insertado correctamente o ya existían<br>";
   } else {
     echo "Error al insertar las notas: " . mysqli_error($conn) . "<br>";
   }

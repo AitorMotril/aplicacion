@@ -1,10 +1,10 @@
 <?php
   include_once '../funciones.php';
+  include_once '../config/config.php';
   $confi = fopen("../config/config.php", "a") or die("Unable to open file!");
   
   if ($instalar == 1) {
-    echo "La aplicación ya está instalada y configurada." . "<br>" . 
-    "<a href='" . $urlbase . "index.php'>Volver al índice</a>";
+    header(("Location: " . $urlbase .  "instalar/instalada.php"));
   } else {
   
     if (isset($_POST['crear_db'])) {
@@ -58,6 +58,18 @@
         } else {
           $instalar = 0;
           echo "Error al crear la tabla usuarios: " . mysqli_error($conn) . "<br>";
+        }
+        
+        $sql = "CREATE TABLE IF NOT EXISTS cursos (
+          id_curso VARCHAR(10) NOT NULL PRIMARY KEY,
+          nombre_curso VARCHAR(200)
+        ) ENGINE = InnoDB;";
+        
+        if (mysqli_query($conn, $sql)) {
+          // echo "La tabla usuarios se ha creado correctamente o ya existía" . "<br>";
+        } else {
+          $instalar = 0;
+          echo "Error al crear la tabla de cursos: " . mysqli_error($conn) . "<br>";
         }
 
         $sql = "INSERT INTO usuarios(login, password, rol, nombre, apellidos)

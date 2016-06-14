@@ -43,8 +43,8 @@
           <div class="form-group">        
             <label for='curso'>Curso a activar:</label>
             <select id='curso' name='curso'>
-              <option value="1516">2015-2016</option>
-              <option value="1617">2016-2017</option>
+              <option value="1516|2015-2016">2015-2016</option>
+              <option value="1617|2016-2017">2016-2017</option>
             </select> 
             <label for='subircsv'>Subir el archivo csv para crear las tablas</label>   
             <input type="file" class="form-control" name="subircsv"/>
@@ -60,8 +60,10 @@
             } 
         
             if ($archivo = fopen($_FILES["subircsv"]["tmp_name"], "r")) {
-              $cursoActivar = $_POST["curso"];
-              activar_curso($archivo, $cursoActivar);      
+              $cursos = explode('|', $_POST['curso']);
+              $cursoActivar = $cursos[0];
+              $nombreCursoActivar = $cursos[1];
+              activar_curso($archivo, $cursoActivar, $nombreCursoActivar);      
             }           
             
           }

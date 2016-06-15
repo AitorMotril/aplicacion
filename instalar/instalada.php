@@ -24,14 +24,19 @@
 <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="77" id="nav01"></nav>
 
 <div class="container-fluid">
-  <h3 class="bg-3">Instalación</h3>
+  <h3 class="bg-3">Instalación completada</h3>
     <?php
-      if ($instalar != 1) {
+      if (!check_install()) {
         header(("Location: " . $urlbase .  "instalar/instalar.php"));
       } else {
-        echo "<p>La aplicación ya está instalada y configurada." . "<br><br>" . 
-             "Ahora se recomienda <a href='admin/activar.php'>activar un curso</a> con datos reales, " .
-             "o el <a href='admin/prueba.php'>curso de prueba</a>.</p>";
+        echo "La aplicación ya está instalada y configurada." . "<br><br>";
+        if (!check_curso()) {
+          echo "Ahora se recomienda <a href='admin/activar.php'>activar un curso</a> con datos reales, " .
+                "o el <a href='admin/prueba.php'>curso de prueba</a>";
+        } else {
+          echo "Ya hay un curso activo, ahora el <a href='jefe/jefe.php'>jefe de estudios</a> "
+          . "puede proceder a introducir notas y realizar gráficos y estadísticas";
+        }
       } 
     ?>
 </div>  

@@ -39,9 +39,23 @@
     </div>
   
   <div class="col-md-10">  
+    <div class="container-fluid well well-sm">
+      <h4>Asignaturas</h4> 
   <p>
-    Gestionar las asignaturas existentes para curso, añadirles nombre completo así como áreas competenciales
+    Gestionar las asignaturas existentes para cada curso, añadirles nombre completo así como áreas competenciales.
   </p>
+    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/asignaturas.php"  id="elegirCurso" name="elegirCurso">
+      <?php
+        listar_cursos();
+      ?>
+      <button type="submit" class="btn btn-default" name="cursoElegido" value="entrar">Subir</button>
+    </form>
+    <?php
+      if (isset($_POST["cursoElegido"])) {
+        $cursoActivo = $_POST['curso'];
+        echo $cursoActivo;
+      }
+    ?>
     <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/asignaturas.php"  id="formularioCurso" name="formularioAsignaturas">
     <div class="form-group">        
       <label for='subircsv'>Elegir una asignatura para actualizar</label> 
@@ -91,6 +105,7 @@
             
             
   ?>
+  </div>
 </div>
     </div>
   

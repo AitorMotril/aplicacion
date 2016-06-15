@@ -39,6 +39,7 @@
     <div class="col-md-10">
       <div class="container-fluid well well-sm">
         <h4>Página de gestión del administrador</h4> 
+        <?php listar_graficos();?>
         <ul>
           <li>Activar un curso de prueba para probar el funcionamiento de la aplicación 
             con datos fitcios.</li>

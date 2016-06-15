@@ -39,8 +39,19 @@
     </div>
     <div class="col-md-10">  
       <div class="container-fluid well well-sm">
-        <h4>Notas de un alumno para una o varias asignaturas</h4> 
+        <h4>Notas para una asignatura de varios alumnos o grupos</h4> 
         <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="formularioPorAlumnos" name="formularioPorAlumnos">
+                      <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="elegirCurso" name="elegirCurso">
+              <?php
+              listar_cursos();
+              ?>
+                  <button type="submit" class="btn btn-default" name="cursoElegido" value="entrar">Subir</button>
+  </form>
+                        <?php
+                        $cursoActivo = 1516;
+              listar_asignaturas($cursoActivo, false);
+              listar_alumnos($cursoActivo, true);
+              ?>
           <div class="form-group">        
             <label for='subircsv'>Elegir el alumno para crear el gráfico</label> 
             <?php
@@ -125,38 +136,32 @@
   ?>
 </div>
           <div class="container-fluid well well-sm">
-            <h4>Notas para una asignatura de varios alumnos o grupos</h4> 
+            <h4>Notas de un alumno para una o varias asignaturas</h4> 
+            <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="elegirCurso" name="elegirCurso">
+              <?php
+              listar_cursos();
+              ?>
+                  <button type="submit" class="btn btn-default" name="cursoElegido" value="entrar">Subir</button>
+  </form>
+            <?php
+    if (isset($_POST["cursoElegido"])) {
+      $cursoActivo = $_POST['curso'];
+      echo $cursoActivo;
+    }
+    ?>
+            
+            
             <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="formularioPorAsignaturas" name="formularioPorAsignaturas">
     <div class="form-group">        
       <label>Seleccionar la asignatura y los alumnos</label> 
       <?php
-        listar_asignaturas($cursoActivo);
-        listar_alumnos($cursoActivo);
-     ?>
-     <select name="tipo">
-     <option value="drawSplineChart">drawSplineChart</option>
-      <option value="drawBarChart">drawBarChart</option>
-      <option value="drawAreaChart">drawAreaChart</option>
-      <option value="drawLineChart">drawLineChart</option>
-      <option value="drawFilledSplineChart">drawFilledSplineChart</option>
-      <option value="drawPlotChart">drawPlotChart</option>
-      <option value="drawFilledStepChart">drawFilledStepChart</option>
-      <option value="drawStackedBarChart">drawStackedBarChart</option>
-      <option value="drawStackedAreaChart">drawStackedAreaChart</option>
-      <option value="drawPlotChart">drawPlotChart</option>
-     </select>
-      <select name="paleta">
-        <option value="default">default</option>
-        <option value="autumn">autumn</option>
-        <option value="blind">blind</option>
-        <option value="evening">evening</option>
-        <option value="kitchen">Kitchen</option>
-        <option value="navy">Navy</option>
-        <option value="shade">Shade</option>
-        <option value="spring">Spring</option>
-        <option value="summer">Summer</option>
-        <option value="light">Light</option>
-      </select>
+        
+        listar_asignaturas($cursoActivo, true);
+        listar_alumnos($cursoActivo, false);
+        listar_graficos();
+        listar_paletas();
+?>
+
       <select name='g_gradient_direction'><option value='vertical'>Vertical</option><option value='horizontal'>Horizontal</option></select>
     </div>
     Gradiente sí o no <input type='checkbox' name='g_gradient_enabled' checked='checked' /></td>
@@ -183,7 +188,11 @@
       $paleta = $_POST['paleta'];
       $g_gradient_enabled = $_POST['g_gradient_enabled'];
       $g_gradient_end = $_POST['g_gradient_end'];
+      $g_gradient_end = str_replace("#","",$g_gradient_end);
+      echo $g_gradient_end;
       $g_gradient_start = $_POST['g_gradient_start'];
+      $g_gradient_start = str_replace("#","",$g_gradient_start);
+      echo $g_gradient_start;
       $g_gradient_direction = $_POST['g_gradient_direction'];
       $g_height = $_POST['g_height'];
       $g_width = $_POST['g_width'];
@@ -194,6 +203,7 @@
       $result_alumno = mysqli_query($conn, $sql_alumno);
       $row = mysqli_fetch_array($result_alumno, MYSQLI_NUM);
       $alumnof = $row[0];  
+      echo $alumnof;
   
 
 //$sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
@@ -208,7 +218,7 @@
 
 //$array1 = $notas;
   
-      echo "<a href='pChart/grafico1.php?Seed=0.9&dibujo=$tipo&alumno=$alumnof&paleta=$paleta"
+      echo "<a href='pChart/graficotest.php?Seed=0.9&dibujo=$tipo&alumno=$alumnof&paleta=$paleta"
               . "&g_gradient_enabled=$g_gradient_enabled&g_gradient_end=$g_gradient_end&g_gradient_start=$g_gradient_start"
               . "&g_gradient_direction=$g_gradient_direction&g_width=$g_width&g_height=$g_height'>Grafico1</a>";
       

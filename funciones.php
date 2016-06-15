@@ -7,7 +7,6 @@ function protege($rol) {
     global $urlbase;
     session_start();
     if($_SESSION['validar'] != "1" || $_SESSION['rol'] != $rol) {
-        session_destroy();
         header("Location: " . $urlbase . "index.php?usererror=si");
     }
     
@@ -15,20 +14,37 @@ function protege($rol) {
 
 function check_install() {
   global $instalar;
+  $result = true;
   if (!$instalar) {
-    header("Location: instalar/instalar.php");
+    $result = false;   
   }
+  return $result;
 }
 
-function check_curso() {
+function check_curso($display) {
   global $cursoActivo, $nombreCursoActivo, $cursoPrueba, $nombreCursoPrueba;
   
   if ($cursoActivo && $nombreCursoActivo) {
-    echo $nombreCursoActivo;
+    if ($display) {
+      $result = $nombreCursoActivo;
+    } else {
+      $result = true;
+    }
   } elseif ($cursoPrueba && $nombreCursoPrueba) {
-    echo $nombreCursoPrueba;
+    if ($display) {
+      $result = $nombreCursoPrueba;
+    } else {
+      $result = true;
+    }
+  } else {
+    if ($display) {
+      $result = "Sin curso activado";
+    } else {
+      $result = false;
+    }
   }
   
+  return $result;
 }
 
 //Funcion hide_install(), para ver si ya está instalada o no y mostrar en el menú
@@ -346,7 +362,35 @@ function leer_alumno($file, $curso) {
       
 } // ./ end leer_alumno($file)
 
-function listar_asignaturas($curso) {
+function listar_cursos() {
+  
+  global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  $sql_cursos = "SELECT * FROM cursos";
+  $cursos = array();
+  $result_cursos = mysqli_query($conn, $sql_cursos);
+  
+  while ($row = mysqli_fetch_array($result_cursos, MYSQLI_ASSOC)) {
+    $cursos[] = $row;
+  }
+  
+  $html_cursos = "<select name='curso'>";
+  
+  
+  foreach ($cursos as $value) {
+    $curso = $value['id_curso'];
+    $nombreCurso = $value['nombre_curso'];
+  
+    $html_cursos .= "<option value='$curso'>" . $nombreCurso . "</option>";
+  }
+  
+  $html_cursos .= "</select>";
+  echo $html_cursos;
+          
+}
+
+function listar_asignaturas($curso, $multiple) {
   
    global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -363,8 +407,12 @@ function listar_asignaturas($curso) {
                 while ($row = mysqli_fetch_array($result_asignaturas, MYSQLI_ASSOC)) {
           $asignaturas[] = $row;
         }
-        
+         
+        if ($multiple) {
                 echo "<select name='asignatura[]' multiple>";
+        } else {
+          echo "<select name='asignatura[]'>";
+        }
         foreach ($asignaturas as $value) {
           echo $value['id_asignatura'];
           echo "<option>" . $value['id_asignatura'] . "</option>";
@@ -373,9 +421,52 @@ function listar_asignaturas($curso) {
         
 }
 
-function listar_alumnos($curso) {
+function listar_graficos() {
   
-   global $servername, $username, $password, $dbname;
+  $graficos = array(
+      "Spline Chart"=>"drawSplineChart", "Grafico de Barras"=>"drawBarChart",
+      "Grafico de Área"=>"drawAreaChart", "Gráfico de líneas"=>"drawLineChart", 
+      "Gráfico Spline relleno"=>"drawFilledSplineChart", "Gráfico de Puntos"=>"drawPlotChart",
+      "Gráfido de Saltos relleno"=>"drawFilledStepChart", "Gráfido de barras Stacked"=>"drawStackedBarChart",
+      "Gráfido de área stacked"=>"drawStackedAreaChart"
+  );
+  
+  $html_graficos = "<select name='tipo'>";
+  
+  foreach ($graficos as $key => $value) {
+    $html_graficos .= "<option value='$value'>" . $key . "</option>";
+  }
+  
+  $html_graficos .= "</select>";
+  
+  echo $html_graficos;
+      
+      
+}
+
+function listar_paletas() {
+  
+  $paletas = array(
+      "Defecto"=>"default", "Otoño"=>"autumn", "Ciega"=>"blind", 
+      "Anochecer"=>"evening", "Cocina"=>"kitchen", "Armada"=>"navy", 
+      "Sombras"=>"shade", "Primavera"=>"spring", "Verano"=>"summer", "Luminosa"=>"light"
+  );
+  
+  $html_paletas = "<select name='paleta'>";
+  
+  foreach ($paletas as $key => $value) {
+    $html_paletas .= "<option value='$value'>" . $key . "</option>";
+  }
+  
+  $html_paletas .= "</select>";
+  
+  echo $html_paletas;
+  
+}
+
+function listar_alumnos($curso, $multiple) {
+  
+  global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
           $sql_alumnos = "SELECT Alumnoa FROM alumnos" . $curso;
@@ -387,11 +478,14 @@ function listar_alumnos($curso) {
                   while ($row = mysqli_fetch_array($result_alumnos, MYSQLI_ASSOC)) {
            $alumnos[] = $row;
         }
-        
-                echo "<select name='alumno'>";
+        if ($multiple) {
+          echo "<select name='alumno' multiple>";
+        } else {
+          echo "<select name='alumno'>";
+        }
+  
         foreach($alumnos as $value) {
-          echo $value['Alumnoa'];
-          echo "<option>" . $value['Alumnoa'] . "</option>";
+          echo "<option value='" . sanear_string($value['Alumnoa']) . "'>" . $value['Alumnoa'] . "</option>";
         }
         echo "</select>";
 }

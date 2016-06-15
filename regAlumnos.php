@@ -21,7 +21,7 @@
 <script>
   $(document).ready(function(){
     $("#formRegAlumnos").hide();
-    checkForm($("#formRegAlumnos"));
+    //checkForm($("#formRegAlumnos"));
   });
 </script>
   
@@ -33,7 +33,7 @@
 
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
-  <h3 class="bg-3">Registro de Alumnos <?php echo "curso: " . $cursoActivo;?></h3>
+  <h3 class="bg-3">Registro de Alumnos <?php $curso = check_curso(true); echo "curso: " . $curso;?></h3>
   <p>
     Formulario para el registro de alumnos, asegurarse de que los datos de los alumnos
     que se van a subir corresponden al curso activo.
@@ -43,9 +43,13 @@
 
 <div class="container-fluid well well-sm">
   <h4>Mediante lectura de un archivo csv Séneca <small><em>Recomendado</em></small></h4>  
-    <form class="form-horizontal" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
+    <form class="form" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
+      <div class="form-group">
       <input type="file" name="csvalumnos" />
-      <input type="submit" class="btn" value="registro" name="alumnos_csv" />
+      </div>
+      <div class="form-group">
+      <button type="submit" class="btn btn-default" value="registro" name="alumnos_csv">Subir</button>
+      </div>
     </form>
     <?php
       if (isset($_POST["alumnos_csv"]) && isset($_FILES["csvalumnos"])) {
@@ -56,17 +60,21 @@
         } 
         
         if (($archivo = fopen($_FILES["csvalumnos"]["tmp_name"], "r")) !== FALSE) {
-          leer_alumno($archivo);      
+          leer_alumno($archivo, $cursoActivo);      
         }
+        
       }
     ?>
 </div>
 
 <div class="container-fluid well well-sm">
-      <h4>Subir manualmente o actualizar un registro</h4>  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
-    <form class="form-inline" id="formRegAlumnos" role="form" name="formRegAlumnos" method="POST" onsubmit="return validar();">
+  <h4>Subir manualmente o actualizar un registro</h4>  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
+    <?php
+      listar_alumnos($cursoActivo);
+    ?>
+    <form class="form-inline" id="formRegAlumnos" role="form" name="formRegAlumnos" method="POST" onsubmit="return checkForm(this);">
       <?php
-      
+                
         function leer_cabeceras() {
           
           global $servername, $username, $password, $dbname, $cursoActivo;

@@ -59,18 +59,16 @@ $asignaturas = $temp['asignatura'];
 $title = $temp['alumno'];
 $dibujo = $_GET['dibujo'];
 $p_template = $_GET['paleta'];
-//$g_gradient_enabled = $_GET['g_gradient_enabled'];
-//$g_gradient_end = $_GET['g_gradient_end'];
-//$g_gradient_start = $_GET['g_gradient_start'];
-//$g_gradient_direction = $_GET['g_gradient_direction'];
-//$g_width = $_GET['g_width'];
-//$g_height = $_GET['g_height'];
+$g_gradient_enabled = $_GET['g_gradient_enabled'];
+$g_gradient_end = $_GET['g_gradient_end'];
+$g_gradient_start = $_GET['g_gradient_start'];
+$g_gradient_direction = $_GET['g_gradient_direction'];
+$g_width = $_GET['g_width'];
+$g_height = $_GET['g_height'];
    
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-$series=array();
 foreach ($asignaturas as $key => $value) {
-$cursoActivo = 0;    
 
 $sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
         AND id_asignatura = '$value';";
@@ -81,6 +79,33 @@ $result = mysqli_query($conn, $sql) or die("Error en el sql");
     }
 }
 
+/*
+if (count($asignaturas) > 1) {
+  $sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
+        AND id_asignatura = '$value';";
+  series($asignaturas, $sql);
+} elseif (count($alumnos) > 1) {
+  $sql = "SELECT NOTA from notas" . $cursoActivo . " WHERE N_Id_Escolar = $value
+    AND id_asignatura = '$asignaturas';";
+}
+
+function series($arary_serie, $sql) {
+  $series=array();
+  foreach ($array_serie as $key => $value) {
+  $cursoActivo = 1;
+  
+
+  $result = mysqli_query($conn, $sql) or die("Error en el sql");
+  $series[$value] = array();
+          while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+    $series[$value][] = $row[0];
+          }
+}
+  
+}
+ * 
+ */
+
 
 $myData = new pData();
 
@@ -88,24 +113,8 @@ if ($p_template != "default" ) {
   $myData->loadPalette("palettes/".$p_template.".color",TRUE);
 }
 
- 
-//  if ( $g_gradient_enabled == "on" )
-//  {
-//   str_replace("#","",$g_gradient_start);
-//   str_replace("#","",$g_gradient_end);
-//   list($StartR,$StartG,$StartB) = extractColors($g_gradient_start);
-//   list($EndR,$EndG,$EndB)       = extractColors($g_gradient_end);
-//
-//   $Settings = array("StartR"=>$StartR,"StartG"=>$StartG,"StartB"=>$StartB,"EndR"=>$EndR,"EndG"=>$EndG,"EndB"=>$EndB,"Alpha"=>50);
-//
-//     if ( $g_gradient_direction == "vertical" ) {
-//      $myPicture->drawGradientArea(0,0,$g_width,$g_height,DIRECTION_VERTICAL,$Settings);
-//     } 
-//     else {
-//      $myPicture->drawGradientArea(0,0,$g_width,$g_height,DIRECTION_HORIZONTAL,$Settings);
-//     }
-//
-//  }
+
+  
 foreach ($series as $key => $value) {
     
 
@@ -135,11 +144,31 @@ $myData->setAxisName(0,"1st axis");
 $myData->setAxisUnit(0,"");
 
 $myPicture = new pImage(700,230,$myData,TRUE);
+
+
+
 $Settings = array("R"=>170, "G"=>183, "B"=>87, "Dash"=>1, "DashR"=>190, "DashG"=>203, "DashB"=>107);
 $myPicture->drawFilledRectangle(0,0,700,230,$Settings);
 
-$Settings = array("StartR"=>219, "StartG"=>231, "StartB"=>139, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
+ 
+if ( $g_gradient_enabled == "on" )
+  {
+   list($StartR,$StartG,$StartB) = extractColors($g_gradient_start);
+   list($EndR,$EndG,$EndB)       = extractColors($g_gradient_end);
+
+   $Settings = array("StartR"=>$StartR,"StartG"=>$StartG,"StartB"=>$StartB,"EndR"=>$EndR,"EndG"=>$EndG,"EndB"=>$EndB,"Alpha"=>50);
+
+     if ( $g_gradient_direction == "vertical" ) {
+      $myPicture->drawGradientArea(0,0,$g_width,$g_height,DIRECTION_VERTICAL,$Settings);
+     } 
+     else {
+      $myPicture->drawGradientArea(0,0,$g_width,$g_height,DIRECTION_HORIZONTAL,$Settings);
+     }
+
+  } else {
+    $Settings = array("StartR"=>219, "StartG"=>231, "StartB"=>139, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
 $myPicture->drawGradientArea(0,0,700,230,DIRECTION_VERTICAL,$Settings);
+  }
 
 $myPicture->drawRectangle(0,0,699,229,array("R"=>0,"G"=>0,"B"=>0));
 

@@ -46,10 +46,14 @@
               <option value="1516|2015-2016">2015-2016</option>
               <option value="1617|2016-2017">2016-2017</option>
             </select> 
+          </div>
+          <div class="form-group">
             <label for='subircsv'>Subir el archivo csv para crear las tablas</label>   
             <input type="file" class="form-control" name="subircsv"/>
           </div>
+          <div class="form-group">
           <button type="submit" class="btn btn-default" name="curso_csv" value="entrar">Subir</button>
+          </div>
         </form> <!-- /.end form, php call to activar_curso -->
         <?php
           if (isset($_POST["curso_csv"]) && isset($_FILES["subircsv"])) {

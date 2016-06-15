@@ -1,7 +1,6 @@
 <?php
   include_once '../config/config.php';
   include_once '../funciones.php';
-  check_install();
   protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
@@ -46,11 +45,21 @@
           momento.
         </p>
         <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="admin/prueba.php"  id="formularioCursoPrueba" name="formularioCursoPrueba">
-          <button type="submit" class="btn btn-default" name="cursoPrueba" value="entrar">Activar el curso de prueba</button>
+          <?php
+            $html_boton = "<button type='submit' class='btn btn-default'";
+            if ($cursoPrueba != 1) {
+              $html_boton .= " name='activarCursoPrueba'>" . "Activar el curso de prueba";
+            } else {
+              $html_boton .= " name='desactivarCursoPrueba'>" . "Desactivar el curso de prueba";
+            }
+            
+            $html_boton .= "</button>";
+            echo $html_boton;
+          ?>            
         </form>
       
         <?php
-          if (isset($_POST["cursoPrueba"])) {
+          if (isset($_POST["activarCursoPrueba"])) {
             
             $cursoPrueba = 1;
             $datos_prueba = fopen('../prueba_alumnos.csv', 'r');
@@ -68,6 +77,18 @@
             
             $trim3 = fopen('../prueba_notas_3trimestre.csv', 'r');
             notas($trim3, "3", $cursoPrueba);
+          }
+          
+          if (isset($_POST["desactivarCursoPrueba"])) {
+                       
+            $sql = "DROP table notas1; DROP table asignaturas1; DROP table alumnos1; DROP table cursos1;";
+            $conn = mysqli_connect($servername, $username, $password, $dbname); 
+            mysqli_query($sql, $conn);
+            
+            $cursoPrueba = 0;
+            $confi = fopen('../config/config.php', 'a+');
+            fwrite($confi, "\n". "$" . "cursoPrueba" . " = " . $cursoPrueba . ";");
+            
           }
         ?>
         

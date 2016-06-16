@@ -1,5 +1,4 @@
 <?php
-  // if ($_POST["login"] && $_POST["password"]) {
   if (isset($_POST['autenticar'])) { 
     include_once 'config/config.php';
 

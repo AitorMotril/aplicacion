@@ -27,11 +27,11 @@ document.getElementById("foot01").innerHTML =
 "pChart</a></em></p>";
     
 $(document).ready(function(){
-  $("#toplogo").load("/eduGraph/toplogo.php"); 
+  $("#toplogo").load("toplogo.php"); 
 });        
     
 $(document).ready(function(){
-  $("#nav01").load("/eduGraph/nav01.php"); 
+  $("#nav01").load("nav01.php"); 
 });        
       
 function hideShow(boton, elemento) {

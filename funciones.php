@@ -47,19 +47,30 @@ function check_curso($display) {
   return $result;
 }
 
-//Funcion hide_install(), para ver si ya está instalada o no y mostrar en el menú
-function hide_install() {
-  global $instalar;
-  if ($instalar === 1) {
-    echo "
-          <script>
-            $(document).ready(function() {
-              $('#instalar_menu').hide();
-            }); 
-          </script>
-        ";
-  } 
+function echoActiveClassIfRequestMatches($requestUri)
+{
+    $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");
+    echo $current_file_name;
+
+    if ($current_file_name == $requestUri) {
+        $result = "class='active'";
+    }
+    return $result;
 }
+
+////Funcion hide_install(), para ver si ya está instalada o no y mostrar en el menú
+//function hide_install() {
+//  global $instalar;
+//  if ($instalar === 1) {
+//    echo "
+//          <script>
+//            $(document).ready(function() {
+//              $('#instalar_menu').hide();
+//            }); 
+//          </script>
+//        ";
+//  } 
+//}
 
 
 // Funcion sanear_string($string), convierte un string cualquiera en texto "sano" 
@@ -178,7 +189,7 @@ function error_form() {
 // return: escribe $cursoActivo en config.php
 function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
   
-  $confi = fopen('../config/config.php', 'a+');
+//  $confi = fopen('../config/config.php', 'a+');
   
   global $servername, $username, $password, $dbname;
   $datos = fgetcsv($file, 0, ',', '"');
@@ -304,13 +315,21 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
   } else {
     echo "Curso " . $nombreCursoActivar . " activado correctamente" . "<br>";
     if ($cursoActivar != 1) {
-      fwrite($confi, "\n". "$" . "cursoActivo" . " = " . $cursoActivar . ";");
-      fwrite($confi, "\n" . "$" . "nombreCursoActivo" . " = " . "'$nombreCursoActivar'" . ";");
+      $conf = fopen('../config/cursoActivo.php', 'w+');
+      fwrite($conf, "<?php\n");
+      fwrite($conf, "\n". "$" . "cursoActivo" . " = " . $cursoActivar . ";");
+      fwrite($conf, "\n" . "$" . "nombreCursoActivo" . " = " . "'$nombreCursoActivar'" . ";");
+      fclose($conf);
     } else {
-      fwrite($confi, "\n". "$" . "cursoPrueba" . " = " . $cursoActivar . ";");
-      fwrite($confi, "\n" . "$" . "nombreCursoPrueba" . " = " . "'$nombreCursoActivar'" . ";"); 
+      $conf = fopen('../config/cursoPrueba.php', 'w+');
+      fwrite($conf, "<?php\n");
+      fwrite($conf, "\n". "$" . "cursoPrueba" . " = " . $cursoActivar . ";");
+      fwrite($conf, "\n" . "$" . "nombreCursoPrueba" . " = " . "'$nombreCursoActivar'" . ";"); 
+      fclose($conf);
     }
+    
   }
+  
   
 } // ./ end activar_curso($file)
 
@@ -500,6 +519,7 @@ function notas($file, $trimestre, $curso) {
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
   $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $curso . " (id_asignatura) VALUES ";
+  
   $sql_notas = "INSERT IGNORE INTO notas" . $curso . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
   
   $asignatura = array();

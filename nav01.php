@@ -4,6 +4,7 @@
 ?>
 <script type="text/javascript">
   $(document).ready(function () {
+  alert($("li a[href='<?php echo substr($urlbase, 0, -1);?>" + location.href.substring(location.href.lastIndexOf("h/") + 1, 255) + "']").selector);
   $("li a[href='<?php echo substr($urlbase, 0, -1);?>" + location.href.substring(location.href.lastIndexOf("h/") + 1, 255) + "']").parent().addClass("active");
 });
 </script>
@@ -18,15 +19,19 @@
   </div>
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
+      <li><a href='documentacion.php'>Guía de uso</a></li>
       <?php 
         if (check_install()) {
           $curso = check_curso(true);
-          echo "<li><a><strong>Curso: " . $curso . "</strong></a></li>" .
+          $active = echoActiveClassIfRequestMatches('documentacion');
+          echo $active;
+          echo "<li><a><strong>Curso: '" . $curso . "'</strong></a></li>" .
+               "<li" . $active . ">" . "<a><a href='documentacion.php'>Guía de uso</a></li>" .
                "<li><a href='admin/admin.php'>Administrador</a></li>" .
                "<li><a href='jefe/jefe.php'>Jefe de estudios</a></li>" .
                "<li><a href='regAlumnos.php'>Registro de alumnos</a></li>";
         } else {
-          echo "<li id='instalar_menu'><a href='instalar/instala.php'>Instalador</a></li>";
+          echo "<li><a href='instalar/instalar.php'>Instalador</a></li>";
         }
       ?>
     </ul>

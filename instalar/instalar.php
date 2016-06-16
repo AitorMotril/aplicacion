@@ -88,7 +88,7 @@
         fwrite($confi, "\n". "$" . "urlbase" . " = " . "'$urlbase'" . ";");      
         fwrite($confi, "\n". "$" . "instalar" . " = " . $instalar . ";");
 
-        echo "La aplicación se ha instalado correctamente.";
+        header(("Location: " . $urlbase .  "instalar/instalada.php"));
 
       } else {
         echo "La instalación no se ha producido correctamente.";

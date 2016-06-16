@@ -8,12 +8,7 @@
   <meta charset="utf-8">
   <title>eduGraph! | Gestión de notas y estadísticas</title>
   <base href='<?php echo $urlbase;?>' target='_self'>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" href="img/iconv1.png" type="image/x-icon">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <?php echo $header;?>
 </head>
 <body id="page-top">
   

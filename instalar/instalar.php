@@ -15,6 +15,7 @@
       $dbname = $_POST['db_nombre'];
       $urlbase = "/" . $_POST['urlbase'] . "/";
       $admin_clave = $_POST['admin_clave'];
+      $jefe_clave = $_POST['jefe_clave'];
 
       // Variable de instalación de la aplicación, salta a cero si hay algún error
       $instalar = 1;
@@ -72,7 +73,7 @@
       }
 
       $sql = "INSERT INTO usuarios(login, password, rol, nombre, apellidos)
-              VALUES('jefe', password('jefe'), 'jefe', 'Aitor', 'Igartua');";
+              VALUES('jefe', password('$jefe_clave'), 'jefe', 'Aitor', 'Igartua');";
 
       if (!mysqli_query($conn, $sql)) {
         $instalar = 0;
@@ -98,8 +99,6 @@
       }
 
       mysqli_close($conn);
-
-      echo "<br><em><a href='$urlbase" . "index.php'>Ir a la página principal de la aplicación</a></em>";
       
     }
   }
@@ -111,11 +110,11 @@
   <meta charset="utf-8">
   <title>eduGraph! Instalación</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="icon" href="../img/iconv1.png" type="image/x-icon">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="../script/jquery.min.js"></script>
+  <script src="../bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -157,6 +156,15 @@
           <div class="form-group">
             <label class="control-label">Clave</label>
             <input name="admin_clave" class="form-control" type="password" required placeholder="Clave del Administrador" />
+          </div>
+          <h3>Usuario Jefe de estudios</h3>
+          <div class="form-group">
+            <label class="control-label">Usuario</label>
+            <input class="form-control" type="text" disabled value="Jefe">
+          </div>
+          <div class="form-group">
+            <label class="control-label">Clave</label>
+            <input name="jefe_clave" class="form-control" type="password" required placeholder="Clave del Jefe de estudios" />
           </div>
           <div class="form-group">
             <input name="crear_db" class="btn btn-success" type="submit" value="Instalar">

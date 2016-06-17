@@ -25,7 +25,7 @@
   <!-- Mensaje de error de usuario -->
   <div class="container-fluid text-center">
     <?php 
-      error_form();
+      error_inicio_sesion();
     ?>
   </div>
   

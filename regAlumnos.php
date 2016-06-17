@@ -92,12 +92,20 @@
             echo 
                 "<div class='form-group form-alumnos col-sm-6'>" .
                 "<label class='text-left pull-left'>" . $var . "</label>" .
-                "<input type='text' class='form-control pull-right' value= " . "'$var2'" . " /></div>"
+                "<input type='text' name='" . sanear_string($var) . "' class='form-control pull-right' value= " . "'$var2'" . " /></div>"
             ;
           }
         }
         
         leer_cabeceras();
+        
+        function actualizar_alumno($alumnoid) {
+          
+          global $servername, $username, $password, $dbname, $cursoActivo;
+          $alumnoid = 361237;
+          
+          $conn = mysqli_connect($servername, $username, $password, $dbname);
+        }
         
       ?>
         </form>

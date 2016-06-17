@@ -18,6 +18,52 @@ function checkForm(formulario) {
   return true;
 }
 
+            function rellenaFormulario(arrayDatos)
+            {
+                // alert(arrayDatos['id']);
+                var formulario = document.getElementById("formularioAlumnos");
+                var x; $i = 0;
+                var elemento;
+                for (x in arrayDatos) {
+                    elemento = document.getElementsByName(x)[0];
+                    elemento.value = arrayDatos[x];
+                    if ($i === 2) {   // Le damos el foco al primer elemento
+                        elemento.focus();
+                        $i = 1;
+                    }
+                }
+            }
+            
+            
+//              $query = "SELECT id, alumno, unidad, fecha_nacimiento "
+//                                                . "FROM alumnos_".CURSO_ACTUAL." "
+//                                                . "WHERE unidad='$unidad[unidad]' "
+//                                                . "ORDER BY alumno;";
+//                                        $resul = mysqli_query($GLOBALS['DB_LINK'], $query) or die("Error en la consulta".  mysqli_error($GLOBALS['DB_LINK']));
+//
+//
+//                                        while ($row = mysqli_fetch_array($resul,MYSQLI_ASSOC)) {
+//                                            echo "<tr>";
+//
+//                                            foreach ($row as $valor) {
+//                                                echo"<td>$valor</td>"; 
+//                                            }
+//
+//                                            $consultaAlumno="Select * from alumnos" . $cursoActivo . " where id=$id;";
+//
+//
+//                                            $datosConsultaAlumno=mysqli_query($conn, $consultaAlumno);
+//                                            $datosAlumno= mysqli_fetch_array($datosConsultaAlumno,MYSQLI_ASSOC);
+//                                            echo "<script type='text/javascript'> var array_js_$row[id]=[];";
+//
+//                                            // Creo el array JS con los datos para cada alumno
+//                                            foreach($datosAlumno as $indice => $valor){
+//                                                echo "array_js_$row[id]['$indice'] = '$valor';";
+//                                            }
+//
+//                                            echo "</script>";
+//                                            echo "<td onclick='$(\"#formularioAlumnos\").show();rellenaFormulario(array_js_$row[id]);'> Actualiza</td>";
+//                                            echo "</tr>";
 
 // Cabeceras y pies de página 
 

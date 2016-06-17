@@ -2,12 +2,6 @@
   include_once 'config/config.php';
   include_once 'funciones.php';
 ?>
-<!--<script type="text/javascript">
-  $(document).ready(function () {
-  alert($("li a[href='" + location.href.substring(location.href.lastIndexOf("h/") + 1, 255) + "']").html());
-  $("li a[href='" + location.href.substring(location.href.lastIndexOf("h/") + 1, 255) + "']").parent().addClass("active");
-});
-</script>-->
 <div class="container-fluid">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -25,8 +19,7 @@
           echo "<li><a><strong>Curso: " . $curso . "</strong></a></li>" .
                "<li><a href='documentacion.php'>Guía de uso</a></li>" .
                "<li><a href='admin/admin.php'>Administrador</a></li>" .
-               "<li><a href='jefe/jefe.php'>Jefe de estudios</a></li>" .
-               "<li><a href='regAlumnos.php'>Registro de alumnos</a></li>";
+               "<li><a href='jefe/jefe.php'>Jefe de estudios</a></li>";
         } else {
           echo "<li><a href='instalar/instalar.php'>Instalador</a></li>".
                "<li><a href='documentacion.php'>Guía de uso</a></li>";

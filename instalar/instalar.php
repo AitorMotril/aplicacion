@@ -16,6 +16,8 @@
       $urlbase = "/" . $_POST['urlbase'] . "/";
       $admin_clave = $_POST['admin_clave'];
       $jefe_clave = $_POST['jefe_clave'];
+      
+      echo "<script>$(document).ready(function(){" . "$('#instalacion').hide();});</script>";
 
       // Variable de instalación de la aplicación, salta a cero si hay algún error
       $instalar = 1;
@@ -116,8 +118,26 @@
   <script src="../script/jquery.min.js"></script>
   <script src="../bootstrap/js/bootstrap.min.js"></script>
 </head>
-
 <body>
+<script>
+  $(document).ready(function(){
+    $("#resultado").hide();
+    $("#2").hide();
+    $("#3").hide();
+    $("li a").click(function(){
+      id = $(this).text();
+      for (i=0; i<4; i++) {
+        if (i != id) {
+          $('#' + i).hide();
+          $("a:contains('" + i + "')").parent().removeClass("active");
+        } else {
+          $("a:contains('" + id + "')").parent().addClass("active");
+          $('#' + id).show();
+        }
+      }
+    });
+  });
+</script>
   <div class="jumbotron text-center">
     <img class='pull-left' src='../img/chart.png' alt='eduGraph' />
     <h1>Instalación de <em>edu<span class="graph">Graph!</span></em></h1>
@@ -125,50 +145,69 @@
   <div class="container">
     <div class="row">
       <div class="col-md-2"></div>
-      <div class="col-md-8">
+      <div class="col-md-8" id="resultado"></div>
+      <div class="col-md-8" id="instalacion">
+        <h5 class="text-center">Asegurarse de rellenar todos los campos de todas las páginas o la instalación
+          fallará</h5>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-          <h3>Base de datos MySQL</h3>
-          <div class="form-group">
-            <label class="control-label">Direccion del servidor</label>
-            <input name="db_servidor" class="form-control" type="text" required value="localhost">
+          <div id="1">
+            <h3>Base de datos MySQL</h3>
+            <div class="form-group">
+              <label class="control-label">Direccion del servidor</label>
+              <input name="db_servidor" class="form-control" type="text" required value="localhost">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Usuario</label>
+              <input name="db_usuario" class="form-control" type="text" required placeholder="Usuario de la Base de Datos"> 
+            </div>
+            <div class="form-group">
+              <label class="control-label">Contraseña</label>
+              <input name="db_clave" class="form-control" type="password" required placeholder="Clave del usuario">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Nombre de la base de datos</label>
+              <input name="db_nombre" class="form-control" type="text" required value="edugraph_db">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="control-label">Usuario de la base de datos</label>
-            <input name="db_usuario" class="form-control" type="text" required placeholder="Usuario de la BD"> 
+          <div id="2">
+            <h3>Directorio y datos del instituto</h3>  
+            <div class="form-group">
+              <label class="control-label">Directorio raíz</label>
+              <input name="urlbase" class="form-control" type="text" required value="Direccion raíz de la aplicación sin /">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Nombre del centro</label>
+              <input name="centro" class="form-control" type="text" required value="Nombre del centro">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="control-label">Contraseña del usuario de la base de datos</label>
-            <input name="db_clave" class="form-control" type="password" required placeholder="Clave del usuario">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Nombre de la base de datos</label>
-            <input name="db_nombre" class="form-control" type="text" required value="edugraph_db">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Directorio raíz de la aplicación</label>
-            <input name="urlbase" class="form-control" type="text" required value="Direccion raíz sin /">
-          </div>
+          <div id="3">
           <h3>Usuario Administrador de la Web</h3>
-          <div class="form-group">
-            <label class="control-label">Usuario</label>
-            <input class="form-control" type="text" disabled value="Administrador">
+            <div class="form-group">
+              <label class="control-label">Usuario</label>
+              <input class="form-control" type="text" disabled value="Administrador">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Clave</label>
+              <input name="admin_clave" class="form-control" type="password" required placeholder="Clave del Administrador" />
+            </div>
+            <h3>Usuario Jefe de estudios</h3>
+            <div class="form-group">
+              <label class="control-label">Usuario</label>
+              <input class="form-control" type="text" disabled value="Jefe">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Clave</label>
+              <input name="jefe_clave" class="form-control" type="password" required placeholder="Clave del Jefe de estudios" />
+            </div>
+            <div class="form-group">
+              <input name="crear_db" class="btn btn-success" type="submit" value="Instalar">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="control-label">Clave</label>
-            <input name="admin_clave" class="form-control" type="password" required placeholder="Clave del Administrador" />
-          </div>
-          <h3>Usuario Jefe de estudios</h3>
-          <div class="form-group">
-            <label class="control-label">Usuario</label>
-            <input class="form-control" type="text" disabled value="Jefe">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Clave</label>
-            <input name="jefe_clave" class="form-control" type="password" required placeholder="Clave del Jefe de estudios" />
-          </div>
-          <div class="form-group">
-            <input name="crear_db" class="btn btn-success" type="submit" value="Instalar">
-          </div>
+          <ul class="pagination">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+          </ul>
         </form>
       </div> <!-- end div class md-8 -->
       <div class="col-md-2"></div>

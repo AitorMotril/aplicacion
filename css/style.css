@@ -28,6 +28,10 @@
   color: #000000;
 }
 
+.pagination li a {
+  color: #237906;
+}
+
 a {
   color: #237906;
 }

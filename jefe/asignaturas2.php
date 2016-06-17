@@ -17,12 +17,12 @@
 {
    $.ajax({
      type: 'post',
-     url: 'http://127.0.0.1/eduGraph/jefe/fetch_data.php',
+     url: 'http://127.0.0.1/eduGraph/jefe/fetch_data2.php',
      data: {
        get_option:val
      },
      success: function (response) {
-       document.getElementById("nombres_select").innerHTML=response; 
+       document.getElementById("asignaturas_select").innerHTML=response; 
      }
    });
 }
@@ -68,9 +68,9 @@
     <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/asignaturas.php"  id="formularioCurso" name="formularioAsignaturas">
     <div class="form-group">        
       <label for='subircsv'>Elegir una asignatura para actualizar</label> 
-      <select onchange='fetch_select(this.value);'>
+      <select id="asignaturas_select">
   <?php
-  
+  /*
     $sql_asignatura = "SELECT id_asignatura FROM asignaturas" . $cursoActivo;
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
@@ -86,7 +86,7 @@
      //echo "<option value='" . $value2['id_asignatura'] . "'>" . $value2['id_asignatura'] . "</option>";
      echo "<option>" . $value2['id_asignatura'] . "</option>";
    }
-   
+   */
    ?>
       </select>
       <select id="nombres_select">

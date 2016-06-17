@@ -57,20 +57,20 @@
           if (isset($_POST["activarCursoPrueba"])) {
             
             $cursoPrueba = 1;
-            $datos_prueba = fopen('../prueba_alumnos.csv', 'r');
+            $datos_prueba = fopen('datosPrueba/prueba_alumnos.csv', 'r');
             
             activar_curso($datos_prueba, $cursoPrueba, "Prueba");
             
-            $datos_prueba2 = fopen('../prueba_alumnos.csv', 'r');
+            $datos_prueba2 = fopen('datosPrueba/prueba_alumnos.csv', 'r');
             leer_alumno($datos_prueba2, $cursoPrueba);
   
-            $trim1 = fopen('../prueba_notas_1trimestre.csv', 'r');
+            $trim1 = fopen('datosPrueba/prueba_notas_1trimestre.csv', 'r');
             notas($trim1, "1", $cursoPrueba);
             
-            $trim2 = fopen('../prueba_notas_2trimestre.csv', 'r');
+            $trim2 = fopen('datosPrueba/prueba_notas_2trimestre.csv', 'r');
             notas($trim2, "2", $cursoPrueba);
             
-            $trim3 = fopen('../prueba_notas_3trimestre.csv', 'r');
+            $trim3 = fopen('datosPrueba/prueba_notas_3trimestre.csv', 'r');
             notas($trim3, "3", $cursoPrueba);
           }
           

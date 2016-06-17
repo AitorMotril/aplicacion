@@ -78,16 +78,27 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
     $activar = 0;
     echo "Error al crear la tabla asignaturas: " . mysqli_error($conn) . "<br>";
   }
+  
+  // Crear tabla de evaluaciones
+  $sql = "CREATE TABLE IF NOT EXISTS evaluaciones" . $cursoActivar . " ( "
+          . "id_evaluacion VARCHAR(10) NOT NULL PRIMARY KEY, "
+          . "nombre_evaluacion VARCHAR(255)) ENGINE=InnoDB;";
+
+  if (!mysqli_query($conn, $sql)) {
+    $activar = 0;
+    echo "Error al crear la tabla evaluaciones: " . mysqli_error($conn) . "<br>";
+  }
 
   // Crear tabla de notas
   $sql = "CREATE TABLE IF NOT EXISTS notas" . $cursoActivar . " ( " .
          "N_Id_Escolar VARCHAR(40) NOT NULL,
-         Trimestre VARCHAR(10) NOT NULL,
+         id_evaluacion VARCHAR(10) NOT NULL,
          id_asignatura VARCHAR(10) NOT NULL,
          Nota INT,
          FOREIGN KEY (N_Id_Escolar) REFERENCES alumnos" . $cursoActivar . "(N_Id_Escolar), " .
          "FOREIGN KEY (id_asignatura) REFERENCES asignaturas" . $cursoActivar . "(id_asignatura), " .
-         "PRIMARY KEY (N_Id_Escolar, Trimestre, id_asignatura, Nota) ) ENGINE=InnoDB;";
+         "FOREIGN KEY (id_evaluacion) REFERENCES evaluaciones" . $cursoActivar . "(id_evaluacion), " . 
+         "PRIMARY KEY (N_Id_Escolar, id_evaluacion, id_asignatura, Nota) ) ENGINE=InnoDB;";
 
   if (!mysqli_query($conn, $sql)) {
     $activar = 0;
@@ -352,12 +363,13 @@ function listar_cursos() {
     $cursos[] = $row;
   }
   
-  $html = "<select name='curso'>";
+  $html = "<select name='curso' onchange='fetch_select(this.value);'>";
  
   foreach ($cursos as $value) {
     $curso = $value['id_curso'];
     $nombreCurso = $value['nombre_curso'];
-    $html .= "<option value='$curso'>" . $nombreCurso . "</option>";
+    $html .= "<option>" . $curso . "</option>";
+    //$html .= "<option value='$curso'>" . $nombreCurso . "</option>";
   }
   
   $html .= "</select>";

@@ -76,9 +76,13 @@ $(document).ready(function(){
   $("#toplogo").load("toplogo.php"); 
 });        
     
+$("#nav01").load("nav01.php", function() {
+    $("li a[href='" + location.href.substring(location.href.lastIndexOf("h/") + 1, 255) + "']").parent().addClass("active");
+}); 
+
 $(document).ready(function(){
-  $("#nav01").load("nav01.php"); 
-});        
+$("#sidebar_jefe").load("jefe/menu_jefe.php");
+});
       
 function hideShow(boton, elemento) {
   if (boton.innerHTML ===  "Mostrar") {

@@ -1,6 +1,6 @@
 <?php
-    include_once 'config/config.php';
-    include_once 'funciones.php';
+    include_once '../config/config.php';
+    include_once '../funciones.php';
     protege("jefe" || "administrador");
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,6 @@
 <script>
   $(document).ready(function(){
     $("#formRegAlumnos").hide();
-    //checkForm($("#formRegAlumnos"));
   });
 </script>
   
@@ -34,33 +33,31 @@
     que se van a subir corresponden al curso activo.
     Los campos del formulario manual y de actualización también dependen del curso activo actual.
   </p>
+  <div class="container-fluid well well-sm">
+    <h4>Mediante lectura de un archivo csv Séneca <small><em>Recomendado</em></small></h4>  
+      <form class="form" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
+        <div class="form-group">
+        <input type="file" name="csvalumnos" />
+        </div>
+        <div class="form-group">
+        <button type="submit" class="btn btn-default" value="registro" name="alumnos_csv">Subir</button>
+        </div>
+      </form>
+      <?php
+        if (isset($_POST["alumnos_csv"]) && isset($_FILES["csvalumnos"])) {
 
+          if (!$_FILES["csvalumnos"]["tmp_name"]){
+            $error = "El archivo no llegó al servidor.";
+            echo $error;
+          } 
 
-<div class="container-fluid well well-sm">
-  <h4>Mediante lectura de un archivo csv Séneca <small><em>Recomendado</em></small></h4>  
-    <form class="form" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
-      <div class="form-group">
-      <input type="file" name="csvalumnos" />
-      </div>
-      <div class="form-group">
-      <button type="submit" class="btn btn-default" value="registro" name="alumnos_csv">Subir</button>
-      </div>
-    </form>
-    <?php
-      if (isset($_POST["alumnos_csv"]) && isset($_FILES["csvalumnos"])) {
-                
-        if (!$_FILES["csvalumnos"]["tmp_name"]){
-          $error = "El archivo no llegó al servidor.";
-          echo $error;
-        } 
-        
-        if (($archivo = fopen($_FILES["csvalumnos"]["tmp_name"], "r")) !== FALSE) {
-          leer_alumno($archivo, $cursoActivo);      
+          if (($archivo = fopen($_FILES["csvalumnos"]["tmp_name"], "r")) !== FALSE) {
+            leer_alumno($archivo, $cursoActivo);      
+          }
+
         }
-        
-      }
-    ?>
-</div>
+      ?>
+  </div>
 
 <div class="container-fluid well well-sm">
   <h4>Subir manualmente o actualizar un registro</h4>  

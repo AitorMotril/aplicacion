@@ -25,11 +25,7 @@
   <h3 class="bg-3">Jefe de estudios</h3>
   <div class="row">
     <div class="col-md-2">
-      <div class="list-group" id="sidebar">
-        <a href='jefe/notas.php' class="list-group-item active">Principal jefe de estudios</a>
-        <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
-        <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
-        <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
+      <div class="list-group" id="sidebar_jefe">
       </div>
     </div>
     <div class="col-md-10">

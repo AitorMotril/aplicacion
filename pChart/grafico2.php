@@ -2,6 +2,39 @@
 include("class/pData.class.php");
 include("class/pDraw.class.php");
 include("class/pImage.class.php");
+  include_once '../config/config.php';
+  include '../funciones.php';
+ protege("jefe" || "administrador");
+
+function left($value,$NbChar) {
+    return substr($value,0,$NbChar); 
+}  
+ 
+ function right($value,$NbChar) { 
+     return substr($value,strlen($value)-$NbChar,$NbChar); 
+     
+}  
+ 
+ function mid($value,$Depart,$NbChar) { 
+     return substr($value,$Depart-1,$NbChar); 
+} 
+
+ function extractColors($Hexa) {
+   if ( strlen($Hexa) != 6 ) { 
+       return(array(0,0,0)); 
+   }
+
+   $R = hexdec(left($Hexa,2));
+   $G = hexdec(mid($Hexa,3,2));
+   $B = hexdec(right($Hexa,2));
+
+   return(array($R,$G,$B));
+}
+
+$g_gradient_enabled = $_GET['g_gradient_enabled'];
+$g_gradient_end = $_GET['g_gradient_end'];
+$g_gradient_start = $_GET['g_gradient_start'];
+$g_gradient_direction = $_GET['g_gradient_direction'];
 
 $myData = new pData();
 $myData->addPoints(array(33,13,34,-24,-30,4,3,-11),"Serie1");
@@ -27,9 +60,29 @@ $myPicture = new pImage(700,230,$myData,TRUE);
 $Settings = array("R"=>170, "G"=>183, "B"=>87, "Dash"=>1, "DashR"=>190, "DashG"=>203, "DashB"=>107);
 $myPicture->drawFilledRectangle(0,0,700,230,$Settings);
 
-$Settings = array("StartR"=>219, "StartG"=>231, "StartB"=>139, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
-$myPicture->drawGradientArea(0,0,700,230,DIRECTION_VERTICAL,$Settings);
+//$Settings = array("StartR"=>255, "StartG"=>0, "StartB"=>0, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
+//$myPicture->drawGradientArea(0,0,700,230,DIRECTION_VERTICAL,$Settings);
 
+//if ( $g_gradient_enabled == "on" )
+//  {
+   list($StartR,$StartG,$StartB) = extractColors($g_gradient_start);
+   list($EndR,$EndG,$EndB)       = extractColors($g_gradient_end);
+
+   $Settings = array("StartR"=>$StartR, "StartG"=>$StartG, "StartB"=>$StartB, "EndR"=>$EndR, "EndG"=>$EndG, "EndB"=>$EndB, "Alpha"=>50);
+
+//     if ( $g_gradient_direction == "vertical" ) {
+      
+//     } 
+//     else {
+//      $myPicture->drawGradientArea(0,0,700,230,DIRECTION_HORIZONTAL,$Settings);
+//     }
+//  }
+//  } else {
+//    $Settings = array("StartR"=>219, "StartG"=>231, "StartB"=>139, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
+//$myPicture->drawGradientArea(0,0,700,230,DIRECTION_VERTICAL,$Settings);
+//  }
+
+$myPicture->drawGradientArea(0,0,700,230,DIRECTION_VERTICAL,$Settings);
 $myPicture->drawRectangle(0,0,699,229,array("R"=>0,"G"=>0,"B"=>0));
 
 $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>50,"G"=>50,"B"=>50,"Alpha"=>20));

@@ -2,6 +2,8 @@
   include_once 'config/config.php';
   include_once 'funciones.php';
 ?>
+
+
 <div class="container-fluid">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -14,8 +16,8 @@
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
       <?php 
-        if (check_install()) {
-          $curso = check_curso(true);
+        if (check_install_db()) {
+          $curso = check_curso_db(true);
           echo "<li><a><strong>Curso: " . $curso . "</strong></a></li>" .
                "<li><a href='documentacion.php'>Guía de uso</a></li>" .
                "<li><a href='admin/admin.php'>Administrador</a></li>" .

@@ -7,6 +7,14 @@
   padding-top: 70px;
 }
 
+#asignaturas_select:focus { 
+      height: 6em; 
+}
+
+#alumnos_select2:focus { 
+      height: 6em; 
+}
+
 .form-alumnos {
   padding-bottom: 10px;
 }

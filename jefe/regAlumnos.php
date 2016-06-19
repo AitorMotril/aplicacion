@@ -28,6 +28,17 @@
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
   <h3 class="bg-3">Registro de Alumnos <?php $curso = check_curso(true); echo "curso: " . $curso;?></h3>
+    <div class="row">
+    <div class="col-md-2">
+      <div class="list-group" id="sidebar">
+        <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
+        <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
+        <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
+        <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item active">Registrar alumnos</a>
+      </div>
+    </div>
+       <div class="col-md-10">
   <p>
     Formulario para el registro de alumnos, asegurarse de que los datos de los alumnos
     que se van a subir corresponden al curso activo.
@@ -35,7 +46,7 @@
   </p>
   <div class="container-fluid well well-sm">
     <h4>Mediante lectura de un archivo csv Séneca <small><em>Recomendado</em></small></h4>  
-      <form class="form" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="regAlumnos.php">
+      <form class="form" role="form" name="subircsv" method="POST" enctype="multipart/form-data" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
         <div class="form-group">
         <input type="file" name="csvalumnos" />
         </div>
@@ -52,7 +63,7 @@
           } 
 
           if (($archivo = fopen($_FILES["csvalumnos"]["tmp_name"], "r")) !== FALSE) {
-            leer_alumno($archivo, $cursoActivo);      
+            leer_alumno($archivo, $cursoActivo, true);      
           }
 
         }
@@ -107,6 +118,8 @@
       ?>
         </form>
   </div>
+</div>
+    </div>
 </div>
 
 <!-- Pie de página -->

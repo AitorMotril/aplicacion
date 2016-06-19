@@ -13,19 +13,47 @@
 </head>
 <body>
   <script type="text/javascript">
-  function fetch_select(val)
+      function fetch_asignaturas(val)
 {
    $.ajax({
      type: 'post',
-     url: 'http://127.0.0.1/eduGraph/jefe/fetch_data.php',
+     url: 'jefe/fetch_asignaturas.php',
      data: {
        get_option:val
      },
      success: function (response) {
-       document.getElementById("nombres_select").innerHTML=response; 
+       document.getElementById("select_asignaturas").innerHTML=response; 
      }
    });
 }
+
+  function fetch_nombre_asignaturas(val)
+{
+   $.ajax({
+     type: 'post',
+     url: 'jefe/fetch_nombre_asignaturas.php',
+     data: {
+       get_option:val
+     },
+     success: function (response) {
+       document.getElementById("nombres_select").value=response; 
+     }
+   });
+}
+
+  function fetch_area_competencial(val)
+  {
+    $.ajax({
+      type: 'post',
+      url: 'jefe/fetch_area_competencial.php',
+      data: {
+        get_option:val
+      },
+      success: function (response) {
+        document.getElementById("area_competencial").value=response;
+      }
+    });
+  }
 </script>
   
 <!-- Cabecera con la imagen de logo y el lema de la página -->
@@ -38,72 +66,52 @@
 <div class="container-fluid">
   <h3 class="bg-3">Gestión de asignaturas</h3>
   <div class="row">
-        <div class="col-md-2">
+    <div class="col-md-2">
       <div class="list-group" id="sidebar">
-        <a href='jefe/notas.php' class="list-group-item">Principal jefe de estudios</a>
+        <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
         <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
         <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
         <a href="jefe/asignaturas.php" class="list-group-item active">Gestión de asignaturas</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
       </div>
     </div>
-  
   <div class="col-md-10">  
     <div class="container-fluid well well-sm">
       <h4>Asignaturas</h4> 
-  <p>
-    Gestionar las asignaturas existentes para cada curso, añadirles nombre completo así como áreas competenciales.
-  </p>
-    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/asignaturas.php"  id="elegirCurso" name="elegirCurso">
-      <?php
-        listar_cursos();
-      ?>
-      <button type="submit" class="btn btn-default" name="cursoElegido" value="entrar">Subir</button>
-    </form>
-    <?php
-      if (isset($_POST["cursoElegido"])) {
-        $cursoActivo = $_POST['curso'];
-        echo $cursoActivo;
-      }
-    ?>
-    <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="jefe/asignaturas.php"  id="formularioCurso" name="formularioAsignaturas">
-    <div class="form-group">        
-      <label for='subircsv'>Elegir una asignatura para actualizar</label> 
-      <select onchange='fetch_select(this.value);'>
-  <?php
-  
-    $sql_asignatura = "SELECT id_asignatura FROM asignaturas" . $cursoActivo;
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-    
-    $arrays_a = array();
-    $result_a = mysqli_query($conn, $sql_asignatura);
-       
-    while ($row2 = mysqli_fetch_array($result_a, MYSQLI_ASSOC)) {
-      $arrays_a[] = $row2;
-    }
-   
-   
-   foreach ($arrays_a as $value2) {
-     //echo "<option value='" . $value2['id_asignatura'] . "'>" . $value2['id_asignatura'] . "</option>";
-     echo "<option>" . $value2['id_asignatura'] . "</option>";
-   }
-   
-   ?>
-      </select>
-      <select id="nombres_select">
-      </select>
-      <input type="text" name="nombre_completo" placeholder="Nombre completo de la asignatura"/>
-      <input type="text" name="area_competencial" placeholder="Area competencial de la asignatura"/>
-    </div>
-    <button type="submit" class="btn btn-default" name="grafico" value="entrar">Subir</button>
-  </form>
-        <?php
-    if (isset($_POST["grafico"])) {
-            $asignatura2 = $_POST['asignatura2'];
+      <p>
+        Gestionar las asignaturas existentes para cada curso, añadirles nombre completo así como áreas competenciales.
+      </p>
+      <form class="form" role="form" method="post" enctype="multipart/form-data" action="jefe/asignaturas.php"  id="formularioCurso" name="formularioAsignaturas">
+        <div class="form-group">  
+          <label for='curso'>Seleccionar un curso</label> 
+          <select name='curso' onchange='fetch_asignaturas(this.value);'>
+            <?php
+              listar_cursos();
+            ?>
+          </select>
+        </div>
+        <div class="form-group">        
+          <label for='id_asignatura'>Elegir una asignatura para actualizar</label> 
+          <select id='select_asignaturas' name='id_asignatura' onchange='fetch_nombre_asignaturas(this.value);fetch_area_competencial(this.value);'>
+          </select>
+          <input type="text" id="nombres_select" name="nombre_completo" placeholder="Nombre completo de la asignatura"/>
+          <input type="text" id="area_competencial" name="area_competencial" placeholder="Area competencial de la asignatura"/>
+        </div>
+        <div class="form-group">   
+          <button type="submit" class="btn btn-default" name="ac_asignaturas" value="entrar">Subir</button>
+        </div>
+      </form>
+              <?php
+    if (isset($_POST["ac_asignaturas"])) {
+      
+            $conn = mysqli_connect($servername, $username, $password, $dbname);
+            $cursoActivo = $_POST['curso'];
+            $asignatura2 = $_POST['id_asignatura'];
             $nombre_completo = $_POST['nombre_completo'];
             $area_competencial = $_POST['area_competencial'];
             $sql_asig = "UPDATE asignaturas" . $cursoActivo . " SET nombre_completo = " 
                     . "'$nombre_completo'" . ", area_competencial = " . "'$area_competencial'" 
-                      . " WHERE asignaturas" .  $cursoActivo . ".id_asignatura = " . "'$asignatura2'" . ";";
+                      . " WHERE id_asignatura = " . "'$asignatura2'" . ";";
          
             $result = mysqli_query($conn, $sql_asig);
 
@@ -117,15 +125,16 @@
             
             
   ?>
+    </div>
+  </div>
+
   </div>
 </div>
-    </div>
   
     
 
 
   
-</div>
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>
 <script src="script/javascript.js"></script>

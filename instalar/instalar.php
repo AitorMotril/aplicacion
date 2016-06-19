@@ -1,9 +1,25 @@
 <?php
   include_once '../funciones.php';
   include_once '../config/config.php';
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>eduGraph! Instalación</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="../img/iconv1.png" type="image/x-icon">
+  <script src="../script/jquery.min.js"></script>
+  <script src="../bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<?php
   $confi = fopen("../config/config.php", "a") or die("Unable to open file!");
   
-  if (check_install()) {
+  if (check_install_db()) {
     header(("Location: " . $urlbase .  "instalar/instalada.php"));
   } else {
   
@@ -17,7 +33,7 @@
       $admin_clave = $_POST['admin_clave'];
       $jefe_clave = $_POST['jefe_clave'];
       
-      echo "<script>$(document).ready(function(){" . "$('#instalacion').hide();});</script>";
+//      echo "<script>$(document).ready(function(){" . "$('#instalacion').hide();});</script>";
 
       // Variable de instalación de la aplicación, salta a cero si hay algún error
       $instalar = 1;
@@ -66,7 +82,7 @@
         echo "Error al crear la tabla de cursos: " . mysqli_error($conn) . "<br>";
       }
 
-      $sql = "INSERT INTO usuarios(login, password, rol, nombre, apellidos)
+      $sql = "INSERT IGNORE INTO usuarios(login, password, rol, nombre, apellidos)
               VALUES('administrador', password('$admin_clave'), 'administrador', 'Aitor', 'Igartua');";
 
       if (!mysqli_query($conn, $sql)) {
@@ -74,27 +90,61 @@
         echo "Error creando el usuario administrador: " . mysqli_error($conn) . "<br>";
       }
 
-      $sql = "INSERT INTO usuarios(login, password, rol, nombre, apellidos)
+      $sql = "INSERT IGNORE INTO usuarios(login, password, rol, nombre, apellidos)
               VALUES('jefe', password('$jefe_clave'), 'jefe', 'Aitor', 'Igartua');";
 
       if (!mysqli_query($conn, $sql)) {
         $instalar = 0;
         echo "Error creando el usuario jefe: " . mysqli_error($conn) . "<br>";
       }
+      
+      $sql = "CREATE TABLE IF NOT EXISTS conf (installed BOOLEAN NOT NULL DEFAULT FALSE," .
+              " cursoActivo INT NOT NULL," .
+              " nombreCursoActivo VARCHAR(20) NOT NULL," .
+              " cursoPrueba BOOLEAN NOT NULL," . 
+              " nombreCursoPrueba VARCHAR(20) NOT NULL," .
+              " PRIMARY KEY (installed)) ENGINE = InnoDB;";
+      
+      if (!mysqli_query($conn, $sql)) {
+        $instalar = 0;
+        echo "Error creando la tabla de configuración: " . mysqli_error($conn) . "<br>";
+      }
+      
+      
+      $sql = "CREATE TABLE IF NOT EXISTS plantillas (" .
+              " nombre VARCHAR(40) NOT NULL PRIMARY KEY," .
+              " tipo_grafico VARCHAR(40)," .
+              " paleta VARCHAR(40)," .
+              " gradiente VARCHAR(10)," .
+              " direccion VARCHAR(40)," .
+              " color_inicio VARCHAR(7)," .
+              " color_fin VARCHAR(7)," .
+              " altura INT," .
+              " anchura INT," .
+              " valores VARCHAR(10)) ENGINE = InnoDB;";
+              
+      if (!mysqli_query($conn, $sql)) {
+        $instalar = 0;
+        echo "Error creando la tabla de plantillas de diseño: " . mysqli_error($conn) . "<br>";
+      }
+      
 
       if ($instalar == 1) {
 
-        fwrite($confi, "\n". "$" . "servername" . " = " . "'$servername'" . ";");
+        fwrite($confi, "\n" . "$" . "servername" . " = " . "'$servername'" . ";");
         fwrite($confi, "\n". "$" . "username" . " = " . "'$username'" . ";");
         fwrite($confi, "\n". "$" . "password" . " = " . "'$password'" . ";");
         fwrite($confi, "\n". "$" . "dbname" . " = " . "'$dbname'" . ";");
         fwrite($confi, "\n". "$" . "urlbase" . " = " . "'$urlbase'" . ";");      
         fwrite($confi, "\n". "$" . "instalar" . " = " . $instalar . ";");
+        
+        $sql = "INSERT INTO conf(installed) VALUES (1);";
+        mysqli_query($conn, $sql);
 
-        header(("Location: " . $urlbase .  "instalar/instalada.php"));
+        echo "<script>$('#instalacion').html() = 'Instalación completada.'</script>";
 
       } else {
-        echo "La instalación no se ha producido correctamente.";
+        echo "<script>$('#instalacion').html() = 'La instalación no se ha producido correctamente.'</script>";
 
         $sql = "DROP DATABASE $dbname";
         mysqli_query($conn, $sql);
@@ -105,20 +155,6 @@
     }
   }
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <title>eduGraph! Instalación</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="icon" href="../img/iconv1.png" type="image/x-icon">
-  <script src="../script/jquery.min.js"></script>
-  <script src="../bootstrap/js/bootstrap.min.js"></script>
-</head>
-<body>
 <script>
   $(document).ready(function(){
     $("#resultado").hide();

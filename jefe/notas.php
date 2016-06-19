@@ -12,6 +12,21 @@
   <?php echo $header;?>
 </head>
 <body>
+<script>
+  function fetch_evaluaciones(val)
+{
+   $.ajax({
+     type: 'post',
+     url: 'jefe/fetch_evaluaciones.php',
+     data: {
+       get_option:val
+     },
+     success: function (response) {
+       document.getElementById("evaluaciones").innerHTML+=response; 
+     }
+   });
+}
+</script>
   
 <!-- Cabecera con la imagen de logo y el lema de la página -->
 <div class="container-fluid clearfix" id="toplogo"></div>
@@ -29,6 +44,7 @@
         <a href='jefe/notas.php' class="list-group-item active">Subir notas</a>
         <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
         <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
       </div>
     </div>
     <div class="col-md-10">  
@@ -43,16 +59,13 @@
         </p>
         <form role="form" method="post" enctype="multipart/form-data" action="jefe/notas.php"  name="formularioCurso">
           <div class="form-group">
-            <?php
-              listar_cursos();
-            ?>
-          </div>
-          <div class="form-group">
+            <select name="curso" onchange='fetch_evaluaciones(this.value);'>
+              <?php
+                listar_cursos();
+              ?>
+            </select>
             <input name="trimestre" list="evaluaciones" placeholder="Evaluación"/>
             <datalist id="evaluaciones">
-              <option value="1">Primer Trimestre</option>
-              <option value="2">Segundo Trimestre</option>
-              <option value="3">Tercer Trimestre</option>
             </datalist>
           </div>
           <div class="form-group">        
@@ -74,7 +87,7 @@
             if (($archivo = fopen($_FILES["notascsv"]["tmp_name"], "r")) !== FALSE) {
               $trimestre = $_POST["trimestre"];
               $curso = $_POST["curso"];
-              notas($archivo, $trimestre, $curso);      
+              notas($archivo, $trimestre, $curso, true);      
             }
           }
         ?>

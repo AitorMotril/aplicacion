@@ -1,6 +1,7 @@
 <?php
 include_once 'config/config.php';
 
+
 /* Funcion activar_curso($file)
  * A partir de leer un archivo csv con los datos de un alumno, activa un curso
  * args: $file archivo abierto, $cursoActivar identificador del curso con el que
@@ -88,6 +89,16 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
     $activar = 0;
     echo "Error al crear la tabla evaluaciones: " . mysqli_error($conn) . "<br>";
   }
+  
+  // Insertar datos de los tres trimestres principales
+  $sql = "INSERT IGNORE INTO evaluaciones" . $cursoActivar . " VALUES (1, 'Primer Trimestre')," .
+          " (2, 'Segundo Trimestre'), (3, 'Tercer Trimestre');";
+  
+  if (!mysqli_query($conn, $sql)) {
+    $activar = 0;
+    echo "Error al insertar los datos de los trimestres: " . mysqli_error($conn) . "<br>";
+  }
+          
 
   // Crear tabla de notas
   $sql = "CREATE TABLE IF NOT EXISTS notas" . $cursoActivar . " ( " .
@@ -136,6 +147,8 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
     
     if ($cursoActivar != 1) { //si $cursoActivar no es el de prueba
       //crear archivo dentro de conf con los datos del cursoActivo
+      $sql = "UPDATE conf SET cursoActivo = " . "$cursoActivar" . ", nombreCursoActivo = " . "'$nombreCursoActivar'" . " WHERE installed = 1;";
+      mysqli_query($conn, $sql);
       $conf = fopen('../config/cursoActivo.php', 'w+');
       fwrite($conf, "<?php\n");
       fwrite($conf, "$" . "cursoActivo" . " = " . $cursoActivar . ";");
@@ -143,6 +156,8 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
       fclose($conf);
     } else {
       //si se está activando el curso de prueba, crear archivo cursoPrueba.php
+      $sql = "UPDATE conf SET cursoPrueba = " . "$cursoActivar" . ", nombreCursoPrueba = " . "'$nombreCursoActivar'" . " WHERE installed = 1;";
+      mysqli_query($conn, $sql);
       $conf = fopen('../config/cursoPrueba.php', 'w+');
       fwrite($conf, "<?php\n");
       fwrite($conf, "$" . "cursoPrueba" . " = " . $cursoActivar . ";");
@@ -189,6 +204,44 @@ function check_curso($display) {
   return $result;
 } // ./ end check_curso($display)
 
+function check_curso_db($display) {
+  
+  global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  $sql = "SELECT * FROM conf WHERE installed = 1";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+  $cursoActivo = $row['cursoActivo'];
+  $nombreCursoActivo = $row['nombreCursoActivo'];
+  $cursoPrueba = $row['cursoPrueba'];
+  $nombreCursoPrueba = $row['nombreCursoPrueba'];
+  
+  if ($cursoActivo && $nombreCursoActivo) {
+    if ($display) {
+      $result = $nombreCursoActivo;
+    } else {
+      $result = true;
+    }
+  } elseif ($cursoPrueba && $nombreCursoPrueba) {
+    if ($display) {
+      $result = $nombreCursoPrueba;
+    } else {
+      $result = true;
+    }
+  } else {
+    if ($display) {
+      $result = "Sin curso activado";
+    } else {
+      $result = false;
+    }
+  }
+  
+  return $result;
+} // ./ end check_curso($display)
+
+
 
 /* Funcion check_install()
  * Verificar si la aplicación está instalada o no
@@ -203,6 +256,26 @@ function check_install() {
   return $result;
 }
 
+
+function check_install_db() {
+  $sql = "SELECT COUNT(installed) FROM conf" .
+          " WHERE installed = 1;";
+  global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_array($result, MYSQLI_NUM);
+  
+  if ($row[0] == 1) {
+//    echo "Instalada";
+    $value = true;
+  } else {
+//    echo "No instalada";
+    $value = false;
+  }
+  return $value;
+  
+}
 
 /*Funcion check_sesion()
  * Comprobar si está iniciada o no la sesión,
@@ -266,8 +339,9 @@ function error_inicio_sesion() {
 /* Funcion leer_alumnos($file)
  * A partir de un fichero csv lee datos de uno o varios alumnos
  * args: $file, un archivo, $curso al que pertenecen los alumnos
+ *  $log booleano sobre si debe o no mostar mensaje de éxito
  * return: inserta los datos en la base de datos */
-function leer_alumno($file, $curso) {
+function leer_alumno($file, $curso, $log) {
   
   global $servername, $username, $password, $dbname;    
   $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -303,9 +377,13 @@ function leer_alumno($file, $curso) {
   
   if (!mysqli_query($conn, $sql)) {
     echo "Error al insertar el alumno " . mysqli_error($conn) . "<br>";
+  } else {
+    if ($log) {
+      echo "Alumno(s) insertado(s) correctamente en la base de datos.";
+    }
   }
       
-} // ./ end leer_alumno($file)
+} // ./ end leer_alumno($file, $curso)
 
 
 /* Funcion listar_asignaturas($curso, $multiple)
@@ -313,16 +391,20 @@ function leer_alumno($file, $curso) {
  * args: $curso deseado, $multiple, booleano sobre si el select sea o no multiple
  * return: select html con los datos de las asignaturas,
  *  nombre completo si lo tienen, si no el id sólo */
-function listar_asignaturas($curso, $multiple) {
+function listar_asignaturas($curso, $nombre) {
   
   global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
   //coge el id cuando no tenga nombre completo asignado, y si lo tiene el nombre
+  if ($nombre) {
   $sql = "SELECT id_asignatura FROM asignaturas" . $curso .
          " WHERE nombre_completo = '' OR nombre_completo IS NULL" .
          " UNION SELECT nombre_completo FROM asignaturas" . $curso .
          " WHERE nombre_completo IS NOT NULL AND nombre_completo <> ''";
+  } else {
+    $sql = "SELECT id_asignatura FROM asignaturas" . $curso;
+  }
         
   $asignaturas = array();
   $result = mysqli_query($conn, $sql);
@@ -331,18 +413,33 @@ function listar_asignaturas($curso, $multiple) {
     $asignaturas[] = $row;
   }
          
-  if ($multiple) {
-    $html = "<select name='asignatura[]' multiple>";
-  } else {
-    $html = "<select name='asignatura'>";
-  }
+//  if ($multiple) {
+//    $html = "<select name='asignatura[]' multiple>";
+//  } else {
+//    $html = "<select id='select_asignaturas' name='id_asignatura[]' multiple onchange='fetch_nombre_asignaturas(this.value);fetch_area_competencial(this.value);'>";
+//  }
   
+  $html = "";
+  
+  if ($nombre) {
   foreach ($asignaturas as $value) {
     $asignatura = $value['id_asignatura'];
-    $html .= "<option value='$asignatura'>" . $value . "</option>";
+    $nombreexiste = $value['nombre_completo'];
+    if ($nombreexiste) {
+    $html .= "<option value='$asignatura'>" . $nombreexiste . "</option>";
+    } else {
+    $html .= "<option value='$asignatura'>" . $asignatura . "</option>";  
+    }
+  } 
+  } else {
+    foreach ($asignaturas as $value) {
+      $asignatura = $value['id_asignatura'];
+//      $html .= "<option value='$asignatura'>" . $asignatura . "</option>";
+      $html .= "<option value='$asignatura'>" . $asignatura . "</option>";
+    }
   }
+    
   
-  $html .= "</select>";
   echo $html;        
 }
 
@@ -363,7 +460,7 @@ function listar_cursos() {
     $cursos[] = $row;
   }
   
-  $html = "<select name='curso' onchange='fetch_select(this.value);'>";
+  $html = "<option>Elegir curso(s)</option>";
  
   foreach ($cursos as $value) {
     $curso = $value['id_curso'];
@@ -372,7 +469,58 @@ function listar_cursos() {
     //$html .= "<option value='$curso'>" . $nombreCurso . "</option>";
   }
   
-  $html .= "</select>";
+  echo $html;
+}
+
+
+/* Funcion listar_evaluaciones($curso)
+ * Busca las evaluaciones de un curso en la BD y loas devuelve en un select
+ * args: $curso deseado
+ * return: select html con los nombres de las evaluaciones */
+function listar_evaluaciones($curso) {
+  
+  global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  $sql = "SELECT nombre_evaluacion FROM evaluaciones" . $curso . ";";
+  $evaluaciones = array();
+  $result = mysqli_query($conn, $sql);
+
+  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $evaluaciones[] = $row;
+  }
+  
+  $html = "";
+
+  foreach($evaluaciones as $value) {
+    $html .= "<option>" . $value['nombre_evaluacion'] . "</option>";
+  }
+  
+  echo $html;
+}
+
+
+/* Funcion listar_plantillas()
+ * Busca los nombres de las plantillas que existen en la BD y los devuelve en un select
+ * return: select html con las plantillas */
+function listar_plantillas() {
+  
+  global $servername, $username, $password, $dbname;
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  $sql = "SELECT nombre FROM plantillas";
+  $plantillas = array();
+  $result = mysqli_query($conn, $sql);
+  
+  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $plantillas[] = $row;
+  }
+ 
+  foreach ($plantillas as $value) {
+    $plantilla = $value['nombre'];
+    $html .= "<option>" . $plantilla. "</option>";
+  }
+  
   echo $html;
 }
 
@@ -389,13 +537,10 @@ function listar_graficos() {
       "Gráfido de área stacked"=>"drawStackedAreaChart"
   );
   
-  $html = "<select name='tipo'>";
-  
   foreach ($graficos as $key => $value) {
     $html .= "<option value='$value'>" . $key . "</option>";
   }
   
-  $html .= "</select>";
   echo $html;
 }
 
@@ -410,13 +555,11 @@ function listar_paletas() {
       "Sombras"=>"shade", "Primavera"=>"spring", "Verano"=>"summer", "Luminosa"=>"light"
   );
   
-  $html = "<select name='paleta'>";
   
   foreach ($paletas as $key => $value) {
     $html .= "<option value='$value'>" . $key . "</option>";
   }
   
-  $html .= "</select>";
   echo $html;
   
 }
@@ -427,12 +570,12 @@ function listar_paletas() {
  * args: $curso deseado, $grupo de los alumnos, 
  *  $multiple, booleano sobre si el select sea o no multiple
  * return: select html con los nombres de los alumnos */
-function listar_alumnos($curso, $grupo, $multiple) {
+function listar_alumnos($curso) {
   
   global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
-  $sql = "SELECT Alumnoa, N_Id_Escolar FROM alumnos" . $curso . " WHERE Curso = '" . $grupo . "';";
+  $sql = "SELECT Alumnoa, N_Id_Escolar FROM alumnos" . $curso . ";";
   $alumnos = array();
   $result = mysqli_query($conn, $sql);
 
@@ -440,33 +583,36 @@ function listar_alumnos($curso, $grupo, $multiple) {
     $alumnos[] = $row;
   }
   
-  if ($multiple) {
-    $html = "<select name='alumno[]' multiple>";
-  } else {
-    $html = "<select name='alumno'>";
-  } 
+//  if ($multiple) {
+//    $html = "<select name='alumno[]' multiple>";
+//  } else {
+//    $html = "<select name='alumno'>";
+//  } 
+  
+  $html = "";
 
   foreach($alumnos as $value) {
-    $html .= "<option value='" . $value['N_Id_Escolar'] . "'>" . $value['Alumnoa'] . "</option>";
+//    $html .= "<option value='" . $value['N_Id_Escolar'] . "'>" . $value['Alumnoa'] . "</option>";
+    $html .= "<option>" . $value['Alumnoa'] . "</option>";
   }
   
-  $html .= "</select>";
   echo $html;
 }
 
 
-/* Funcion notas($file, $trimestre, $curso)
+/* Funcion notas($file, $trimestre, $curso, $log)
  * a partir de leer un archivo csv, sube notas a la base de datos
  * args: $file archivo, $trimestre de las notas, $curso del que son las notas
+ *  $log booleano sobre si debe o no mostar mensaje de éxito
  * return: subir las notas a la base de datos, y además insertar en la tabla
  *  de asignaturas todas las que sean nuevas */
-function notas($file, $trimestre, $curso) {
+function notas($file, $trimestre, $curso, $log) {
   
   global $servername, $username, $password, $dbname;
   $conn = mysqli_connect($servername, $username, $password, $dbname);
   
   $sql_asignaturas = "INSERT IGNORE INTO asignaturas" . $curso . " (id_asignatura) VALUES ";
-  $sql_notas = "INSERT IGNORE INTO notas" . $curso . " (N_Id_Escolar, Trimestre, id_asignatura, Nota) VALUES ";
+  $sql_notas = "INSERT IGNORE INTO notas" . $curso . " (N_Id_Escolar, id_evaluacion, id_asignatura, Nota) VALUES ";
   
   $asignatura = array();
   $cabecerasEncontradas = FALSE; //fijamos el control de encontrar la cabecera
@@ -495,35 +641,37 @@ function notas($file, $trimestre, $curso) {
         }
 
       } 
-    } else { //si cabecerasEncontradas = TRUE
-
+    } elseif ($datos[0] <> '') { //si cabecerasEncontradas = TRUE
+      
       $arrlength = count($datos);
+      $alumno = $datos[0];
+      
+      /* Propuesta de mejora: Aquí hace el SELECT más veces de las necesarias,
+      ** mejorar a que sólo lo haga una vez para cada alumno distinto... */
+      $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $curso . 
+                    " WHERE Alumnoa = " . "'$alumno'" . ";";
+            
+      $result = mysqli_query($conn, $sql_alumno);
+      $row = mysqli_fetch_array($result, MYSQLI_NUM);
+      $alumnoid = $row[0];  
+      
+      if (!($alumnoid)) {
+        echo "El alumno " . $alumno . " no está en la base de datos, " .
+              "insertar sus datos primero.";
+       $fallo = 1;
+      }
+      
+      for ($x = 1; $x < $arrlength; $x++) {
 
-      for ($x = 0; $x < $arrlength; $x++) {
-
-        $alumno = $datos[0];
-        $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $curso . 
-                      " WHERE Alumnoa = " . "'$alumno'" . ";";
-
-        $result = mysqli_query($conn, $sql_alumno);
-        $row = mysqli_fetch_array($result, MYSQLI_NUM);
-        $alumnoid = $row[0];  
-
-        if (!$alumnoid) {
-          echo "El alumno " . $alumno . " no está en la base de datos, " .
-               "insertar sus datos primero.";
-          $fallo = 1;
+        $var = $datos[$x];
+        $as = $asignatura[$x-1];
+        
+        if ($var) { //insertar sólo si hay notas
+          $sql_notas .= "('$alumnoid', '$trimestre', '$as', '$var'),";
         }
-
-        if ($x > 0) {
-          $var = $datos[$x];
-          $as = $asignatura[$x-1];
-          if ($var) { //insertar sólo si hay notas
-            $sql_notas .= "('$alumnoid', '$trimestre', '$as', '$var'),";
-          }
-        }
-
       } // ./ end bucle for de lectura
+
+      
     } // ./ end else 
   } // ./ end bucle while
   
@@ -532,7 +680,9 @@ function notas($file, $trimestre, $curso) {
   
   if (!$fallo) {
     if (mysqli_query($conn, $sql_notas)) {
-      echo "Las notas se han insertado correctamente o ya existían<br>";
+      if ($log) {
+        echo "Las notas se han insertado correctamente o ya existían<br>";
+      }
     } else {
       echo "Error al insertar las notas: " . mysqli_error($conn) . "<br>";
     }

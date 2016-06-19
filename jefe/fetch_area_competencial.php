@@ -7,16 +7,13 @@ include_once '../config/config.php';
            
      $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-      
-
-     $curso_id = $_POST['get_option'];
-     $sql = "SELECT id_asignatura FROM asignaturas" . $curso_id;
+     $asignatura_id = $_POST['get_option'];
+     $sql = "select area_competencial from asignaturas1 where id_asignatura='$asignatura_id'";
      $result = mysqli_query($conn, $sql);
 
      while($row=mysqli_fetch_array($result))
      {
-       echo $row['id_asignatura'];
-       echo "<option>".$row['id_asignatura']."</option>";
+       echo $row['area_competencial'];
      }
    
      exit;

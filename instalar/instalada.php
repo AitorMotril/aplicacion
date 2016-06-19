@@ -27,10 +27,10 @@
         echo "La aplicación ya está instalada y configurada." . "<br><br>";
         if (!check_curso()) {
           echo "Ahora se recomienda <a href='admin/activar.php'>activar un curso</a> con datos reales, " .
-                "o el <a href='admin/prueba.php'>curso de prueba</a>";
+                "o el <a href='admin/prueba.php'>curso de prueba</a>.";
         } else {
           echo "Ya hay un curso activo, ahora el <a href='jefe/jefe.php'>jefe de estudios</a> "
-          . "puede proceder a introducir notas y realizar gráficos y estadísticas";
+          . "puede proceder a introducir notas y realizar gráficos y estadísticas.";
         }
       } 
     ?>

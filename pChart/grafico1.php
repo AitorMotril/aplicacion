@@ -55,19 +55,23 @@ function left($value,$NbChar) {
 $temp=$_SESSION['tmp'];
 //$leyenda1 = $_GET['asignatura'];
 $alumnof = $_GET['alumno'];
-$asignaturas = $temp['asignatura'];
+$asignaturas = $temp['asignaturas'];
 $title = $temp['alumno'];
-$dibujo = $_GET['dibujo'];
-$p_template = $_GET['paleta'];
-$g_gradient_enabled = $_GET['g_gradient_enabled'];
-$g_gradient_end = $_GET['g_gradient_end'];
-$g_gradient_start = $_GET['g_gradient_start'];
-$g_gradient_direction = $_GET['g_gradient_direction'];
-$g_width = $_GET['g_width'];
-$g_height = $_GET['g_height'];
+$dibujo = $_GET['d'];
+$p_template = $_GET['p'];
+$g_gradient_enabled = $_GET['g_en'];
+$g_gradient_end = $_GET['g_e'];
+$g_gradient_start = $_GET['g_s'];
+$g_direction = $_GET['g_d'];
+$g_width1 = $_GET['g_an'];
+$cursoActivo = $_GET['curso'];
+$g_height1 = $_GET['g_al'];
+$g_width = (int)$g_width1;
+$g_height = (int)$g_height1;
    
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+$series = array();
 foreach ($asignaturas as $key => $value) {
 
 $sql = "SELECT Nota FROM notas" . $cursoActivo . " WHERE N_Id_Escolar = $alumnof 
@@ -109,9 +113,9 @@ function series($arary_serie, $sql) {
 
 $myData = new pData();
 
-if ($p_template != "default" ) {
-  $myData->loadPalette("palettes/".$p_template.".color",TRUE);
-}
+//if ($p_template != "default" ) {
+//  $myData->loadPalette("palettes/".$p_template.".color",TRUE);
+//}
 
 
   
@@ -158,11 +162,11 @@ if ( $g_gradient_enabled == "on" )
 
    $Settings = array("StartR"=>$StartR,"StartG"=>$StartG,"StartB"=>$StartB,"EndR"=>$EndR,"EndG"=>$EndG,"EndB"=>$EndB,"Alpha"=>50);
 
-     if ( $g_gradient_direction == "vertical" ) {
-      $myPicture->drawGradientArea(0,0,$g_width,$g_height,DIRECTION_VERTICAL,$Settings);
+     if ( $g_direction == "vertical" ) {
+      $myPicture->drawGradientArea(0,0,700,230,DIRECTION_VERTICAL,$Settings);
      } 
      else {
-      $myPicture->drawGradientArea(0,0,$g_width,$g_height,DIRECTION_HORIZONTAL,$Settings);
+      $myPicture->drawGradientArea(0,0,700,230,DIRECTION_HORIZONTAL,$Settings);
      }
 
   } else {

@@ -41,10 +41,11 @@
     <div class="col-md-2">
       <div class="list-group" id="sidebar">
         <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
         <a href='jefe/notas.php' class="list-group-item active">Subir notas</a>
         <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
         <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
-        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
+        <a href='jefe/estadisticas.php' class="list-group-item">Estadísticas</a>
       </div>
     </div>
     <div class="col-md-10">  
@@ -53,9 +54,13 @@
         <p>
           Lee un archivo CSV de notas de Séneca. Crea automáticamente las asignaturas que 
           no existan todavía en la base de datos, en la forma abreviada en que Séneca las provee.
-          Posteriormente el jefe de estudios podrá añadirle un nombre completo y un área competencial.<br>
+          Posteriormente el jefe de estudios podrá añadirle un nombre completo y un área competencial.
+        </p>
+        <p>
           Los alumnos cuyas notas se están subiendo deben estar previamente en la base de datos, 
-          mediante el <a href='regAlumnos.php'>formulario de registro</a> de alumnos.
+          mediante el <a href='regAlumnos.php'>formulario de registro</a> de alumnos. Las evaluaciones
+          son por defecto Primer, Segundo y Tercer Trimestre, se puede elegir cualquiera de ellas o se puede añadir
+          una nueva, para el curso activo.
         </p>
         <form role="form" method="post" enctype="multipart/form-data" action="jefe/notas.php"  name="formularioCurso">
           <div class="form-group">

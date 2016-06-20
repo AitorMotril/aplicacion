@@ -20,8 +20,6 @@ $valores = $_GET['val'];
 $anchura = (int)$anchura1;
 $altura = (int)$altura1;
 
-
-//$leyenda1 = $_GET['asignatura'];
 $asignatura = $_GET['asignatura'];
 $alumnos = $_SESSION['tmp2']['alumnos'];
 $curso = $_GET['curso'];
@@ -84,20 +82,9 @@ $myData->setSerieDescription($key,$key);
 $myData->setSerieOnAxis($key,0);
 }
 
-//$myData->addPoints(array(28,-19,18,4,-2,-31,17,48),"Serie1");
-//$myData->setSerieDescription("Serie1","Serie 1");
-//$myData->setSerieOnAxis("Serie1",0);
-//
-//$myData->addPoints(array(-37,37,-38,16,-4,39,29,6),"Serie2");
-//$myData->setSerieDescription("Serie2","Serie 2");
-//$myData->setSerieOnAxis("Serie2",0);
-//
-//$myData->addPoints(array(16,46,-32,35,32,-15,40,29),"Serie3");
-//$myData->setSerieDescription("Serie3","Serie 3");
-//$myData->setSerieOnAxis("Serie3",0);
-
 $myData->addPoints(array("1er Trimestre","2ndo Trimestre","3er Trimestre"),"Absissa");
 $myData->setAbscissa("Absissa");
+//$myData->setAbscissaName("Evaluaciones"); 
 
 $myData->setAxisPosition(0,AXIS_POSITION_LEFT);
 $myData->setAxisName(0,"Notas");
@@ -109,18 +96,16 @@ $myPicture->drawFilledRectangle(0,0,$anchura,$altura,$Settings);
 
 if ($g_enabled == "on") {
 
-list($StartR,$StartG,$StartB) = extractColors($g_gradient_start);
-list($EndR,$EndG,$EndB)       = extractColors($g_gradient_end);
+  list($StartR,$StartG,$StartB) = extractColors($g_gradient_start);
+  list($EndR,$EndG,$EndB)       = extractColors($g_gradient_end);
 
-$Settings = array("StartR"=>$StartR, "StartG"=>$StartG, "StartB"=>$StartB, "EndR"=>$EndR, "EndG"=>$EndG, "EndB"=>$EndB, "Alpha"=>50);
+  $Settings = array("StartR"=>$StartR, "StartG"=>$StartG, "StartB"=>$StartB, "EndR"=>$EndR, "EndG"=>$EndG, "EndB"=>$EndB, "Alpha"=>50);
 
-//$Settings = array("StartR"=>125, "StartG"=>92, "StartB"=>231, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
-
-if ($g_direction == "vertical") {
-$myPicture->drawGradientArea(0,0,$anchura,$altura,DIRECTION_VERTICAL,$Settings);
-} else {
-  $myPicture->drawGradientArea(0,0,$anchura,$altura,DIRECTION_HORIZONTAL,$Settings);
-}
+  if ($g_direction == "vertical") {
+    $myPicture->drawGradientArea(0,0,$anchura,$altura,DIRECTION_VERTICAL,$Settings);
+  } else {
+    $myPicture->drawGradientArea(0,0,$anchura,$altura,DIRECTION_HORIZONTAL,$Settings);
+  }
 
 } else {
   $Settings = array("StartR"=>219, "StartG"=>231, "StartB"=>139, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
@@ -158,15 +143,12 @@ $myPicture->drawScale($ScaleSettings);
 $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>50,"G"=>50,"B"=>50,"Alpha"=>10));
 
 if ($valores == "on") {
-$Config = array("DisplayValues"=>1);
+  $Config = array("DisplayValues"=>1);
 } else {
   $Config = "";
 }
 $myPicture->$dibujo($Config);
 
-//$Config = array("FontR"=>0, "FontG"=>0, "FontB"=>0, "FontName"=>"fonts/pf_arma_five.ttf", "FontSize"=>6, "Margin"=>6, "Alpha"=>30, "BoxSize"=>5, "Style"=>LEGEND_NOBORDER
-//, "Mode"=>LEGEND_HORIZONTAL
-//);
 $Config = array("FontR"=>0, "FontG"=>0, "FontB"=>0, "FontName"=>"fonts/pf_arma_five.ttf", "FontSize"=>6, "Margin"=>6, "Alpha"=>30, "BoxSize"=>5, "Style"=>LEGEND_NOBORDER
 , "Mode"=>LEGEND_VERTICAL
 , "Family"=>LEGEND_FAMILY_LINE

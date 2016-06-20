@@ -32,14 +32,15 @@ $(document).ready(function(){
 //$active = "li a[href='" + location.href.substring(location.href.lastIndexOf("h/") + 1, 255) + "']";
 $(document).ready(function(){
   $("#nav01").load("nav01.php");
-}); 
-      
+});     
+
 function hideShow(boton, elemento) {
-  if (boton.innerHTML ===  "Mostrar") {
+  if (boton.innerHTML == "Mostrar") {
+    alert($('#' + elemento));
+    $('#' + elemento).show();
     boton.innerHTML = "Ocultar";
-    $(elemento).show();
   } else {
+    $('#' + elemento).hide();
       boton.innerHTML = "Mostrar";
-      $(elemento).hide();
   }
 }

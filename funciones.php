@@ -172,7 +172,7 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
 
 
 /* Funcion check_curso($display)
- * Verificar si la hay algún curso activado
+ * Verificar si la hay algún curso activado leyendo /config
  * args: $display, opcional, si es true, mostrará como resultado el curso
  * return: si no recibe display o es ! de true, booleano verdad si hay 
  *  algún curso activo, falso si no.
@@ -204,6 +204,14 @@ function check_curso($display) {
   return $result;
 } // ./ end check_curso($display)
 
+
+/* Funcion check_curso_db($display)
+ * Verificar si la hay algún curso activado con la base de datos
+ * args: $display, opcional, si es true, mostrará como resultado el curso
+ * return: si no recibe display o es ! de true, booleano verdad si hay 
+ *  algún curso activo, falso si no.
+ * si display es true, devuelve el nombre del curso activo, si hay alguno, o 
+ * el de prueba si no si está activo */
 function check_curso_db($display) {
   
   global $servername, $username, $password, $dbname;
@@ -244,7 +252,7 @@ function check_curso_db($display) {
 
 
 /* Funcion check_install()
- * Verificar si la aplicación está instalada o no
+ * Verificar si la aplicación está instalada o no leyendo /config
  * args: lee $instalar de config/config.php
  * return: true si está instalada, false si no */
 function check_install() {
@@ -257,6 +265,10 @@ function check_install() {
 }
 
 
+/* Funcion check_install()
+ * Verificar si la aplicación está instalada o no leyendo la base de datos
+ * args: busca installed = 1 en la base de datos
+ * return: true si está instalada, false si no */
 function check_install_db() {
   $sql = "SELECT COUNT(installed) FROM conf" .
           " WHERE installed = 1;";
@@ -276,6 +288,7 @@ function check_install_db() {
   return $value;
   
 }
+
 
 /*Funcion check_sesion()
  * Comprobar si está iniciada o no la sesión,
@@ -412,12 +425,6 @@ function listar_asignaturas($curso, $nombre) {
   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $asignaturas[] = $row;
   }
-         
-//  if ($multiple) {
-//    $html = "<select name='asignatura[]' multiple>";
-//  } else {
-//    $html = "<select id='select_asignaturas' name='id_asignatura[]' multiple onchange='fetch_nombre_asignaturas(this.value);fetch_area_competencial(this.value);'>";
-//  }
   
   $html = "";
   
@@ -438,7 +445,6 @@ function listar_asignaturas($curso, $nombre) {
       $html .= "<option value='$asignatura'>" . $asignatura . "</option>";
     }
   }
-    
   
   echo $html;        
 }
@@ -489,8 +495,6 @@ function listar_evaluaciones($curso) {
   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $evaluaciones[] = $row;
   }
-  
-  $html = "";
 
   foreach($evaluaciones as $value) {
     $html .= "<option>" . $value['nombre_evaluacion'] . "</option>";
@@ -565,10 +569,9 @@ function listar_paletas() {
 }
 
 
-/* Funcion listar_alumnos($curso, $grupo, $multiple)
+/* Funcion listar_alumnos($curso, $multiple)
  * Busca los alumnos de un curso y un grupo en la BD y los devuelve en un select
- * args: $curso deseado, $grupo de los alumnos, 
- *  $multiple, booleano sobre si el select sea o no multiple
+ * args: $curso deseado
  * return: select html con los nombres de los alumnos */
 function listar_alumnos($curso) {
   
@@ -588,8 +591,6 @@ function listar_alumnos($curso) {
 //  } else {
 //    $html = "<select name='alumno'>";
 //  } 
-  
-  $html = "";
 
   foreach($alumnos as $value) {
 //    $html .= "<option value='" . $value['N_Id_Escolar'] . "'>" . $value['Alumnoa'] . "</option>";

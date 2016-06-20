@@ -29,7 +29,10 @@
     ?>
   </div>
   <p>
-    eduGraph! es una aplicación web para institutos y centros educativos, que permite la gestión de estadísticas y datos de los alumnos del centro.
+    eduGraph! es una aplicación web para institutos y centros educativos, que permite la gestión de estadísticas y datos de los alumnos del centro,
+    a través de la lectura de datos de archivos CSV de Séneca.
+  </p>
+  <p>
     Permite realizar gráficos altamente visuales e informes en formato pdf para el tratamiento por los profesionales educativos. 
     Está adaptada para funcionar tanto en ordenadores de trabajo como en teléfonos móviles y pantallas pequeñas.
   </p>
@@ -43,33 +46,48 @@
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <li data-target="#myCarousel" data-slide-to="1"></li>
     <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+    <li data-target="#myCarousel" data-slide-to="4"></li>
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active"> 
-      <img src="pChart/grafico1.php?Seed=0.9&dibujo=drawBarChart&leyenda1=Test4" alt="New York">
+      <img src="img/grafico1.png" alt="Gráficos por asignaturas">
       <div class="carousel-caption">
-        <h3>Grafico 1</h3>
-        <p>Falta leer array de la base de datos.</p>
+        <h3>Gráficos por asignaturas</h3>
+        <p>Notas de varios alumnos para una misma asignatura</p>
       </div>
     </div>
 
     <div class="item">
-      <img src="pChart/grafico2.php?Seed=0.9" alt="Chicago">
+      <img src="img/grafico2.png" alt="Diseño personalizable">
       <div class="carousel-caption">
-        <h3>Grafico 2</h3>
-        <p>Poder cambiar tambien el color por GET?</p>
+        <h3>Diseño personalizable y elegante</h3>
+        <p>Permite cambiar todas las opciones de diseño de los gráficos. Gradientes, dimensiones, etc.</p>
       </div>
     </div>
     <div class="item">
-      <img src="pChart/grafico4.php?Seed=0.9" alt="Chicago">
+      <img src="img/grafico3.png" alt="Tipos de gráficos">
       <div class="carousel-caption">
-        <h3>Grafico 4</h3>
-        <p>Poder cambiar tambien el color por GET?</p>
+        <h3>Varios tipos de gráficos</h3>
+        <p>Gráficos de líneas, de puntos, de barras...</p>
       </div>
     </div>
-    
+    <div class="item">
+      <img src="img/grafico6.png" alt="Gráficos por alumnos">
+      <div class="carousel-caption">
+        <h3>Gráficos por alumnos</h3>
+        <p>Notas de un alumno para varias asignaturas diferentes</p>
+      </div>
+    </div>
+    <div class="item">
+      <img src="img/grafico5.png" alt="Diferentes Tamaños">
+      <div class="carousel-caption">
+        <h3>Diferentes tamaños</h3>
+        <p>Permite cambiar las dimensiones de los gráficos</p>
+      </div>
+    </div>
   </div>
 
   <!-- Left and right controls -->

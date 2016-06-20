@@ -5,11 +5,6 @@ include_once '../funciones.php';
            
    if(isset($_POST['get_option']))
    {
-           
-//     $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-      
-
      $curso_id = $_POST['get_option'];
      
      listar_alumnos($curso_id);

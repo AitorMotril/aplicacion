@@ -37,20 +37,16 @@
           Procede a la activación de un curso de prueba, con alumnos y notas ficticios, para probar 
           y familiarizarse con el funcionamiento de la aplicación y sus funcionalidades. El curso de prueba es
           independiente de cualquier otro curso real que se quiera añadir o exista, y se puede desactivar en cualquier 
-          momento.Prueba.
+          momento.
         </p>
         <form class="form-inline" role="form" method="post" enctype="multipart/form-data" action="admin/prueba.php"  id="formularioCursoPrueba" name="formularioCursoPrueba">
           <?php
             $html_boton = "<button type='submit' class='btn btn-default'";
             $sql = "SELECT cursoPrueba FROM conf WHERE installed = 1;";
-            echo $sql;
             $conn = mysqli_connect($servername, $username, $password, $dbname);
-            $result = mysqli_query($sql, $conn);
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            echo $row;
-            print_r($row);
-            $prueba = $row['cursoPrueba'];
-            echo $row['cursoPrueba'];
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($result, MYSQLI_NUM);
+            $prueba = $row[0];
             
             if ($prueba != 1) {
               $html_boton .= " name='activarCursoPrueba'>" . "Activar el curso de prueba";

@@ -21,7 +21,7 @@ function fetch_asignaturas(val)
 {
    $.ajax({
      type: 'post',
-     url: 'jefe/fetch_asignaturas_o_nombre.php',
+     url: 'jefe/fetch_asignaturas.php',
      data: {
        get_option:val
      },
@@ -34,7 +34,7 @@ function fetch_asignaturas2(val)
 {
    $.ajax({
      type: 'post',
-     url: 'jefe/fetch_asignaturas_o_nombre.php',
+     url: 'jefe/fetch_asignaturas.php',
      data: {
        get_option:val
      },
@@ -79,20 +79,21 @@ function fetch_alumnos2(val)
 
 <!-- Cabecera de la página y texto -->
 <div class="container-fluid">
-  <h3 class="bg-3">Gráficos y estadísticas</h3>
+  <h3 class="bg-3">Gráficos</h3>
   <div class="row">
     <div class="col-md-2">
       <div class="list-group" id="sidebar">
         <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
         <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
         <a href="jefe/graficos.php" class="list-group-item active">Crear gráficos</a>
         <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
-        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
+        <a href='jefe/estadisticas.php' class="list-group-item">Estadísticas</a>
       </div>
     </div>
     <div class="col-md-10">  
       <div class="container-fluid well well-sm">
-        <h4>Notas para una asignatura de varios alumnos o grupos</h4> 
+        <h4>Notas para una asignatura de varios alumnos o grupos <small><em>Recomendado máximo de 4 alumnos</em></small></h4> 
         <form class="form" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="formularioPorAlumnos" name="formularioPorAlumnos">
           <div class="form-group">        
             <label>Elegir la asignatura y los alumnos</label> 
@@ -161,20 +162,15 @@ function fetch_alumnos2(val)
           $g_al2 = $_POST['g_height2'];
           $g_an2 = $_POST['g_width2'];
           
-                      echo "<a href='pChart/graficotest.php?Seed=0.9&curso=$curso2&d=$t2&asignatura=$asignatura2&p=$p2"
-              . "&g_en=$g_en2&g_e=$g_e2&g_s=$g_s2"
-              . "&g_d=$g_d2&g_an=$g_an2&g_al=$g_al2&test=test'>Test</a>";
-          
-                      echo "<br>" . "Grafico1" . "<img src='pChart/graficoAlumnos.php?Seed=0.9&curso=$curso2&d=$t2&asignatura=$asignatura2&p=$p2"
-              . "&g_en=$g_en2&g_e=$g_e2&g_s=$g_s2"
-              . "&g_d=$g_d2&g_an=$g_an2&g_al=$g_al2&val=$val2&test=test'>";
+          echo "<img src='pChart/graficoAlumnos.php?Seed=0.9&curso=$curso2&d=$t2&asignatura=$asignatura2&p=$p2"
+          . "&g_en=$g_en2&g_e=$g_e2&g_s=$g_s2"
+          . "&g_d=$g_d2&g_an=$g_an2&g_al=$g_al2&val=$val2&test=test'>";
         }
-
         ?>
       </div>
           
       <div class="container-fluid well well-sm">
-        <h4>Notas de un alumno para una o varias asignaturas</h4> 
+        <h4>Notas de un alumno para una o varias asignaturas <small><em>Recomendado máximo de 4 asignaturas</em></small></h4> 
         <form class="form" role="form" method="post" enctype="multipart/form-data" action="jefe/graficos.php"  id="formularioPorAsignaturas" name="formularioPorAsignaturas">
           <div class="form-group">
             <label>Elegir una plantilla para el diseño del gráfico</label> 
@@ -267,70 +263,16 @@ function fetch_alumnos2(val)
               }
             }
             
-            
-            
 
             $sql_alumno = "SELECT N_Id_Escolar FROM alumnos" . $curso . 
                       " WHERE Alumnoa = " . "'$alumno'" . ";";
             $result_alumno = mysqli_query($conn, $sql_alumno);
             $row = mysqli_fetch_array($result_alumno, MYSQLI_NUM);
-            $alumnof = $row[0];  
-            echo $alumnof; 
-  
-//            echo "<a href='pChart/graficotest.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>Test</a>";
-      
-          //  echo "<img src='pChart/grafico5.php?Seed=0.9&dibujo=$tipo&asignatura=$asignatura&alumno=$alumno&paleta=$paleta'>";
-    
-//            echo "<br>" . "Grafico1" . "<img src='pChart/grafico1.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//            
-//                        echo "<br>" . "Grafico series" . "<img src='pChart/graficoSeries.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//            
-//                 echo "<br>" . "GradienteDimensiones" . "<img src='pChart/graficoGradienteDimensiones.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//                 
-//                 
-//                                  echo "<br>" . "GradienteDimensionesFin" . "<img src='pChart/graficoGradienteDimensionesFin.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//                                  
-//                                                                    echo "<br>" . "GradienteDimensionesFin2" . "<img src='pChart/graficoGradienteDimensionesFin2.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-                                                                    
-                                                                                                                                        echo "<img src='pChart/graficoAsignaturas.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&val=$val&test=test'>";
-      
-      
-//      echo "<br>" . "GradienteEnabledDimensiones_1" . "<img src='pChart/graficoGradienteEnabledDimensiones_1.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//      
-//            echo "<br>" . "GradienteEnabledDimensiones_1_1" . "<img src='pChart/graficoGradienteEnabledDimensiones_1_1.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//            
-//                        echo "<br>" . "GradienteEnabledDimensiones_1_2" . "<img src='pChart/graficoGradienteEnabledDimensiones_1_2.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//                        
-//                                                echo "<br>" . "GradienteEnabledDimensiones_1_3" . "<img src='pChart/graficoGradienteEnabledDimensiones_1_3.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-//                                                
-//                                                                                                echo "<br>" . "GradienteEnabled_1" . "<img src='pChart/graficoGradienteEnabled_1.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
-//              . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
-//              . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&test=test'>";
-                                                                                                
-                                                                                                
-
+            $alumnof = $row[0]; 
+                                                  
+            echo "<img src='pChart/graficoAsignaturas.php?Seed=0.9&curso=$curso&d=$t&alumno=$alumnof&p=$p"
+            . "&g_en=$g_en&g_e=$g_e&g_s=$g_s"
+            . "&g_d=$g_d&g_an=$g_an&g_al=$g_al&val=$val&test=test'>";
               }
               ?>
       </div>

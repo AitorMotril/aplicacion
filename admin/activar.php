@@ -40,6 +40,10 @@
           datos para la creación de las tablas en la base de datos y los formularios de registro de alumnos.
           <strong>Sólo se puede activar el curso leyendo datos de al menos un alumno.</strong>
         </p>
+        <p>
+          En cada momento sólo puede haber un curso definido como activo, pero se puede subir cualquier curso
+          aunque luego no sea el activo, para seleccionar los datos para consultas y realizar históricos de gráficos.
+        </p>
         <form class="form" role="form" method="post" enctype="multipart/form-data" action="admin/activar.php"  id="formularioCurso" name="formularioCurso">
           <div class="form-group">        
             <label for='curso'>Curso a activar:</label>

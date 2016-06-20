@@ -21,7 +21,11 @@
 <div class="container-fluid">
   <h3 class="bg-3">Instalación completada</h3>
     <?php
-      if (!check_install()) {
+      if ($_GET[instalacion] === "si") {
+        echo "La aplicación se ha instalado correctamente." . "<br><br>";
+        echo "Ahora se recomienda <a href='admin/activar.php'>activar un curso</a> con datos reales, " .
+                "o el <a href='admin/prueba.php'>curso de prueba</a>.";
+      } elseif (!check_install()) {
         header(("Location: " . $urlbase .  "instalar/instalar.php"));
       } else {
         echo "La aplicación ya está instalada y configurada." . "<br><br>";

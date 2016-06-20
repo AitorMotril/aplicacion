@@ -69,10 +69,11 @@
     <div class="col-md-2">
       <div class="list-group" id="sidebar">
         <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
         <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
         <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
         <a href="jefe/asignaturas.php" class="list-group-item active">Gestión de asignaturas</a>
-        <a href="jefe/regAlumnos.php" class="list-group-item">Registrar alumnos</a>
+        <a href='jefe/estadisticas.php' class="list-group-item">Estadísticas</a>
       </div>
     </div>
   <div class="col-md-10">  
@@ -98,7 +99,7 @@
           <input type="text" id="area_competencial" name="area_competencial" placeholder="Area competencial de la asignatura"/>
         </div>
         <div class="form-group">   
-          <button type="submit" class="btn btn-default" name="ac_asignaturas" value="entrar">Subir</button>
+          <button type="submit" class="btn btn-default" name="ac_asignaturas" value="entrar">Actualizar</button>
         </div>
       </form>
               <?php

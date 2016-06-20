@@ -32,10 +32,11 @@
     <div class="col-md-2">
       <div class="list-group" id="sidebar">
         <a href='jefe/jefe.php' class="list-group-item">Principal jefe de estudios</a>
+        <a href="jefe/regAlumnos.php" class="list-group-item active">Registrar alumnos</a>
         <a href='jefe/notas.php' class="list-group-item">Subir notas</a>
         <a href="jefe/graficos.php" class="list-group-item">Crear gráficos</a>
         <a href="jefe/asignaturas.php" class="list-group-item">Gestión de asignaturas</a>
-        <a href="jefe/regAlumnos.php" class="list-group-item active">Registrar alumnos</a>
+        <a href='jefe/estadisticas.php' class="list-group-item">Estadísticas</a>
       </div>
     </div>
        <div class="col-md-10">
@@ -72,7 +73,7 @@
 
 <div class="container-fluid well well-sm">
   <h4>Subir manualmente o actualizar un registro</h4>  
-  <button onclick="hideShow(this, document.formRegAlumnos);">Mostrar</button>
+  <button onclick="hideShow(this, 'formRegAlumnos');">Mostrar</button>
     <?php
       listar_alumnos($cursoActivo);
     ?>
@@ -82,25 +83,25 @@
         function leer_cabeceras() {
           
           global $servername, $username, $password, $dbname, $cursoActivo;
-          $alumnoid = 361237;
+//          $alumnoid = 361237;
           
           $conn = mysqli_connect($servername, $username, $password, $dbname);
           $sql = "SELECT * FROM cabecera" . $cursoActivo;
-          $sql_alu = "SELECT * FROM alumnos" . $cursoActivo . " WHERE N_Id_Escolar = " . $alumnoid;
+//          $sql_alu = "SELECT * FROM alumnos" . $cursoActivo . " WHERE N_Id_Escolar = " . $alumnoid;
           $result = mysqli_query($conn, $sql);
-          $result2 = mysqli_query($conn, $sql_alu);
+//          $result2 = mysqli_query($conn, $sql_alu);
           
           $row = mysqli_fetch_array($result, MYSQLI_NUM);
-          $row2 = mysqli_fetch_array($result2, MYSQLI_NUM);
+//          $row2 = mysqli_fetch_array($result2, MYSQLI_NUM);
           $arrlength = count($row);
           
           for ($x = 0; $x < $arrlength; $x++) {
             $var = $row[$x];
-            $var2 = $row2[$x];
+//            $var2 = $row2[$x];
             echo 
                 "<div class='form-group form-alumnos col-sm-6'>" .
                 "<label class='text-left pull-left'>" . $var . "</label>" .
-                "<input type='text' name='" . sanear_string($var) . "' class='form-control pull-right' value= " . "'$var2'" . " /></div>"
+                "<input type='text' name='" . sanear_string($var) . "' class='form-control pull-right' /></div>"
             ;
           }
         }

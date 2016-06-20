@@ -140,11 +140,12 @@
         
         $sql = "INSERT INTO conf(installed) VALUES (1);";
         mysqli_query($conn, $sql);
-
-        echo "<script>$('#instalacion').html() = 'Instalación completada.'</script>";
+        
+        $url = $urlbase .  "instalar/instalada.php?instalacion=si";
+        header("refresh: 5; url='$url'");
 
       } else {
-        echo "<script>$('#instalacion').html() = 'La instalación no se ha producido correctamente.'</script>";
+        echo "La instalación no se ha producido correctamente.";
 
         $sql = "DROP DATABASE $dbname";
         mysqli_query($conn, $sql);
@@ -164,7 +165,7 @@
       id = $(this).text();
       for (i=0; i<4; i++) {
         if (i != id) {
-          $('#' + i).hide();
+          $("#' + i).hide();
           $("a:contains('" + i + "')").parent().removeClass("active");
         } else {
           $("a:contains('" + id + "')").parent().addClass("active");

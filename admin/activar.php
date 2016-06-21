@@ -95,6 +95,6 @@
   
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>
-<script src="script/javascript.js"></script>
+<script src="script/script.js"></script>
 </body>
 </html>

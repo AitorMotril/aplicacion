@@ -115,11 +115,13 @@ function fetch_alumnos2(val)
           <div class="form-group">        
             <label>Opciones de diseño</label> 
             <select name='tipo2'>
+              <option>Elegir tipo de gráfico</option>
               <?php 
                 listar_graficos();
               ?>
             </select>
             <select name='paleta2'>
+              <option>Elegir paleta de colores</option>
               <?php 
                 listar_paletas();
               ?>
@@ -195,11 +197,13 @@ function fetch_alumnos2(val)
           <div class="form-group">        
             <label>Opciones de diseño</label> 
             <select name='tipo'>
+              <option>Elegir tipo de gráfico</option>
             <?php
               listar_graficos();
             ?>
             </select>
             <select name='paleta'>
+              <option>Elegir paleta de colores</option>
             <?php 
               listar_paletas();
             ?>
@@ -288,6 +292,6 @@ function fetch_alumnos2(val)
 
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>
-<script src="script/javascript.js"></script>
+<script src="script/script.js"></script>
 </body>
 </html>

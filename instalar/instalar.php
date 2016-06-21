@@ -142,7 +142,7 @@
         mysqli_query($conn, $sql);
         
         $url = $urlbase .  "instalar/instalada.php?instalacion=si";
-        header("refresh: 5; url='$url'");
+        header("refresh: 10; url='$url'");
 
       } else {
         echo "La instalación no se ha producido correctamente.";
@@ -165,7 +165,7 @@
       id = $(this).text();
       for (i=0; i<4; i++) {
         if (i != id) {
-          $("#' + i).hide();
+          $('#' + i).hide();
           $("a:contains('" + i + "')").parent().removeClass("active");
         } else {
           $("a:contains('" + id + "')").parent().addClass("active");

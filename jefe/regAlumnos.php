@@ -73,51 +73,71 @@
 
 <div class="container-fluid well well-sm">
   <h4>Subir manualmente o actualizar un registro</h4>  
-  <button onclick="hideShow(this, 'formRegAlumnos');">Mostrar</button>
-    <?php
-      listar_alumnos($cursoActivo);
-    ?>
-    <form class="form-inline" id="formRegAlumnos" role="form" name="formRegAlumnos" method="POST" onsubmit="return checkForm(this);">
+  <button onclick="hideShow(this, document.getElementById('formRegAlumnos'));">Mostrar</button>
+    <form class="form-inline" id="formRegAlumnos" role="form" method="POST" onsubmit="return checkForm(this);">
       <?php
                 
         function leer_cabeceras() {
           
           global $servername, $username, $password, $dbname, $cursoActivo;
-//          $alumnoid = 361237;
           
           $conn = mysqli_connect($servername, $username, $password, $dbname);
           $sql = "SELECT * FROM cabecera" . $cursoActivo;
-//          $sql_alu = "SELECT * FROM alumnos" . $cursoActivo . " WHERE N_Id_Escolar = " . $alumnoid;
+
           $result = mysqli_query($conn, $sql);
-//          $result2 = mysqli_query($conn, $sql_alu);
-          
           $row = mysqli_fetch_array($result, MYSQLI_NUM);
-//          $row2 = mysqli_fetch_array($result2, MYSQLI_NUM);
           $arrlength = count($row);
           
           for ($x = 0; $x < $arrlength; $x++) {
             $var = $row[$x];
-//            $var2 = $row2[$x];
             echo 
                 "<div class='form-group form-alumnos col-sm-6'>" .
                 "<label class='text-left pull-left'>" . $var . "</label>" .
-                "<input type='text' name='" . sanear_string($var) . "' class='form-control pull-right' /></div>"
+                "<input type='text' " . "id='" . sanear_string($var) . "' " . "name='" . sanear_string($var) . "' " . "class='form-control pull-right' /></div>"
             ;
           }
         }
         
         leer_cabeceras();
         
-        function actualizar_alumno($alumnoid) {
-          
-          global $servername, $username, $password, $dbname, $cursoActivo;
-          $alumnoid = 361237;
-          
-          $conn = mysqli_connect($servername, $username, $password, $dbname);
-        }
+//        function actualizar_alumno($alumnoid) {
+//          
+//          global $servername, $username, $password, $dbname, $cursoActivo;
+//          
+//          $conn = mysqli_connect($servername, $username, $password, $dbname);
+//                    
+//        
+//                            
+//          $sql = "SELECT * FROM alumnos" . $cursoActivo .  " WHERE N_Id_Escolar = $alumnoid;";
+//          echo $sql;
+//
+//          $result = mysqli_query($conn, $sql);
+//          $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+//          $arrlength = count($row);
+//          
+//          foreach ($row as $key => $value) {
+//           $selector = "#" . $key;
+//           $html .= "$('$selector').val($value);";
+//          }
+//          $html .= "});</script>";
+//                  
+//                  $html2 = "<script>$(document).ready(function(){";
+//                  $html2 .= $html;
+//           echo $html2;
+//
+//        }
+//        
+//        
+//        actualizar_alumno(361237);
+        
         
       ?>
+              <div class="form-group">
+        <button type="submit" class="btn btn-default" value="registromanu" name="registromanu">Subir</button>
+        </div>
         </form>
+  <script>
+  </script>
   </div>
 </div>
     </div>
@@ -125,6 +145,6 @@
 
 <!-- Pie de página -->
 <div class="container-fluid bg-4 text-center" id='foot01'></div>
-<script src="script/javascript.js"></script>
+<script src="script/script.js"></script>
 </body>
 </html>

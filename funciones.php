@@ -1,5 +1,6 @@
 <?php
 include_once 'config/config.php';
+include ('ros-pdf-php/src/Cezpdf.php'); 
 
 
 /* Funcion activar_curso($file)
@@ -121,7 +122,7 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
   $result = mysqli_query($conn, $sql);
   $fila = mysqli_fetch_array($result, MYSQLI_NUM);
   
-  if (!$fila[0] === 1) { //Comprobar que no haya ya datos
+  if ($fila[0] != 1) { //Comprobar que no haya ya datos
     $sql = "INSERT INTO cabecera" . $cursoActivar . " VALUES(";
 
     for ($x = 0; $x < $arrlength; $x++) {
@@ -130,7 +131,8 @@ function activar_curso($file, $cursoActivar, $nombreCursoActivar) {
     }
 
      $sql = substr($sql, 0, -2); //quitar espacio y coma sobrantes y añadir ;
-     $sql .= ";";
+     $sql .= ");";
+     
 
     if (!mysqli_query($conn, $sql)) {
       $activar = 0;
@@ -248,7 +250,6 @@ function check_curso_db($display) {
   
   return $result;
 } // ./ end check_curso($display)
-
 
 
 /* Funcion check_install()
@@ -585,12 +586,6 @@ function listar_alumnos($curso) {
   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     $alumnos[] = $row;
   }
-  
-//  if ($multiple) {
-//    $html = "<select name='alumno[]' multiple>";
-//  } else {
-//    $html = "<select name='alumno'>";
-//  } 
 
   foreach($alumnos as $value) {
 //    $html .= "<option value='" . $value['N_Id_Escolar'] . "'>" . $value['Alumnoa'] . "</option>";

@@ -35,12 +35,12 @@ $(document).ready(function(){
 });     
 
 function hideShow(boton, elemento) {
-  if (boton.innerHTML == "Mostrar") {
-    alert($('#' + elemento));
-    $('#' + elemento).show();
+  if (boton.innerHTML === "Mostrar") {
     boton.innerHTML = "Ocultar";
+    $(elemento).show();
   } else {
-    $('#' + elemento).hide();
-      boton.innerHTML = "Mostrar";
+    boton.innerHTML = "Mostrar";
+    $(elemento).hide();      
   }
 }
+
